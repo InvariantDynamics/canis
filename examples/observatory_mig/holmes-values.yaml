@@ -1,0 +1,134 @@
+# Holmes on Kubernetes, integrated with Observatory API (MIG-backed)
+# Deploy in the same cluster/namespace as Observatory for in-cluster service DNS.
+
+registry: robustadev
+image: holmes:0.20.0
+logLevel: INFO
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 768Mi
+  limits:
+    memory: 1024Mi
+
+additionalEnvVars:
+  - name: ANTHROPIC_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: holmes-mig-secrets
+        key: anthropic-api-key
+  - name: OBSERVATORY_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: holmes-mig-secrets
+        key: observatory-token
+  # Optional Kepler NATS event bus integration (planner/timeline events)
+  # - name: KEPLER_NATS_ENABLED
+  #   value: "true"
+  # - name: KEPLER_NATS_URL
+  #   value: "nats://nats.observatory-platform.svc.cluster.local:4222"
+  # - name: KEPLER_NATS_SUBJECT_PREFIX
+  #   value: ""
+
+modelList:
+  claude-sonnet-4-5:
+    api_key: "{{ env.ANTHROPIC_API_KEY }}"
+    model: anthropic/claude-sonnet-4-5-20250929
+    temperature: 0
+
+toolsets:
+  kubernetes/core:
+    enabled: true
+  kubernetes/logs:
+    enabled: true
+  runbook:
+    enabled: true
+  connectivity_check:
+    enabled: true
+
+  # Optional default toolsets disabled to reduce noisy/unbounded calls in this profile.
+  robusta:
+    enabled: false
+  internet:
+    enabled: false
+  prometheus/metrics:
+    enabled: false
+  bash:
+    enabled: false
+
+  observatory_read:
+    type: http
+    enabled: true
+    config:
+      timeout_seconds: 30
+      verify_ssl: true
+      endpoints:
+        - hosts:
+            - observatory-api.observatory-platform.svc.cluster.local
+          paths:
+            - /v1/me
+            - /v1/mig/status
+            - /v1/observatory/entities
+            - /v1/observatory/edges
+            - /v1/observatory/snapshots
+            - /v1/dkm/overview
+            - /v1/dkm/predictions
+            - /v1/dkm/coefficients
+            - /v1/dkm/timeline
+            - /v1/incidents
+            - /v1/incidents/*
+            - /v1/alerts/events
+            - /v1/alerts/rules
+            - /v1/slos
+            - /v1/connectors
+          methods: ["GET"]
+          auth:
+            type: bearer
+            token: "{{ env.OBSERVATORY_TOKEN }}"
+          health_check_url: http://observatory-api.observatory-platform.svc.cluster.local:8090/v1/mig/status
+    llm_instructions: |
+      Use this as the canonical read path for Observatory + MIG.
+      Base URL: http://observatory-api.observatory-platform.svc.cluster.local:8090
+
+      Rules:
+      - Start with GET /v1/mig/status before deeper analysis.
+      - Use /v1/observatory/entities and /v1/observatory/edges to build topology context.
+      - For DKM endpoints, always include `scope` query param.
+      - For /v1/dkm/timeline, always include both `scope` and a bounded `limit` (for example 60-200).
+      - For incidents, list from /v1/incidents, then use /v1/incidents/{id}/timeline when details are needed.
+      - If a request returns 401, report auth failure and do not keep retrying.
+
+  # Mutating control-plane operations. Keep disabled by default and enable intentionally.
+  observatory_control:
+    type: http
+    enabled: false
+    config:
+      timeout_seconds: 45
+      verify_ssl: true
+      endpoints:
+        - hosts:
+            - observatory-api.observatory-platform.svc.cluster.local
+          paths:
+            - /v1/mig/tools/*
+            - /v1/connectors
+            - /v1/connectors/aws-lambda/sync
+            - /v1/connectors/aws-lambda/instrument
+            - /v1/connectors/rootly/sync
+            - /v1/connectors/rootly/push
+            - /v1/incidents
+            - /v1/incidents/*
+            - /v1/alerts/events
+            - /v1/alerts/events/*
+          methods: ["POST", "PATCH"]
+          auth:
+            type: bearer
+            token: "{{ env.OBSERVATORY_TOKEN }}"
+    llm_instructions: |
+      This toolset mutates state in Observatory/MIG.
+      Base URL: http://observatory-api.observatory-platform.svc.cluster.local:8090
+
+      Rules:
+      - Confirm user intent before writing.
+      - Use minimal payloads.
+      - After each write, verify outcome using observatory_read.

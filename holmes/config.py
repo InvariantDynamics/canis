@@ -1,4 +1,5 @@
 import logging
+import json
 import os
 import os.path
 from enum import Enum
@@ -221,6 +222,28 @@ class Config(RobustaBaseConfig):
             val = os.getenv(field_name.upper(), None)
             if val is not None:
                 kwargs[field_name] = val
+
+        custom_catalogs_raw = os.getenv("CUSTOM_RUNBOOK_CATALOGS")
+        if custom_catalogs_raw:
+            parsed_catalogs: List[str] = []
+            raw = custom_catalogs_raw.strip()
+            if raw.startswith("["):
+                try:
+                    loaded = json.loads(raw)
+                    if isinstance(loaded, list):
+                        parsed_catalogs = [
+                            str(item).strip() for item in loaded if str(item).strip()
+                        ]
+                except json.JSONDecodeError:
+                    logging.warning(
+                        "CUSTOM_RUNBOOK_CATALOGS looks like JSON but failed to parse; falling back to comma-separated parsing"
+                    )
+
+            if not parsed_catalogs:
+                parsed_catalogs = [p.strip() for p in raw.split(",") if p.strip()]
+
+            kwargs["custom_runbook_catalogs"] = parsed_catalogs
+
         kwargs["cluster_name"] = Config.__get_cluster_name()
         kwargs["should_try_robusta_ai"] = True
         result = cls(**kwargs)

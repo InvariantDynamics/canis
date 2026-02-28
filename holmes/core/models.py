@@ -268,3 +268,193 @@ class ChatResponse(BaseModel):
     follow_up_actions: Optional[List[FollowUpAction]] = []
     pending_approvals: Optional[List[PendingToolApproval]] = None
     metadata: Optional[Dict[Any, Any]] = None
+
+
+class PlanRiskLevel(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+class AgentPlanStatus(str, Enum):
+    PROPOSED = "proposed"
+    SIMULATED = "simulated"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    EXECUTED = "executed"
+    BLOCKED = "blocked"
+
+
+class RemediationEvidenceV1(BaseModel):
+    id: str
+    source: str
+    summary: str
+    reference: Optional[str] = None
+    captured_at: Optional[str] = None
+
+
+class RemediationActionV1(BaseModel):
+    id: str
+    title: str
+    description: str
+    target: str
+    action_type: str
+    risk_level: PlanRiskLevel
+    requires_approval: bool = True
+    dry_run_command: Optional[str] = None
+    execute_command: Optional[str] = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class RemediationPlanV1(BaseModel):
+    plan_id: str
+    provider_id: str
+    version: str = "v1"
+    summary: str
+    confidence: float = Field(ge=0.0, le=1.0)
+    risk_level: PlanRiskLevel
+    actions: List[RemediationActionV1]
+    evidence: List[RemediationEvidenceV1]
+    created_at: str
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class ProviderCapability(BaseModel):
+    provider_id: str
+    display_name: str
+    capabilities: List[str]
+    write_enabled: bool = False
+    approval_required: bool = True
+    contract_version: str = "v1"
+    profile: str = "planner"
+
+
+class ProviderEvaluateRequest(BaseModel):
+    scope: str = "system:all"
+    question: Optional[str] = None
+    trigger: Dict[str, Any] = Field(default_factory=dict)
+    context: Dict[str, Any] = Field(default_factory=dict)
+    constraints: Dict[str, Any] = Field(default_factory=dict)
+    model: Optional[str] = None
+    trace_id: Optional[str] = None
+
+
+class ProviderEvaluateResponse(BaseModel):
+    evaluation_id: str
+    provider_id: str
+    capabilities: List[str]
+    plan: RemediationPlanV1
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class ProviderPlanExplainRequest(BaseModel):
+    focus: Optional[str] = None
+    max_evidence: int = Field(default=5, ge=1, le=20)
+
+
+class ProviderPlanExplainResponse(BaseModel):
+    plan_id: str
+    provider_id: str
+    explanation: str
+    confidence_reasoning: str
+    evidence: List[RemediationEvidenceV1] = Field(default_factory=list)
+
+
+class MigCapabilitiesResponse(BaseModel):
+    contract_version: str = "v1"
+    providers: List[ProviderCapability]
+
+
+class MigConformanceRunRequest(BaseModel):
+    provider_id: str
+    version: str = "v1"
+
+
+class MigConformanceCheckResult(BaseModel):
+    id: str
+    passed: bool
+    details: str
+
+
+class MigConformanceRunResponse(BaseModel):
+    provider_id: str
+    version: str
+    passed: bool
+    checks: List[MigConformanceCheckResult]
+
+
+class AgentEvaluationRequest(BaseModel):
+    provider_id: str = "kepler"
+    scope: str = "system:all"
+    question: Optional[str] = None
+    trigger: Dict[str, Any] = Field(default_factory=dict)
+    context: Dict[str, Any] = Field(default_factory=dict)
+    constraints: Dict[str, Any] = Field(default_factory=dict)
+    model: Optional[str] = None
+    trace_id: Optional[str] = None
+
+
+class AgentEvaluationSummary(BaseModel):
+    id: str
+    provider_id: str
+    plan_id: str
+    status: AgentPlanStatus
+    created_at: str
+    updated_at: str
+    trace_id: Optional[str] = None
+
+
+class AgentEvaluationDetails(AgentEvaluationSummary):
+    plan: RemediationPlanV1
+
+
+class AgentSimulationRequest(BaseModel):
+    freeze_window_active: bool = False
+    stale_evidence_after_seconds: int = Field(default=900, ge=60, le=86400)
+
+
+class AgentSimulationResponse(BaseModel):
+    evaluation_id: str
+    plan_id: str
+    status: AgentPlanStatus
+    allowed: bool
+    policy_results: List[str] = Field(default_factory=list)
+    next_action: str
+
+
+class AgentPlanDecisionRequest(BaseModel):
+    reason: Optional[str] = None
+
+
+class AgentPlanExecutionRequest(BaseModel):
+    dry_run: bool = False
+    reason: Optional[str] = None
+
+
+class AgentPlanExecutionResponse(BaseModel):
+    plan_id: str
+    status: AgentPlanStatus
+    message: str
+
+
+class AgentTimelineEvent(BaseModel):
+    timestamp: str
+    event: str
+    payload: Dict[str, Any] = Field(default_factory=dict)
+
+
+class AgentPlanTimelineResponse(BaseModel):
+    plan_id: str
+    events: List[AgentTimelineEvent]
+
+
+class AgentShapePromoteRequest(BaseModel):
+    promoted_by: str = "human"
+    notes: Optional[str] = None
+
+
+class AgentShapePromoteResponse(BaseModel):
+    candidate_id: str
+    status: str
+    message: str

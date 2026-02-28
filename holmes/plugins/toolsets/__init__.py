@@ -1,6 +1,7 @@
 import logging
 import os
 import os.path
+import traceback
 from typing import Any, List, Optional, Union
 
 import yaml  # type: ignore
@@ -119,9 +120,20 @@ def load_python_toolsets(
     ]
 
     if not DISABLE_PROMETHEUS_TOOLSET:
-        from holmes.plugins.toolsets.prometheus.prometheus import PrometheusToolset
+        try:
+            from holmes.plugins.toolsets.prometheus.prometheus import PrometheusToolset
 
-        toolsets.append(PrometheusToolset())
+            toolsets.append(PrometheusToolset())
+        except Exception as e:
+            logging.warning(
+                "Failed to load Prometheus toolset. Continuing without it. "
+                "Set DISABLE_PROMETHEUS_TOOLSET=true to skip this warning. "
+                f"Error: {e}"
+            )
+            logging.debug(
+                "Prometheus toolset import/init traceback:\n%s",
+                traceback.format_exc(),
+            )
 
     if not USE_LEGACY_KUBERNETES_LOGS:
         toolsets.append(KubernetesLogsToolset())

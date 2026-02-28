@@ -12,6 +12,132 @@ def client():
     return TestClient(app)
 
 
+def test_mig_capabilities_includes_kepler(client):
+    response = client.get("/v1/mig/capabilities")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["contract_version"] == "v1"
+    kepler = next(p for p in data["providers"] if p["provider_id"] == "kepler")
+    assert kepler["display_name"] == "Kepler"
+    assert kepler["write_enabled"] is False
+    assert sorted(kepler["capabilities"]) == sorted(
+        ["read_context", "propose_plan", "explain_evidence", "emit_confidence"]
+    )
+
+
+def test_mig_provider_plan_flow(client):
+    evaluate_payload = {
+        "scope": "system:all",
+        "question": "Map high-risk services and propose guarded remediation plan",
+        "trigger": {"type": "dkm_hotspot", "severity": "high"},
+        "context": {"tenant_id": "t-123", "service": "checkout"},
+    }
+    evaluate_response = client.post(
+        "/v1/mig/providers/kepler/evaluate", json=evaluate_payload
+    )
+    assert evaluate_response.status_code == 200
+    evaluate_data = evaluate_response.json()
+    plan_id = evaluate_data["plan"]["plan_id"]
+    assert evaluate_data["provider_id"] == "kepler"
+    assert evaluate_data["plan"]["provider_id"] == "kepler"
+    assert evaluate_data["plan"]["risk_level"] == "high"
+
+    get_plan_response = client.get(f"/v1/mig/providers/kepler/plans/{plan_id}")
+    assert get_plan_response.status_code == 200
+    plan_data = get_plan_response.json()
+    assert plan_data["plan_id"] == plan_id
+    assert len(plan_data["actions"]) >= 1
+
+    explain_response = client.post(
+        f"/v1/mig/providers/kepler/plans/{plan_id}/explain",
+        json={"focus": "policy_gating", "max_evidence": 2},
+    )
+    assert explain_response.status_code == 200
+    explain_data = explain_response.json()
+    assert explain_data["plan_id"] == plan_id
+    assert explain_data["provider_id"] == "kepler"
+    assert len(explain_data["evidence"]) <= 2
+
+
+def test_mig_conformance_run(client):
+    response = client.post(
+        "/v1/mig/conformance/run", json={"provider_id": "kepler", "version": "v1"}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["provider_id"] == "kepler"
+    assert data["version"] == "v1"
+    assert data["passed"] is True
+    check_ids = [check["id"] for check in data["checks"]]
+    assert "endpoint.evaluate" in check_ids
+    assert "policy.read_propose_only" in check_ids
+
+
+def test_agent_evaluation_lifecycle(client):
+    create_response = client.post(
+        "/v1/agent/evaluations",
+        json={
+            "provider_id": "kepler",
+            "scope": "system:all",
+            "question": "Generate plan for checkout service",
+            "trigger": {"type": "slo_burn", "severity": "medium"},
+            "context": {"service": "checkout"},
+        },
+    )
+    assert create_response.status_code == 200
+    create_data = create_response.json()
+    evaluation_id = create_data["id"]
+    plan_id = create_data["plan_id"]
+    assert create_data["status"] == "proposed"
+
+    simulate_response = client.post(
+        f"/v1/agent/evaluations/{evaluation_id}/simulate",
+        json={"freeze_window_active": False, "stale_evidence_after_seconds": 3600},
+    )
+    assert simulate_response.status_code == 200
+    simulate_data = simulate_response.json()
+    assert simulate_data["status"] == "simulated"
+    assert simulate_data["allowed"] is True
+
+    approve_response = client.post(
+        f"/v1/agent/plans/{plan_id}/approve", json={"reason": "Approved in UI"}
+    )
+    assert approve_response.status_code == 200
+    approve_data = approve_response.json()
+    assert approve_data["status"] == "approved"
+
+    execute_response = client.post(
+        f"/v1/agent/plans/{plan_id}/execute",
+        json={"dry_run": True, "reason": "Validate policy first"},
+    )
+    assert execute_response.status_code == 200
+    execute_data = execute_response.json()
+    assert execute_data["status"] == "executed"
+
+    timeline_response = client.get(f"/v1/agent/plans/{plan_id}/timeline")
+    assert timeline_response.status_code == 200
+    timeline_data = timeline_response.json()
+    event_names = [event["event"] for event in timeline_data["events"]]
+    assert "agent.kepler.plan.generated" in event_names
+    assert "agent.kepler.plan.simulated" in event_names
+    assert "agent.kepler.plan.approved" in event_names
+    assert "agent.kepler.plan.executed" in event_names
+    assert "agent.kepler.plan.verified" in event_names
+
+
+def test_agent_execute_blocked_without_approval(client):
+    create_response = client.post(
+        "/v1/agent/evaluations",
+        json={"provider_id": "kepler", "scope": "system:all"},
+    )
+    assert create_response.status_code == 200
+    plan_id = create_response.json()["plan_id"]
+
+    execute_response = client.post(f"/v1/agent/plans/{plan_id}/execute", json={})
+    assert execute_response.status_code == 409
+    assert "must be approved" in execute_response.json()["detail"]
+
+
 @patch("holmes.config.Config.create_toolcalling_llm")
 @patch("holmes.core.supabase_dal.SupabaseDal.get_global_instructions_for_account")
 def test_api_chat_all_fields(
