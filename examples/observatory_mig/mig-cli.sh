@@ -16,6 +16,8 @@ Usage:
   mig-cli.sh dkm-timeline [scope] [limit]
   mig-cli.sh call-tool <tool_name> [json_payload]
   mig-cli.sh capabilities
+  mig-cli.sh mcp-tools
+  mig-cli.sh mcp-invoke <tool_name> [json_payload]
   mig-cli.sh conformance [provider_id]
   mig-cli.sh evaluate [provider_id] [json_payload]
   mig-cli.sh plan <provider_id> <plan_id>
@@ -103,6 +105,19 @@ case "${cmd}" in
     ;;
   capabilities)
     request "${AGENT_BASE_URL}" GET "/v1/mig/capabilities" | pretty_print
+    ;;
+  mcp-tools)
+    request "${AGENT_BASE_URL}" GET "/v1/mig/mcp/tools" | pretty_print
+    ;;
+  mcp-invoke)
+    tool_name="${1:-}"
+    payload="${2:-{\"provider_id\":\"kepler\",\"arguments\":{}}}"
+    if [[ -z "${tool_name}" ]]; then
+      echo "error: tool_name is required" >&2
+      usage
+      exit 1
+    fi
+    request "${AGENT_BASE_URL}" POST "/v1/mig/mcp/tools/${tool_name}/invoke" "${payload}" | pretty_print
     ;;
   conformance)
     provider="${1:-kepler}"

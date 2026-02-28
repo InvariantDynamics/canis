@@ -73,6 +73,44 @@ def test_mig_conformance_run(client):
     assert "policy.read_propose_only" in check_ids
 
 
+def test_mig_mcp_tools_and_invoke(client):
+    tools_response = client.get("/v1/mig/mcp/tools")
+    assert tools_response.status_code == 200
+    tools_data = tools_response.json()
+    tool_names = [tool["name"] for tool in tools_data["tools"]]
+    assert "mig.capabilities" in tool_names
+    assert "provider.evaluate" in tool_names
+
+    invoke_response = client.post(
+        "/v1/mig/mcp/tools/mig.capabilities/invoke",
+        json={"provider_id": "kepler", "arguments": {}},
+    )
+    assert invoke_response.status_code == 200
+    invoke_data = invoke_response.json()
+    assert invoke_data["tool_name"] == "mig.capabilities"
+    assert any(
+        provider["provider_id"] == "kepler"
+        for provider in invoke_data["result"]["providers"]
+    )
+
+
+def test_mig_provider_evaluate_finops_workload(client):
+    evaluate_response = client.post(
+        "/v1/mig/providers/kepler/evaluate",
+        json={
+            "scope": "org:all",
+            "workload": "finops",
+            "trigger": {"type": "cost_pressure", "severity": "high"},
+            "context": {"dimension": "margin"},
+        },
+    )
+    assert evaluate_response.status_code == 200
+    data = evaluate_response.json()
+    assert data["plan"]["metadata"]["workload"] == "finops"
+    action_types = [action["action_type"] for action in data["plan"]["actions"]]
+    assert "cost_analysis" in action_types
+
+
 def test_agent_evaluation_lifecycle(client):
     create_response = client.post(
         "/v1/agent/evaluations",
@@ -123,6 +161,76 @@ def test_agent_evaluation_lifecycle(client):
     assert "agent.kepler.plan.approved" in event_names
     assert "agent.kepler.plan.executed" in event_names
     assert "agent.kepler.plan.verified" in event_names
+
+
+def test_agent_shape_candidate_get_and_promote(client):
+    create_response = client.post(
+        "/v1/agent/evaluations",
+        json={"provider_id": "kepler", "scope": "system:all"},
+    )
+    assert create_response.status_code == 200
+    evaluation_id = create_response.json()["id"]
+    candidate_id = f"shape_{evaluation_id}"
+
+    get_candidate = client.get(f"/v1/agent/shapes/{candidate_id}")
+    assert get_candidate.status_code == 200
+    assert get_candidate.json()["status"] == "candidate"
+
+    promote = client.post(
+        f"/v1/agent/shapes/{candidate_id}/promote",
+        json={"promoted_by": "human", "notes": "validated"},
+    )
+    assert promote.status_code == 200
+    assert promote.json()["status"] == "promoted"
+
+    get_promoted = client.get(f"/v1/agent/shapes/{candidate_id}")
+    assert get_promoted.status_code == 200
+    assert get_promoted.json()["status"] == "promoted"
+
+
+def test_agent_simulation_blocked_by_global_kill_switch(client, monkeypatch):
+    monkeypatch.setenv("AGENT_GLOBAL_KILL_SWITCH", "true")
+    create_response = client.post(
+        "/v1/agent/evaluations",
+        json={"provider_id": "kepler", "scope": "system:all"},
+    )
+    assert create_response.status_code == 200
+    evaluation_id = create_response.json()["id"]
+
+    simulate_response = client.post(
+        f"/v1/agent/evaluations/{evaluation_id}/simulate",
+        json={"freeze_window_active": False, "stale_evidence_after_seconds": 3600},
+    )
+    assert simulate_response.status_code == 200
+    data = simulate_response.json()
+    assert data["allowed"] is False
+    assert data["status"] == "blocked"
+    assert "kill switch" in " ".join(data["policy_results"]).lower()
+
+
+def test_agent_auto_execute_low_risk_on_approve(client, monkeypatch):
+    monkeypatch.setenv("AGENT_AUTO_EXECUTE_LOW_RISK", "true")
+    create_response = client.post(
+        "/v1/agent/evaluations",
+        json={
+            "provider_id": "kepler",
+            "scope": "system:all",
+            "constraints": {"low_risk_only": True},
+        },
+    )
+    assert create_response.status_code == 200
+    plan_id = create_response.json()["plan_id"]
+
+    approve_response = client.post(
+        f"/v1/agent/plans/{plan_id}/approve", json={"reason": "auto execute test"}
+    )
+    assert approve_response.status_code == 200
+    assert approve_response.json()["status"] == "executed"
+
+    timeline_response = client.get(f"/v1/agent/plans/{plan_id}/timeline")
+    assert timeline_response.status_code == 200
+    event_names = [event["event"] for event in timeline_response.json()["events"]]
+    assert "agent.kepler.plan.executed" in event_names
 
 
 def test_agent_execute_blocked_without_approval(client):

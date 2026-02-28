@@ -43,6 +43,8 @@ from holmes.common.env_vars import (
 from holmes.config import DEFAULT_CONFIG_LOCATION, Config
 from holmes.core import investigation
 from holmes.core.agent_event_bus import AgentEventBus
+from holmes.core.agent_executor import DeterministicExecutor
+from holmes.core.agent_policy_engine import can_auto_execute, evaluate_simulation_policy
 from holmes.core.conversations import (
     build_chat_messages,
     build_issue_chat_messages,
@@ -71,6 +73,10 @@ from holmes.core.models import (
     MigConformanceRunRequest,
     MigConformanceRunResponse,
     PlanRiskLevel,
+    MCPInvokeRequest,
+    MCPInvokeResponse,
+    MCPToolMetadata,
+    MCPToolsResponse,
     ProviderCapability,
     ProviderEvaluateRequest,
     ProviderEvaluateResponse,
@@ -79,6 +85,8 @@ from holmes.core.models import (
     RemediationActionV1,
     RemediationEvidenceV1,
     RemediationPlanV1,
+    ShapeCandidate,
+    WorkloadDomain,
 )
 from holmes.core.prompt import PromptComponent
 from holmes.core.tools import ToolsetStatusEnum, ToolsetType
@@ -310,8 +318,37 @@ _PROVIDER_PLAN_STORE: Dict[str, RemediationPlanV1] = {}
 _AGENT_EVALUATION_STORE: Dict[str, AgentEvaluationDetails] = {}
 _PLAN_TO_EVALUATION: Dict[str, str] = {}
 _PLAN_TIMELINE_STORE: Dict[str, List[AgentTimelineEvent]] = {}
+_SHAPE_CANDIDATES: Dict[str, ShapeCandidate] = {}
 
 _AGENT_EVENT_BUS = AgentEventBus.from_env()
+_DETERMINISTIC_EXECUTOR = DeterministicExecutor()
+
+_MCP_TOOL_METADATA: Dict[str, MCPToolMetadata] = {
+    "mig.capabilities": MCPToolMetadata(
+        name="mig.capabilities",
+        description="List MIG provider capabilities and profiles.",
+        sensitivity_class="low",
+        latency_slo_ms=200,
+        rate_limit_per_minute=120,
+        approval_requirement_class="none",
+    ),
+    "provider.evaluate": MCPToolMetadata(
+        name="provider.evaluate",
+        description="Evaluate a provider and return a normalized RemediationPlanV1.",
+        sensitivity_class="medium",
+        latency_slo_ms=1200,
+        rate_limit_per_minute=60,
+        approval_requirement_class="read_propose_only",
+    ),
+    "plan.explain": MCPToolMetadata(
+        name="plan.explain",
+        description="Explain evidence and confidence for a provider plan.",
+        sensitivity_class="medium",
+        latency_slo_ms=800,
+        rate_limit_per_minute=60,
+        approval_requirement_class="read_propose_only",
+    ),
+}
 
 _PROVIDER_REGISTRY: Dict[str, ProviderCapability] = {
     KEPLER_PROVIDER_ID: ProviderCapability(
@@ -414,11 +451,6 @@ def _get_evaluation_by_plan_or_404(plan_id: str) -> AgentEvaluationDetails:
     return evaluation
 
 
-def _parse_iso_timestamp(timestamp: str) -> datetime:
-    normalized = timestamp.replace("Z", "+00:00")
-    return datetime.fromisoformat(normalized)
-
-
 def _risk_from_request(trigger: Dict[str, Any], constraints: Dict[str, Any]) -> PlanRiskLevel:
     severity = str(trigger.get("severity", "")).lower()
     if severity in {"critical", "sev0", "sev-0"}:
@@ -438,40 +470,77 @@ def _build_plan(
     risk_level = _risk_from_request(request.trigger, request.constraints)
     scoped_target = request.scope or "system:all"
 
-    actions = [
-        RemediationActionV1(
-            id=f"{plan_id}-action-1",
-            title="Collect targeted health signal snapshot",
-            description=(
-                "Capture bounded entity, edge, and DKM context to validate blast radius "
-                "before any remediation proposal is approved."
+    if request.workload == WorkloadDomain.FINOPS:
+        actions = [
+            RemediationActionV1(
+                id=f"{plan_id}-action-1",
+                title="Collect cost and margin pressure telemetry",
+                description=(
+                    "Gather bounded cost, margin, and revenue-funnel signals by service "
+                    "to identify immediate financial pressure contributors."
+                ),
+                target=scoped_target,
+                action_type="read_context",
+                risk_level=PlanRiskLevel.LOW,
+                requires_approval=True,
+                metadata={"approval_class": "observability-read", "domain": "finops"},
             ),
-            target=scoped_target,
-            action_type="read_context",
-            risk_level=PlanRiskLevel.LOW,
-            requires_approval=True,
-            dry_run_command="kubectl get pods -A --field-selector=status.phase!=Running",
-            metadata={"approval_class": "observability-read"},
-        ),
-        RemediationActionV1(
-            id=f"{plan_id}-action-2",
-            title="Prepare traffic-shift remediation plan",
-            description=(
-                "Prepare a deterministic traffic-shift or scale action proposal "
-                "for Observatory policy simulation and human approval."
+            RemediationActionV1(
+                id=f"{plan_id}-action-2",
+                title="Propose FinOps optimization plan",
+                description=(
+                    "Generate a reversible cost optimization proposal with projected "
+                    "savings, risk bounds, and funnel impact checks."
+                ),
+                target=scoped_target,
+                action_type="cost_analysis",
+                risk_level=risk_level,
+                requires_approval=True,
+                execute_command="observatory-executor apply finops-plan --plan-id ${PLAN_ID}",
+                metadata={"approval_class": "human_required", "domain": "finops"},
             ),
-            target=scoped_target,
-            action_type="propose_remediation",
-            risk_level=risk_level,
-            requires_approval=True,
-            dry_run_command=(
-                "kubectl -n default rollout status deploy/checkout "
-                "--timeout=30s || true"
+        ]
+        summary_text = (
+            f"Provider '{provider_id}' proposes a FinOps planner-only sequence for scope '{scoped_target}'."
+        )
+    else:
+        actions = [
+            RemediationActionV1(
+                id=f"{plan_id}-action-1",
+                title="Collect targeted health signal snapshot",
+                description=(
+                    "Capture bounded entity, edge, and DKM context to validate blast radius "
+                    "before any remediation proposal is approved."
+                ),
+                target=scoped_target,
+                action_type="read_context",
+                risk_level=PlanRiskLevel.LOW,
+                requires_approval=True,
+                dry_run_command="kubectl get pods -A --field-selector=status.phase!=Running",
+                metadata={"approval_class": "observability-read", "domain": "sre"},
             ),
-            execute_command="observatory-executor apply remediation-plan --plan-id ${PLAN_ID}",
-            metadata={"approval_class": "human_required"},
-        ),
-    ]
+            RemediationActionV1(
+                id=f"{plan_id}-action-2",
+                title="Prepare traffic-shift remediation plan",
+                description=(
+                    "Prepare a deterministic traffic-shift or scale action proposal "
+                    "for Observatory policy simulation and human approval."
+                ),
+                target=scoped_target,
+                action_type="propose_remediation",
+                risk_level=risk_level,
+                requires_approval=True,
+                dry_run_command=(
+                    "kubectl -n default rollout status deploy/checkout "
+                    "--timeout=30s || true"
+                ),
+                execute_command="observatory-executor apply remediation-plan --plan-id ${PLAN_ID}",
+                metadata={"approval_class": "human_required", "domain": "sre"},
+            ),
+        ]
+        summary_text = (
+            f"Provider '{provider_id}' proposes a planner-only remediation sequence for scope '{scoped_target}'."
+        )
 
     evidence = [
         RemediationEvidenceV1(
@@ -493,9 +562,7 @@ def _build_plan(
         plan_id=plan_id,
         provider_id=provider_id,
         version=MIG_CONTRACT_VERSION,
-        summary=(
-            f"Provider '{provider_id}' proposes a planner-only remediation sequence for scope '{scoped_target}'."
-        ),
+        summary=summary_text,
         confidence=confidence,
         risk_level=risk_level,
         actions=actions,
@@ -508,6 +575,7 @@ def _build_plan(
             "execution_authority": "observatory-control-plane",
             "provider_write_enabled": False,
             "planner_mode": True,
+            "workload": request.workload.value,
         },
     )
 
@@ -643,12 +711,78 @@ def mig_conformance_run(
     )
 
 
+@app.get("/v1/mig/mcp/tools", response_model=MCPToolsResponse)
+def mig_mcp_tools() -> MCPToolsResponse:
+    return MCPToolsResponse(
+        provider_profile="read_propose_only_v1",
+        tools=list(_MCP_TOOL_METADATA.values()),
+    )
+
+
+@app.post("/v1/mig/mcp/tools/{tool_name}/invoke", response_model=MCPInvokeResponse)
+def mig_mcp_invoke_tool(tool_name: str, invoke_request: MCPInvokeRequest) -> MCPInvokeResponse:
+    _get_provider(invoke_request.provider_id)
+    if tool_name not in _MCP_TOOL_METADATA:
+        raise HTTPException(status_code=404, detail=f"MCP tool '{tool_name}' not found")
+
+    args = invoke_request.arguments
+    if tool_name == "mig.capabilities":
+        result: Dict[str, Any] = {
+            "providers": [
+                provider.model_dump()
+                for provider in sorted(
+                    _PROVIDER_REGISTRY.values(), key=lambda p: p.provider_id
+                )
+            ]
+        }
+    elif tool_name == "provider.evaluate":
+        provider_id = str(args.get("provider_id", invoke_request.provider_id))
+        try:
+            workload = WorkloadDomain(str(args.get("workload", "sre")))
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="workload must be one of: sre, finops",
+            )
+        eval_req = ProviderEvaluateRequest(
+            scope=str(args.get("scope", "system:all")),
+            workload=workload,
+            question=args.get("question"),
+            trigger=args.get("trigger", {}),
+            context=args.get("context", {}),
+            constraints=args.get("constraints", {}),
+            model=args.get("model"),
+            trace_id=args.get("trace_id"),
+        )
+        result = _evaluate_provider(provider_id, eval_req).model_dump()
+    elif tool_name == "plan.explain":
+        provider_id = str(args.get("provider_id", invoke_request.provider_id))
+        plan_id = str(args.get("plan_id", ""))
+        if not plan_id:
+            raise HTTPException(status_code=400, detail="plan_id is required")
+        explain_req = ProviderPlanExplainRequest(
+            focus=args.get("focus"),
+            max_evidence=int(args.get("max_evidence", 5)),
+        )
+        result = mig_provider_plan_explain(provider_id, plan_id, explain_req).model_dump()
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail=f"MCP tool '{tool_name}' is unsupported in partner v1 profile",
+        )
+
+    return MCPInvokeResponse(
+        tool_name=tool_name, provider_id=invoke_request.provider_id, result=result
+    )
+
+
 @app.post("/v1/agent/evaluations", response_model=AgentEvaluationSummary)
 def agent_create_evaluation(
     evaluation_request: AgentEvaluationRequest,
 ) -> AgentEvaluationSummary:
     provider_request = ProviderEvaluateRequest(
         scope=evaluation_request.scope,
+        workload=evaluation_request.workload,
         question=evaluation_request.question,
         trigger=evaluation_request.trigger,
         context=evaluation_request.context,
@@ -677,6 +811,15 @@ def agent_create_evaluation(
     with _AGENT_DATA_LOCK:
         _AGENT_EVALUATION_STORE[evaluation_id] = details
         _PLAN_TO_EVALUATION[provider_eval.plan.plan_id] = evaluation_id
+        _SHAPE_CANDIDATES[f"shape_{evaluation_id}"] = ShapeCandidate(
+            candidate_id=f"shape_{evaluation_id}",
+            evaluation_id=evaluation_id,
+            provider_id=evaluation_request.provider_id,
+            workload=evaluation_request.workload,
+            status="candidate",
+            created_at=now,
+            metadata={"plan_id": provider_eval.plan.plan_id},
+        )
 
     _append_plan_timeline_event(
         provider_eval.plan.plan_id,
@@ -696,6 +839,17 @@ def agent_get_evaluation(id: str) -> AgentEvaluationDetails:
     return _get_evaluation_or_404(id)
 
 
+@app.get("/v1/agent/shapes/{candidate_id}", response_model=ShapeCandidate)
+def agent_get_shape_candidate(candidate_id: str) -> ShapeCandidate:
+    with _AGENT_DATA_LOCK:
+        candidate = _SHAPE_CANDIDATES.get(candidate_id)
+    if not candidate:
+        raise HTTPException(
+            status_code=404, detail=f"Shape candidate '{candidate_id}' was not found"
+        )
+    return candidate
+
+
 @app.post(
     "/v1/agent/evaluations/{id}/simulate", response_model=AgentSimulationResponse
 )
@@ -703,26 +857,12 @@ def agent_simulate_evaluation(
     id: str, simulation_request: AgentSimulationRequest
 ) -> AgentSimulationResponse:
     evaluation = _get_evaluation_or_404(id)
-    policy_results: List[str] = []
-    allowed = True
-
-    if simulation_request.freeze_window_active:
-        allowed = False
-        policy_results.append("Execution blocked by freeze window policy.")
-
-    plan_age_seconds = (
-        datetime.now(timezone.utc) - _parse_iso_timestamp(evaluation.plan.created_at)
-    ).total_seconds()
-    if plan_age_seconds > simulation_request.stale_evidence_after_seconds:
-        allowed = False
-        policy_results.append("Execution blocked due to stale evidence window.")
-
-    if evaluation.plan.risk_level in {PlanRiskLevel.HIGH, PlanRiskLevel.CRITICAL}:
-        policy_results.append(
-            "High-risk plan requires explicit Observatory UI approval."
-        )
-
-    new_status = AgentPlanStatus.SIMULATED if allowed else AgentPlanStatus.BLOCKED
+    decision = evaluate_simulation_policy(
+        plan=evaluation.plan,
+        stale_evidence_after_seconds=simulation_request.stale_evidence_after_seconds,
+        freeze_window_requested=simulation_request.freeze_window_active,
+    )
+    new_status = decision.status
     updated_evaluation = evaluation.model_copy(
         update={"status": new_status, "updated_at": _utc_now_iso()}
     )
@@ -734,8 +874,8 @@ def agent_simulate_evaluation(
         _build_event_name(evaluation.provider_id, "plan.simulated"),
         {
             "evaluation_id": id,
-            "allowed": allowed,
-            "policy_results": policy_results,
+            "allowed": decision.allowed,
+            "policy_results": decision.results,
         },
     )
 
@@ -743,9 +883,9 @@ def agent_simulate_evaluation(
         evaluation_id=id,
         plan_id=evaluation.plan_id,
         status=new_status,
-        allowed=allowed,
-        policy_results=policy_results,
-        next_action="approve_or_reject" if allowed else "revise_or_re_evaluate",
+        allowed=decision.allowed,
+        policy_results=decision.results,
+        next_action="approve_or_reject" if decision.allowed else "revise_or_re_evaluate",
     )
 
 
@@ -767,6 +907,34 @@ def agent_approve_plan(id: str, decision: AgentPlanDecisionRequest) -> AgentEval
         _build_event_name(updated.provider_id, "plan.approved"),
         {"evaluation_id": updated.id, "reason": decision.reason},
     )
+
+    if can_auto_execute(updated.plan):
+        execution_result = _DETERMINISTIC_EXECUTOR.execute(updated.plan, dry_run=False)
+        auto_executed = updated.model_copy(
+            update={"status": AgentPlanStatus.EXECUTED, "updated_at": _utc_now_iso()}
+        )
+        with _AGENT_DATA_LOCK:
+            _AGENT_EVALUATION_STORE[auto_executed.id] = auto_executed
+        _append_plan_timeline_event(
+            id,
+            _build_event_name(updated.provider_id, "plan.executed"),
+            {
+                "evaluation_id": updated.id,
+                "auto_executed": True,
+                "adapter": execution_result.adapter,
+                "messages": execution_result.messages,
+            },
+        )
+        _append_plan_timeline_event(
+            id,
+            _build_event_name(updated.provider_id, "plan.verified"),
+            {
+                "evaluation_id": updated.id,
+                "verification": "auto_execute_completed",
+            },
+        )
+        return AgentEvaluationSummary(**auto_executed.model_dump(exclude={"plan"}))
+
     return AgentEvaluationSummary(**updated.model_dump(exclude={"plan"}))
 
 
@@ -811,6 +979,9 @@ def agent_execute_plan(
     with _AGENT_DATA_LOCK:
         _AGENT_EVALUATION_STORE[updated.id] = updated
 
+    execution_result = _DETERMINISTIC_EXECUTOR.execute(
+        updated.plan, dry_run=execution_request.dry_run
+    )
     _append_plan_timeline_event(
         id,
         _build_event_name(updated.provider_id, "plan.executed"),
@@ -818,6 +989,8 @@ def agent_execute_plan(
             "evaluation_id": updated.id,
             "dry_run": execution_request.dry_run,
             "reason": execution_request.reason,
+            "adapter": execution_result.adapter,
+            "messages": execution_result.messages,
         },
     )
     _append_plan_timeline_event(
@@ -855,8 +1028,20 @@ def agent_plan_timeline(id: str) -> AgentPlanTimelineResponse:
 def agent_promote_shape(
     candidate_id: str, promote_request: AgentShapePromoteRequest
 ) -> AgentShapePromoteResponse:
+    with _AGENT_DATA_LOCK:
+        candidate = _SHAPE_CANDIDATES.get(candidate_id)
+        if not candidate:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Shape candidate '{candidate_id}' was not found",
+            )
+        promoted = candidate.model_copy(
+            update={"status": "promoted", "promoted_at": _utc_now_iso()}
+        )
+        _SHAPE_CANDIDATES[candidate_id] = promoted
+
     _append_plan_timeline_event(
-        plan_id=f"shape:{candidate_id}",
+        plan_id=promoted.metadata.get("plan_id", f"shape:{candidate_id}"),
         event=_build_event_name(KEPLER_PROVIDER_ID, "shape.promoted"),
         payload={"candidate_id": candidate_id, "promoted_by": promote_request.promoted_by},
     )

@@ -42,6 +42,10 @@ mig_partner_apis:
     path: "/v1/mig/capabilities"
   - method: "POST"
     path: "/v1/mig/conformance/run"
+  - method: "GET"
+    path: "/v1/mig/mcp/tools"
+  - method: "POST"
+    path: "/v1/mig/mcp/tools/{tool_name}/invoke"
 
 observatory_agent_apis:
   - method: "POST"
@@ -98,3 +102,9 @@ governance:
   kill_switch_required: true
   provenance_required: true
   partner_certification: "strict"
+
+workload_profiles:
+  - id: "sre"
+    description: "Reliability incident analysis and remediation planning."
+  - id: "finops"
+    description: "Cost, margin, and revenue pressure analysis with optimization proposals."

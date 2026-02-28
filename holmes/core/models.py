@@ -286,6 +286,11 @@ class AgentPlanStatus(str, Enum):
     BLOCKED = "blocked"
 
 
+class WorkloadDomain(str, Enum):
+    SRE = "sre"
+    FINOPS = "finops"
+
+
 class RemediationEvidenceV1(BaseModel):
     id: str
     source: str
@@ -332,6 +337,7 @@ class ProviderCapability(BaseModel):
 
 class ProviderEvaluateRequest(BaseModel):
     scope: str = "system:all"
+    workload: WorkloadDomain = WorkloadDomain.SRE
     question: Optional[str] = None
     trigger: Dict[str, Any] = Field(default_factory=dict)
     context: Dict[str, Any] = Field(default_factory=dict)
@@ -387,6 +393,7 @@ class MigConformanceRunResponse(BaseModel):
 class AgentEvaluationRequest(BaseModel):
     provider_id: str = "kepler"
     scope: str = "system:all"
+    workload: WorkloadDomain = WorkloadDomain.SRE
     question: Optional[str] = None
     trigger: Dict[str, Any] = Field(default_factory=dict)
     context: Dict[str, Any] = Field(default_factory=dict)
@@ -458,3 +465,39 @@ class AgentShapePromoteResponse(BaseModel):
     candidate_id: str
     status: str
     message: str
+
+
+class ShapeCandidate(BaseModel):
+    candidate_id: str
+    evaluation_id: str
+    provider_id: str
+    workload: WorkloadDomain
+    status: str
+    created_at: str
+    promoted_at: Optional[str] = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class MCPToolMetadata(BaseModel):
+    name: str
+    description: str
+    sensitivity_class: str
+    latency_slo_ms: int
+    rate_limit_per_minute: int
+    approval_requirement_class: str
+
+
+class MCPToolsResponse(BaseModel):
+    provider_profile: str
+    tools: List[MCPToolMetadata]
+
+
+class MCPInvokeRequest(BaseModel):
+    provider_id: str = "kepler"
+    arguments: Dict[str, Any] = Field(default_factory=dict)
+
+
+class MCPInvokeResponse(BaseModel):
+    tool_name: str
+    provider_id: str
+    result: Dict[str, Any] = Field(default_factory=dict)

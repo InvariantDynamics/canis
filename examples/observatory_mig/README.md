@@ -25,6 +25,8 @@ MIG partner APIs:
 - `POST /v1/mig/providers/{provider_id}/plans/{plan_id}/explain`
 - `GET /v1/mig/capabilities`
 - `POST /v1/mig/conformance/run`
+- `GET /v1/mig/mcp/tools`
+- `POST /v1/mig/mcp/tools/{tool_name}/invoke`
 
 Observatory agent APIs:
 
@@ -96,6 +98,7 @@ chmod +x examples/observatory_mig/mig-cli.sh
 
 examples/observatory_mig/mig-cli.sh capabilities
 examples/observatory_mig/mig-cli.sh evaluate kepler '{"scope":"system:all","trigger":{"type":"slo_burn","severity":"medium"}}'
+examples/observatory_mig/mig-cli.sh agent-evaluate '{"provider_id":"kepler","workload":"finops","scope":"org:all","trigger":{"type":"cost_pressure","severity":"high"},"context":{"dimension":"margin"}}'
 ```
 
 ## V1 safety posture
