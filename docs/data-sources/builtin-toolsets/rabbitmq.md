@@ -1,6 +1,6 @@
 # RabbitMQ
 
-By enabling this toolset, HolmesGPT will be able to detect RabbitMQ partitions, memory alerts, and disk alerts and suggest mitigations.
+By enabling this toolset, Canis will be able to detect RabbitMQ partitions, memory alerts, and disk alerts and suggest mitigations.
 
 This toolset follows a two-step process to detect partition:
 

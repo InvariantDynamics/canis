@@ -118,7 +118,7 @@ class KubectlRunImageCommand(Tool):
             )
 
         pod_name = (
-            "holmesgpt-debug-pod-"
+            "canis-debug-pod-"
             + "".join(random.choices(string.ascii_letters, k=8)).lower()
         )
         full_kubectl_command = self._build_kubectl_command(params, pod_name)

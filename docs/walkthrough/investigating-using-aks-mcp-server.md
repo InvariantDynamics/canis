@@ -1,12 +1,12 @@
 # Investigating using AKS MCP Server
 
-You can investigate Azure Kubernetes Service issues using HolmesGPT with the AKS MCP (Model Context Protocol) server.
+You can investigate Azure Kubernetes Service issues using Canis with the AKS MCP (Model Context Protocol) server.
 
-![AKS MCP Integration](../assets/Holmes-azure-mcp.gif)
+![AKS MCP Integration](../assets/Canis-azure-mcp.gif)
 
 ## Prerequisites
 
-- HolmesGPT CLI installed ([installation guide](../installation/cli-installation.md))
+- Canis CLI installed ([installation guide](../installation/cli-installation.md))
 - An AI provider API key configured ([setup guide](../ai-providers/index.md))
 - Azure CLI installed and authenticated
 - Access to Azure Kubernetes Service clusters
@@ -37,9 +37,9 @@ You can investigate Azure Kubernetes Service issues using HolmesGPT with the AKS
    ```
    **Note:** Change `"stdio"` to `"sse"` in the transport argument.
 
-### Step 3: Configure HolmesGPT
+### Step 3: Configure Canis
 
-Add this configuration to your HolmesGPT config file (`~/.holmes/config.yaml`):
+Add this configuration to your Canis config file (`~/.holmes/config.yaml`):
 
 ```yaml
 mcp_servers:
@@ -56,12 +56,12 @@ Once configured, you can investigate AKS issues using natural language queries:
 
 ### Cluster Health Issues
 ```bash
-holmes ask "What issues do I have in my AKS cluster?"
+canis ask "What issues do I have in my AKS cluster?"
 ```
 
 ### Network Connectivity Problems
 ```bash
-holmes ask "My payment deployment can't reach external services investigate why"
+canis ask "My payment deployment can't reach external services investigate why"
 ```
 
 ## What's Next?

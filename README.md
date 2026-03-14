@@ -1,10 +1,10 @@
 <div align="center">
-  <h1 align="center">HolmesGPT — The CNCF SRE Agent</h1>
+  <h1 align="center">Canis — The CNCF SRE Agent</h1>
 
   <p align="center">
     <a href="#installation"><strong>Installation</strong></a> |
     <a href="https://holmesgpt.dev/"><strong>Docs</strong></a> |
-    <a href="https://deepwiki.com/HolmesGPT/holmesgpt"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+    <a href="https://deepwiki.com/InvariantDynamics/canis"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   </p>
 </div>
 
@@ -18,15 +18,15 @@ Open-source AI agent for investigating production incidents and finding root cau
 
 ## How it Works
 
-HolmesGPT uses an **agentic loop** to query live observability data from multiple sources and identify root causes.
+Canis uses an **agentic loop** to query live observability data from multiple sources and identify root causes.
 
-<img width="3114" alt="holmesgpt-architecture-diagram" src="https://github.com/user-attachments/assets/f659707e-1958-4add-9238-8565a5e3713a" />
+<img width="3114" alt="canis-architecture-diagram" src="https://github.com/user-attachments/assets/f659707e-1958-4add-9238-8565a5e3713a" />
 
-![HolmesGPT Investigation Demo](https://holmesgpt.dev/assets/HolmesInvestigation.gif)
+![Canis Investigation Demo](https://holmesgpt.dev/assets/HolmesInvestigation.gif)
 
 ### 🔗 Data Sources
 
-HolmesGPT integrates with popular observability and cloud platforms. The following data sources ("toolsets") are built-in. [Add your own](https://holmesgpt.dev/data-sources/custom-toolsets/).
+Canis integrates with popular observability and cloud platforms. The following data sources ("toolsets") are built-in. [Add your own](https://holmesgpt.dev/data-sources/custom-toolsets/).
 
 | Data Source | Notes |
 |-------------|-------|
@@ -66,17 +66,17 @@ See the [full list of built-in toolsets](https://holmesgpt.dev/data-sources/buil
 
 ### 🚀 End-to-End Automation
 
-HolmesGPT can fetch alerts/tickets to investigate from external systems, then write the analysis back to the source or Slack.
+Canis can fetch alerts/tickets to investigate from external systems, then write the analysis back to the source or Slack.
 
 | Integration             | Status    | Notes |
 |-------------------------|-----------|-------|
 | Slack                   | ✅        | [Demo.](https://www.loom.com/share/afcd81444b1a4adfaa0bbe01c37a4847) Available via [Robusta.dev](https://home.robusta.dev/) (commercial platform) |
 | Microsoft Teams         | ✅        | Available via [Robusta.dev](https://home.robusta.dev/) (commercial platform) |
-| Prometheus/AlertManager | ✅        | Robusta SaaS or HolmesGPT CLI |
-| PagerDuty               | ✅        | HolmesGPT CLI only |
-| OpsGenie                | ✅        | HolmesGPT CLI only |
-| Jira                    | ✅        | HolmesGPT CLI only |
-| GitHub                  | ✅        | HolmesGPT CLI only |
+| Prometheus/AlertManager | ✅        | Robusta SaaS or Canis CLI |
+| PagerDuty               | ✅        | Canis CLI only |
+| OpsGenie                | ✅        | Canis CLI only |
+| Jira                    | ✅        | Canis CLI only |
+| GitHub                  | ✅        | Canis CLI only |
 
 ## Installation
 
@@ -84,7 +84,7 @@ HolmesGPT can fetch alerts/tickets to investigate from external systems, then wr
   <img src="images/integration_logos/all-installation-methods.png" alt="All Installation Methods" style="max-width:100%; height:auto;">
 </a>
 
-Read the [installation documentation](https://holmesgpt.dev/installation/cli-installation/) to learn how to install HolmesGPT.
+Read the [installation documentation](https://holmesgpt.dev/installation/cli-installation/) to learn how to install Canis.
 
 ## Supported LLM Providers
 
@@ -94,7 +94,7 @@ Read the [installation documentation](https://holmesgpt.dev/installation/cli-ins
 
 Read the [LLM Providers documentation](https://holmesgpt.dev/ai-providers/) to learn how to set up your LLM API key.
 
-## Using HolmesGPT
+## Using Canis
 
 See the [walkthrough documentation](https://holmesgpt.dev/walkthrough/) for usage guides, including:
 
@@ -104,30 +104,30 @@ See the [walkthrough documentation](https://holmesgpt.dev/walkthrough/) for usag
 
 ## 🔐 Data Privacy
 
-By design, HolmesGPT has **read-only access** and respects RBAC permissions. It is safe to run in production environments.
+By design, Canis has **read-only access** and respects RBAC permissions. It is safe to run in production environments.
 
 ## License
-Distributed under the Apache 2.0 License. See [LICENSE](https://github.com/HolmesGPT/holmesgpt/blob/master/LICENSE) for more information.
+Distributed under the Apache 2.0 License. See [LICENSE](https://github.com/InvariantDynamics/canis/blob/master/LICENSE) for more information.
 <!-- Change License -->
 
 ## Community
 
-Join our community to discuss the HolmesGPT roadmap and share feedback:
+Join our community to discuss the Canis roadmap and share feedback:
 
 - [Community Meetups](https://docs.google.com/document/d/1q3L2iUd8tNu-NmZ6QIVOJcCLHrile9CC5QguOGTn_tg/edit?tab=t.0#heading=h.ihdnrt5bstrv)
 
 ## Support
 
-If you have any questions, feel free to message us on [HolmesGPT Slack Channel](https://cloud-native.slack.com/archives/C0A1SPQM5PZ)
+If you have any questions, feel free to message us on [Canis Slack Channel](https://cloud-native.slack.com/archives/C0A1SPQM5PZ)
 
 ## How to Contribute
 
 Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and instructions.
 
-For help, contact us on [Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) or ask [DeepWiki AI](https://deepwiki.com/HolmesGPT/holmesgpt) your questions.
+For help, contact us on [Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) or ask [DeepWiki AI](https://deepwiki.com/InvariantDynamics/canis) your questions.
 
-Please make sure to follow the CNCF code of conduct - [details here](https://github.com/HolmesGPT/holmesgpt/blob/master/CODE_OF_CONDUCT.md).
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/HolmesGPT/holmesgpt)
+Please make sure to follow the CNCF code of conduct - [details here](https://github.com/InvariantDynamics/canis/blob/master/CODE_OF_CONDUCT.md).
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/InvariantDynamics/canis)
 
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11586/badge)](https://www.bestpractices.dev/projects/11586)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/HolmesGPT/holmesgpt/badge)](https://scorecard.dev/viewer/?uri=github.com/HolmesGPT/holmesgpt)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/InvariantDynamics/canis/badge)](https://scorecard.dev/viewer/?uri=github.com/InvariantDynamics/canis)

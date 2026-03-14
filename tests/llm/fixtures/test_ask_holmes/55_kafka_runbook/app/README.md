@@ -1,6 +1,6 @@
 # Kafka Consumer Lag Simulation
 
-This setup simulates a realistic Kafka environment with multiple producers and consumers, designed to demonstrate consumer lag scenarios for testing HolmesGPT's Kafka troubleshooting capabilities.
+This setup simulates a realistic Kafka environment with multiple producers and consumers, designed to demonstrate consumer lag scenarios for testing Canis's Kafka troubleshooting capabilities.
 
 ## System Architecture
 

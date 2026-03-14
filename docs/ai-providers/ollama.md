@@ -1,9 +1,9 @@
 # Ollama
 
-Configure HolmesGPT to use local models with Ollama.
+Configure Canis to use local models with Ollama.
 
 !!! warning
-    Ollama support is experimental and can be tricky to configure correctly. We recommend trying HolmesGPT with a hosted model first (like Claude or OpenAI) to ensure everything works before switching to Ollama. Tool-calling capabilities are limited and may produce inconsistent results. Only [LiteLLM supported Ollama models](https://docs.litellm.ai/docs/providers/ollama#ollama-models){:target="_blank"} work with HolmesGPT.
+    Ollama support is experimental and can be tricky to configure correctly. We recommend trying Canis with a hosted model first (like Claude or OpenAI) to ensure everything works before switching to Ollama. Tool-calling capabilities are limited and may produce inconsistent results. Only [LiteLLM supported Ollama models](https://docs.litellm.ai/docs/providers/ollama#ollama-models){:target="_blank"} work with Canis.
 
 ## Setup
 
@@ -13,15 +13,15 @@ Configure HolmesGPT to use local models with Ollama.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export OLLAMA_API_BASE="http://localhost:11434"
-    holmes ask "what pods are failing?" --model="ollama_chat/<your-ollama-model>"
+    canis ask "what pods are failing?" --model="ollama_chat/<your-ollama-model>"
 
     # Or use MODEL environment variable instead of --model flag
     export MODEL="ollama_chat/<your-ollama-model>"
-    holmes ask "what pods are failing?"
+    canis ask "what pods are failing?"
     ```
 
     **Alternative (OpenAI-compatible gateway)**
@@ -31,14 +31,14 @@ Configure HolmesGPT to use local models with Ollama.
     ```bash
     export OPENAI_API_BASE="http://localhost:11434/v1"
     export OPENAI_API_KEY="dummy-key"  # Required but can be any value
-    holmes ask "what pods are failing?" --model="openai/<your-ollama-model>"
+    canis ask "what pods are failing?" --model="openai/<your-ollama-model>"
 
     # Or use MODEL environment variable instead of --model flag
     export MODEL="openai/<your-ollama-model>"
-    holmes ask "what pods are failing?"
+    canis ask "what pods are failing?"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Configure Helm Values:**
     ```yaml
@@ -146,4 +146,4 @@ Configure HolmesGPT to use local models with Ollama.
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support Ollama provider. Refer to [LiteLLM Ollama docs](https://docs.litellm.ai/docs/providers/ollama){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support Ollama provider. Refer to [LiteLLM Ollama docs](https://docs.litellm.ai/docs/providers/ollama){:target="_blank"} for more details.

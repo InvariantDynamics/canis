@@ -1,6 +1,6 @@
 # Sentry (MCP)
 
-The Sentry MCP server provides access to Sentry for error tracking and monitoring. It enables Holmes to search issues, retrieve stack traces, analyze error patterns, and investigate application crashes.
+The Sentry MCP server provides access to Sentry for error tracking and monitoring. It enables Canis to search issues, retrieve stack traces, analyze error patterns, and investigate application crashes.
 
 ## Prerequisites
 
@@ -24,9 +24,9 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the Sentry MCP server first, then configure Holmes to connect to it.
+    For CLI usage, you need to deploy the Sentry MCP server first, then configure Canis to connect to it.
 
     **Step 1: Create the Sentry Token Secret**
 
@@ -112,7 +112,7 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
     kubectl apply -f sentry-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -127,7 +127,7 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     First, create a Kubernetes secret with your Sentry auth token:
 
@@ -147,7 +147,7 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
           secretName: "sentry-mcp-token"
     ```
 
-    To customize how Holmes uses Sentry, you can provide your own LLM instructions:
+    To customize how Canis uses Sentry, you can provide your own LLM instructions:
 
     ```yaml
     mcpAddons:
@@ -173,10 +173,10 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
           host: "https://sentry.mycompany.com"
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -223,21 +223,21 @@ Before configuring the Sentry MCP server, you need a Sentry Auth Token.
 ## Testing the Connection
 
 ```bash
-holmes ask "List the Sentry projects in my organization"
+canis ask "List the Sentry projects in my organization"
 ```
 
 ## Common Use Cases
 
 ```bash
-holmes ask "What are the most frequent unresolved errors in our backend project?"
+canis ask "What are the most frequent unresolved errors in our backend project?"
 ```
 
 ```bash
-holmes ask "Show me the stack trace for the latest crash in the payments service"
+canis ask "Show me the stack trace for the latest crash in the payments service"
 ```
 
 ```bash
-holmes ask "Are there any new error patterns that appeared in the last 24 hours?"
+canis ask "Are there any new error patterns that appeared in the last 24 hours?"
 ```
 
 ## Additional Resources

@@ -1,6 +1,6 @@
 # Loki
 
-Connect HolmesGPT to Loki for log analysis through Grafana or direct API access. Provides access to historical logs and advanced log queries.
+Connect Canis to Loki for log analysis through Grafana or direct API access. Provides access to historical logs and advanced log queries.
 
 ## When to Use This
 
@@ -49,7 +49,7 @@ toolsets:
 
 ## Direct Connection
 
-The toolset can directly connect to a Loki instance without proxying through a Grafana instance. This is done by not setting the `grafana_datasource_uid` field. Not setting this field makes HolmesGPT assume that it is directly connecting to Loki.
+The toolset can directly connect to a Loki instance without proxying through a Grafana instance. This is done by not setting the `grafana_datasource_uid` field. Not setting this field makes Canis assume that it is directly connecting to Loki.
 
 ### Configuration (Direct Connection)
 
@@ -80,7 +80,7 @@ toolsets:
 
 ### External URL
 
-If HolmesGPT accesses Loki through an internal URL but you want clickable links in results to use a different URL:
+If Canis accesses Loki through an internal URL but you want clickable links in results to use a different URL:
 
 ```yaml-toolset-config
 toolsets:

@@ -756,7 +756,7 @@ def generate_eval_dashboard_heatmap(results: Dict[str, Any]) -> str:
     # Data rows (one per eval)
     for eval_case in sorted_evals:
         # Create absolute GitHub URL to test_case.yaml file
-        github_url = f"https://github.com/HolmesGPT/holmesgpt/blob/master/tests/llm/fixtures/test_ask_holmes/{eval_case}/test_case.yaml"
+        github_url = f"https://github.com/InvariantDynamics/canis/blob/master/tests/llm/fixtures/test_ask_holmes/{eval_case}/test_case.yaml"
 
         # Create link for Braintrust
         eval_filter_url = get_braintrust_eval_filter_url(eval_case, experiment_name)
@@ -865,7 +865,7 @@ def generate_eval_dashboard_heatmap(results: Dict[str, Any]) -> str:
 
     for eval_case in sorted_evals:
         # Create absolute GitHub URL to test_case.yaml file
-        github_url = f"https://github.com/HolmesGPT/holmesgpt/blob/master/tests/llm/fixtures/test_ask_holmes/{eval_case}/test_case.yaml"
+        github_url = f"https://github.com/InvariantDynamics/canis/blob/master/tests/llm/fixtures/test_ask_holmes/{eval_case}/test_case.yaml"
 
         # Create link for Braintrust in detailed breakdown
         eval_filter_url = get_braintrust_eval_filter_url(eval_case, experiment_name)
@@ -1360,7 +1360,7 @@ def main():
     else:
         # Default title with benchmark type (for main result files)
         report_lines.append(
-            f"# {benchmark_icon}HolmesGPT LLM Evaluation {benchmark_label} Results"
+            f"# {benchmark_icon}Canis LLM Evaluation {benchmark_label} Results"
         )
     report_lines.append("")
     # Format duration nicely
@@ -1461,12 +1461,12 @@ def main():
         report_lines.append("")
 
     report_lines.append(
-        "HolmesGPT is continuously evaluated against real-world "
+        "Canis is continuously evaluated against real-world "
         "Kubernetes and cloud troubleshooting scenarios."
     )
     report_lines.append("")
     report_lines.append(
-        "If you find scenarios that HolmesGPT does not perform "
+        "If you find scenarios that Canis does not perform "
         "well on, please consider adding them as evals to the benchmark."
     )
     report_lines.append("")

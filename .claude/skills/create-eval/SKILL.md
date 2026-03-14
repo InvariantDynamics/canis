@@ -1,12 +1,12 @@
 ---
 name: create-eval
-description: This skill should be used when the user asks to "create an eval", "write an eval test", "add a new eval", "create a test case", "write a test for Holmes", or discusses LLM evaluation tests, eval fixtures, or test_case.yaml files for the HolmesGPT project.
+description: This skill should be used when the user asks to "create an eval", "write an eval test", "add a new eval", "create a test case", "write a test for Holmes", or discusses LLM evaluation tests, eval fixtures, or test_case.yaml files for the Canis project.
 version: 0.1.0
 ---
 
-# Creating HolmesGPT Eval Tests
+# Creating Canis Eval Tests
 
-This skill provides the complete workflow for creating LLM evaluation tests in the HolmesGPT project. Eval tests validate that Holmes can correctly answer questions by querying real infrastructure and services.
+This skill provides the complete workflow for creating LLM evaluation tests in the Canis project. Eval tests validate that Holmes can correctly answer questions by querying real infrastructure and services.
 
 ## Test Structure
 

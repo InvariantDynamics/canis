@@ -1,6 +1,6 @@
 # ServiceNow
 
-Connect HolmesGPT to ServiceNow to analyze ITSM data via the [Table API](https://docs.servicenow.com/bundle/vancouver-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html). Query changes, incidents, configuration items, and other tables to investigate infrastructure issues.
+Connect Canis to ServiceNow to analyze ITSM data via the [Table API](https://docs.servicenow.com/bundle/vancouver-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html). Query changes, incidents, configuration items, and other tables to investigate infrastructure issues.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ Follow these steps to configure API access in your ServiceNow instance. For deta
    5. Open the created record to copy the generated API token - you'll use this as the `api_key` in the configuration below
 
 !!! important
-    The selected user's permissions determine which tables and records HolmesGPT can access. Ensure the user has appropriate read permissions for the tables you want to query.
+    The selected user's permissions determine which tables and records Canis can access. Ensure the user has appropriate read permissions for the tables you want to query.
 
 ### 3. Create REST API Access Policy
 
@@ -42,7 +42,7 @@ Follow these steps to configure API access in your ServiceNow instance. For deta
    4. Submit
 
 !!! tip
-    Enable "Apply to all tables" for best results. Limiting access to specific tables reduces HolmesGPT's investigative capabilities.
+    Enable "Apply to all tables" for best results. Limiting access to specific tables reduces Canis's investigative capabilities.
 
 ### 4. Test Your Configuration
 
@@ -64,7 +64,7 @@ You should receive a JSON response. If you get an authentication error, check yo
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -86,7 +86,7 @@ You should receive a JSON response. If you get an authentication error, check yo
     To test, run:
 
     ```bash
-    holmes ask "Show me all change requests from the last 24 hours"
+    canis ask "Show me all change requests from the last 24 hours"
     ```
 
 === "Robusta Helm Chart"

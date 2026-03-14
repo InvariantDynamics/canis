@@ -4,10 +4,10 @@ This guide explains how to use Braintrust to analyze evaluation results, debug f
 
 ## Overview
 
-Braintrust is a platform for tracking and analyzing LLM evaluations. HolmesGPT evals can be used without Braintrust but using Braintrust has a few advantages:
+Braintrust is a platform for tracking and analyzing LLM evaluations. Canis evals can be used without Braintrust but using Braintrust has a few advantages:
 
-- We can track how Holmes perform over time
-- It's easier to run and debug many evals with Braintrust over simpler pytests because Braintrust organises the different components of a HolmesGPT investigation like the input, tool calls, reasoning for scoring, etc.
+- We can track how Canis perform over time
+- It's easier to run and debug many evals with Braintrust over simpler pytests because Braintrust organises the different components of a Canis investigation like the input, tool calls, reasoning for scoring, etc.
 
 ## Setting Up Braintrust
 
@@ -15,7 +15,7 @@ Braintrust is a platform for tracking and analyzing LLM evaluations. HolmesGPT e
 
 1. Visit [braintrust.dev](https://www.braintrust.dev){:target="_blank"}
 2. Sign up for an account
-3. Create a new project (e.g., "HolmesGPT")
+3. Create a new project (e.g., "Canis")
 
 ### 2. Get API Key
 
@@ -67,14 +67,14 @@ RUN_LIVE=true ITERATIONS=10 EXPERIMENT_ID=claude4 MODEL=anthropic/claude-sonnet-
 |----------|---------|
 | `UPLOAD_DATASET` | Sync test cases to Braintrust |
 | `EXPERIMENT_ID` | Name your experiment run. This makes it easier to find and track in Braintrust's UI |
-| `MODEL` | The LLM model for Holmes to use |
+| `MODEL` | The LLM model for Canis to use |
 | `CLASSIFIER_MODEL` | The LLM model to use for scoring the answer (LLM as judge) |
 
 ## Analyzing Evaluation Results
 
 ### Output
 
-The main Span of an evaluation will present the input (either the AlertManager issue or the user's question for Ask Holmes) as well as HolmesGPT's answer.
+The main Span of an evaluation will present the input (either the AlertManager issue or the user's question for Ask Canis) as well as Canis's answer.
 
 ![Screenshot of an eval's main output in Braintrust](../../assets/braintrust_eval_main_output.png)
 

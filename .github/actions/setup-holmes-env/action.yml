@@ -1,5 +1,5 @@
-name: 'Setup HolmesGPT Environment'
-description: 'Install Python, Poetry, kubectl and HolmesGPT dependencies'
+name: 'Setup Canis Environment'
+description: 'Install Python, Poetry, kubectl and Canis dependencies'
 
 inputs:
   python-version:

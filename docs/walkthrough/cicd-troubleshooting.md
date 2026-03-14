@@ -1,20 +1,20 @@
 # CI/CD Pipeline Troubleshooting
 
-HolmesGPT can be integrated into CI/CD pipelines to automatically troubleshoot deployment failures, providing instant insights when deployments fail. Optionally, you can get the AI investigation results sent directly to your Slack channel.
+Canis can be integrated into CI/CD pipelines to automatically troubleshoot deployment failures, providing instant insights when deployments fail. Optionally, you can get the AI investigation results sent directly to your Slack channel.
 
 ![CI/CD Failure Example](../assets/cicd-failure-example.png)
 
 ## Automated Deployment Troubleshooting
 
-Example of using HolmesGPT in a CI/CD pipeline to automatically troubleshoot deployment failures and send results to Slack:
+Example of using Canis in a CI/CD pipeline to automatically troubleshoot deployment failures and send results to Slack:
 
 ```yaml
 # .github/workflows/deploy.yml or gitlab-ci.yml
-- name: Install HolmesGPT
+- name: Install Canis
   run: |
     # Clone the branch of holmes you want to install
-    git clone https://github.com/HolmesGPT/holmesgpt.git /tmp/holmesgpt
-    cd /tmp/holmesgpt
+    git clone https://github.com/InvariantDynamics/canis.git /tmp/canis
+    cd /tmp/canis
 
     # Install Poetry
     curl -sSL https://install.python-poetry.org | python3 - --version 1.4.0
@@ -31,10 +31,10 @@ Example of using HolmesGPT in a CI/CD pipeline to automatically troubleshoot dep
     kubectl apply -f https://raw.githubusercontent.com/robusta-dev/kubernetes-demos/refs/heads/main/image_pull_backoff/no_such_image.yaml
     # Wait for rollout
     if ! kubectl rollout status deployment/customer-relations-webapp --timeout=150s; then
-      echo "Deployment failed - starting HolmesGPT investigation"
-      # Run HolmesGPT investigation and send directly to Slack
-      cd /tmp/holmesgpt
-      poetry run holmes ask \
+      echo "Deployment failed - starting Canis investigation"
+      # Run Canis investigation and send directly to Slack
+      cd /tmp/canis
+      poetry run canis ask \
         "🚨 EKS Deployment Failed in ${{ github.repository }}
 
         Environment: EKS Cluster ${{ vars.EKS_CLUSTER_NAME }} in ${{ vars.AWS_REGION }}
@@ -97,11 +97,11 @@ Example of using HolmesGPT in a CI/CD pipeline to automatically troubleshoot dep
             kubectl auth can-i get pods --namespace=default > /dev/null
             echo "kubectl connection verified"
 
-        - name: Install HolmesGPT
+        - name: Install Canis
           run: |
             # Clone the branch of holmes you want to install
-            git clone https://github.com/HolmesGPT/holmesgpt.git /tmp/holmesgpt
-            cd /tmp/holmesgpt
+            git clone https://github.com/InvariantDynamics/canis.git /tmp/canis
+            cd /tmp/canis
 
             # Install Poetry
             curl -sSL https://install.python-poetry.org | python3 - --version 1.4.0
@@ -118,10 +118,10 @@ Example of using HolmesGPT in a CI/CD pipeline to automatically troubleshoot dep
             kubectl apply -f https://raw.githubusercontent.com/robusta-dev/kubernetes-demos/refs/heads/main/image_pull_backoff/no_such_image.yaml
             # Wait for rollout
             if ! kubectl rollout status deployment/customer-relations-webapp --timeout=150s; then
-              echo "Deployment failed - starting HolmesGPT investigation"
-              # Run HolmesGPT investigation and send directly to Slack
-              cd /tmp/holmesgpt
-              poetry run holmes ask \
+              echo "Deployment failed - starting Canis investigation"
+              # Run Canis investigation and send directly to Slack
+              cd /tmp/canis
+              poetry run canis ask \
                 "🚨 EKS Deployment Failed in ${{ github.repository }}
 
                 Environment: EKS Cluster ${{ vars.EKS_CLUSTER_NAME }} in ${{ vars.AWS_REGION }}
@@ -144,7 +144,7 @@ The built-in Slack integration will automatically format and send the analysis t
 ```bash
 # Simple deployment check with Slack notification
 kubectl rollout status deployment/app -n prod --timeout=300s || \
-  holmes ask "deployment/app in prod namespace failed to roll out" \
+  canis ask "deployment/app in prod namespace failed to roll out" \
     --destination slack \
     --slack-token "$SLACK_TOKEN" \
     --slack-channel "#alerts"

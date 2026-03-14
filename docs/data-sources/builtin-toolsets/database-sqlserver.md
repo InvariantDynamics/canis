@@ -1,6 +1,6 @@
 # SQL Server
 
-Connect HolmesGPT to Microsoft SQL Server databases to analyze query execution plans, investigate performance issues, check index fragmentation, examine database health, and read data for troubleshooting.
+Connect Canis to Microsoft SQL Server databases to analyze query execution plans, investigate performance issues, check index fragmentation, examine database health, and read data for troubleshooting.
 
 You can configure multiple SQL Server instances with different names (e.g., `sqlserver-prod`, `sqlserver-analytics`, `sqlserver-staging`).
 
@@ -37,7 +37,7 @@ GRANT VIEW DEFINITION TO holmes_readonly;
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -76,7 +76,7 @@ GRANT VIEW DEFINITION TO holmes_readonly;
     connection_url: "mssql+pymssql://user:pass@server:1433/db?encrypt=true"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create secret with credentials**
 

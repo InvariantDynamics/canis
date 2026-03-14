@@ -1,6 +1,6 @@
 # GCP (MCP)
 
-Connect Holmes to Google Cloud Platform for investigating infrastructure issues, audit logs, and retrieving historical data from deleted resources.
+Connect Canis to Google Cloud Platform for investigating infrastructure issues, audit logs, and retrieving historical data from deleted resources.
 
 ## Overview
 
@@ -39,7 +39,7 @@ gcloud container clusters update ${CLUSTER_NAME} \
 
 **Step 2: Enable Workload Identity on Node Pools**
 
-Repeat for each node pool where Holmes pods may run, replacing `<node-pool-name>` with your node pool name:
+Repeat for each node pool where Canis pods may run, replacing `<node-pool-name>` with your node pool name:
 
 ```bash
 gcloud container node-pools update <node-pool-name> \
@@ -54,7 +54,7 @@ gcloud container node-pools update <node-pool-name> \
 ```bash
 # Create service account
 gcloud iam service-accounts create holmes-gcp-mcp \
-  --display-name="Holmes GCP MCP Service Account"
+  --display-name="Canis GCP MCP Service Account"
 
 # Grant roles (see IAM Permissions Details below for full list)
 SA_EMAIL=holmes-gcp-mcp@${PROJECT_ID}.iam.gserviceaccount.com
@@ -81,7 +81,7 @@ done
 
 **Step 4: Bind Kubernetes Service Account to GCP Service Account**
 
-Replace `<namespace>` with the Kubernetes namespace where Holmes will be deployed:
+Replace `<namespace>` with the Kubernetes namespace where Canis will be deployed:
 
 ```bash
 gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.iam.gserviceaccount.com \
@@ -92,7 +92,7 @@ gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.
 
 **Step 5: Deploy with Helm**
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     mcpAddons:
@@ -102,7 +102,7 @@ gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.
           name: gcp-mcp-sa
           annotations:
             iam.gke.io/gcp-service-account: "holmes-gcp-mcp@PROJECT_ID.iam.gserviceaccount.com"
-        # Optional: defaults when user doesn't specify. Holmes can query any project the SA has access to.
+        # Optional: defaults when user doesn't specify. Canis can query any project the SA has access to.
         config:
           project: "your-primary-project"
           region: "us-central1"
@@ -115,7 +115,7 @@ gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.
     ```
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -129,7 +129,7 @@ gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.
             name: gcp-mcp-sa
             annotations:
               iam.gke.io/gcp-service-account: "holmes-gcp-mcp@PROJECT_ID.iam.gserviceaccount.com"
-          # Optional: defaults when user doesn't specify. Holmes can query any project the SA has access to.
+          # Optional: defaults when user doesn't specify. Canis can query any project the SA has access to.
           config:
             project: "your-primary-project"
             region: "us-central1"
@@ -149,7 +149,7 @@ gcloud iam service-accounts add-iam-policy-binding holmes-gcp-mcp@${PROJECT_ID}.
 
 If you're not using GKE, or prefer not to use Workload Identity, you can authenticate with a service account key instead. This works in any environment but requires managing and rotating key files.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Step 1: Create GCP Service Account**
 
@@ -167,7 +167,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
     ??? note "Manual Setup"
         ```bash
         gcloud iam service-accounts create holmes-gcp-mcp \
-          --display-name="Holmes GCP MCP Service Account"
+          --display-name="Canis GCP MCP Service Account"
 
         PROJECT_ID=your-project
         SA_EMAIL=holmes-gcp-mcp@${PROJECT_ID}.iam.gserviceaccount.com
@@ -209,7 +209,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
         spec:
           containers:
           - name: gcloud-mcp
-            image: us-central1-docker.pkg.dev/genuine-flight-317411/holmesgpt/gcloud-cli-mcp:1.0.7
+            image: us-central1-docker.pkg.dev/genuine-flight-317411/canis/gcloud-cli-mcp:1.0.7
             ports:
             - containerPort: 8000
             env:
@@ -220,7 +220,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
               mountPath: /var/secrets/gcp
               readOnly: true
           - name: observability-mcp
-            image: us-central1-docker.pkg.dev/genuine-flight-317411/holmesgpt/gcloud-observability-mcp:1.0.0
+            image: us-central1-docker.pkg.dev/genuine-flight-317411/canis/gcloud-observability-mcp:1.0.0
             ports:
             - containerPort: 8001
             env:
@@ -231,7 +231,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
               mountPath: /var/secrets/gcp
               readOnly: true
           - name: storage-mcp
-            image: us-central1-docker.pkg.dev/genuine-flight-317411/holmesgpt/gcloud-storage-mcp:1.0.0
+            image: us-central1-docker.pkg.dev/genuine-flight-317411/canis/gcloud-storage-mcp:1.0.0
             ports:
             - containerPort: 8002
             env:
@@ -270,7 +270,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
     kubectl apply -f gcp-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add to `~/.holmes/config.yaml`:
 
@@ -299,7 +299,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
     kubectl port-forward -n holmes-mcp svc/gcp-mcp-server 8000:8000 8001:8001 8002:8002
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create GCP Service Account**
 
@@ -324,7 +324,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
         enabled: true
         serviceAccountKey:
           secretName: "gcp-sa-key"
-        # Optional: defaults when user doesn't specify. Holmes can query any project the SA has access to.
+        # Optional: defaults when user doesn't specify. Canis can query any project the SA has access to.
         config:
           project: "your-primary-project"
           region: "us-central1"
@@ -337,7 +337,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
     ```
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -366,7 +366,7 @@ If you're not using GKE, or prefer not to use Workload Identity, you can authent
           enabled: true
           serviceAccountKey:
             secretName: "gcp-sa-key"
-          # Optional: defaults when user doesn't specify. Holmes can query any project the SA has access to.
+          # Optional: defaults when user doesn't specify. Canis can query any project the SA has access to.
           config:
             project: "your-primary-project"
             region: "us-central1"
@@ -416,4 +416,4 @@ gcloud projects get-iam-policy PROJECT_ID --flatten="bindings[].members" --filte
 kubectl logs -n YOUR_NAMESPACE deployment/gcp-mcp-server --all-containers
 ```
 
-Replace `YOUR_NAMESPACE` with `holmes-mcp` (CLI), `holmes` (Holmes Helm), or `robusta` (Robusta Helm).
+Replace `YOUR_NAMESPACE` with `holmes-mcp` (CLI), `holmes` (Canis Helm), or `robusta` (Robusta Helm).

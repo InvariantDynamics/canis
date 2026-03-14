@@ -1,5 +1,5 @@
 """
-Configuration utility functions for HolmesGPT.
+Configuration utility functions for Canis.
 """
 
 from typing import TYPE_CHECKING, List, Optional

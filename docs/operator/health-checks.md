@@ -1,6 +1,6 @@
 # Health Checks
 
-HealthCheck resources provide one-time health check execution in Kubernetes. When you create a HealthCheck, the Holmes Operator immediately executes it using the Holmes API and stores the results in the resource's status.
+HealthCheck resources provide one-time health check execution in Kubernetes. When you create a HealthCheck, the Canis Operator immediately executes it using the Canis API and stores the results in the resource's status.
 
 ## What is a HealthCheck?
 

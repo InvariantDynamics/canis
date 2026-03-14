@@ -1,13 +1,13 @@
 # Docker
 
 !!! warning "Not Recommended for Kubernetes"
-    This integration is not recommended for monitoring a Kubernetes cluster because it is neither necessary nor useful. It is documented here for users of HolmesGPT CLI.
+    This integration is not recommended for monitoring a Kubernetes cluster because it is neither necessary nor useful. It is documented here for users of Canis CLI.
 
 Read access to Docker resources.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 

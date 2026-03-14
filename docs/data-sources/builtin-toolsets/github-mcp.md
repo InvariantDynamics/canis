@@ -1,10 +1,10 @@
 # GitHub (MCP)
 
-The GitHub MCP server provides access to GitHub repositories, pull requests, issues, and GitHub Actions. It enables Holmes to investigate CI/CD failures, search code, review changes, and delegate tasks to GitHub Copilot.
+The GitHub MCP server provides access to GitHub repositories, pull requests, issues, and GitHub Actions. It enables Canis to investigate CI/CD failures, search code, review changes, and delegate tasks to GitHub Copilot.
 
 ## Overview
 
-The GitHub MCP server is deployed as a separate pod in your cluster when using the Holmes or Robusta Helm charts. For CLI users, you'll need to deploy the MCP server manually and configure Holmes to connect to it.
+The GitHub MCP server is deployed as a separate pod in your cluster when using the Canis or Robusta Helm charts. For CLI users, you'll need to deploy the MCP server manually and configure Canis to connect to it.
 
 The server supports both GitHub.com and GitHub Enterprise Server, making it suitable for both cloud and on-premises deployments.
 
@@ -18,13 +18,13 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
 | **Fine-grained** | Production, least-privilege | Max 1 year |
 
 !!! note "Write permissions are optional"
-    Write permissions (for Contents, Issues, Pull requests, Actions) are only required if you want HolmesGPT to be able to open PRs, create issues, or trigger workflows. For read-only investigations, read permissions are sufficient.
+    Write permissions (for Contents, Issues, Pull requests, Actions) are only required if you want Canis to be able to open PRs, create issues, or trigger workflows. For read-only investigations, read permissions are sufficient.
 
 === "Classic PAT"
 
     1. Go to [github.com/settings/tokens](https://github.com/settings/tokens)
     2. Click **Generate new token** → **Generate new token (classic)**
-    3. Set a descriptive name (e.g., "Holmes MCP Server")
+    3. Set a descriptive name (e.g., "Canis MCP Server")
     4. Set expiration (90 days recommended)
     5. Select the following scopes:
        - ✅ **repo** - Full control of private repositories
@@ -54,9 +54,9 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the GitHub MCP server first, then configure Holmes to connect to it.
+    For CLI usage, you need to deploy the GitHub MCP server first, then configure Canis to connect to it.
 
     **Step 1: Create the GitHub PAT Secret**
 
@@ -145,7 +145,7 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
     kubectl apply -f github-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -160,7 +160,7 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
 
     **Step 4: Port Forwarding (Optional for Local Testing)**
 
-    If running Holmes CLI locally and need to access the MCP server:
+    If running Canis CLI locally and need to access the MCP server:
 
     ```bash
     kubectl port-forward -n holmes-mcp svc/github-mcp-server 8000:8000
@@ -171,7 +171,7 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
     url: "http://localhost:8000/sse"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Basic Configuration**
 
@@ -207,10 +207,10 @@ Before deploying the GitHub MCP server, you need a GitHub Personal Access Token 
           host: "https://github.mycompany.com"
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -349,10 +349,10 @@ kubectl logs -n YOUR_NAMESPACE -l app.kubernetes.io/name=github-mcp-server
 kubectl logs -n holmes-mcp -l app=github-mcp-server
 ```
 
-### Test 3: Ask Holmes
+### Test 3: Ask Canis
 
 ```bash
-holmes ask "List the recent commits in the owner/repo repository"
+canis ask "List the recent commits in the owner/repo repository"
 ```
 
 ## Common Use Cases
@@ -420,7 +420,7 @@ kubectl create secret generic github-ca-cert \
 
 **Step 2:** Configure the GitHub MCP addon to use the CA certificate:
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     mcpAddons:
@@ -451,7 +451,7 @@ kubectl create secret generic github-ca-cert \
               enabled: true
     ```
 
-=== "Holmes CLI (Manual Deployment)"
+=== "Canis CLI (Manual Deployment)"
 
     Add volume, volumeMount, and environment variables to your deployment:
 
@@ -484,7 +484,7 @@ kubectl create secret generic github-ca-cert \
 
 ### Tool Not Found Errors
 
-**Problem:** Holmes reports a tool is not available
+**Problem:** Canis reports a tool is not available
 
 **Solution:** Verify the `config.toolsets` setting includes the toolset containing your tool. The default toolsets are `repos,issues,pull_requests,actions`. For individual tool control, use `config.tools`.
 

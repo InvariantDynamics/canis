@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "holmesgpt"
+name = "canis"
 version = "0.0.0"
 description = ""
 authors = ["Natan Yellin <natan@robusta.dev>"]
@@ -7,6 +7,7 @@ readme = "README.md"
 packages = [{ include = "holmes" }]
 
 [tool.poetry.scripts]
+canis = "holmes.main:run"
 holmes = "holmes.main:run"
 
 [tool.poetry.dependencies]
@@ -164,7 +165,7 @@ markers = [
     # REGRESSION TEST SELECTION CRITERIA:
     # - Must pass 30+ iterations reliably with Sonnet-4.5 model
     # - No external API dependencies (Loki OK, NewRelic/DataDog excluded)
-    # - Tests core HolmesGPT functionality that should never regress
+    # - Tests core Canis functionality that should never regress
     # - Fast execution to avoid slowing CI/CD pipelines
     "regression: Critical regression tests that must always pass",
     "benchmark: Challenging tests for evaluating and benchmarking model capabilities",

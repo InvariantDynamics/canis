@@ -1,7 +1,7 @@
-# HolmesGPT API Reference
+# Canis API Reference
 
 ## Overview
-The HolmesGPT API provides endpoints for automated investigations and conversational troubleshooting. This document describes each endpoint, its purpose, request fields, and example usage.
+The Canis API provides endpoints for automated investigations and conversational troubleshooting. This document describes each endpoint, its purpose, request fields, and example usage.
 
 ## Model Parameter Behavior
 
@@ -454,7 +454,7 @@ Many events include a `metadata` object that provides detailed information about
   - `completion_tokens` (integer): Tokens in the completion (output)
   - `total_tokens` (integer): Total tokens used (prompt + completion)
 
-- `tokens` (object): HolmesGPT's detailed token count breakdown by message role
+- `tokens` (object): Canis's detailed token count breakdown by message role
   - `total_tokens` (integer): Total tokens in the conversation
   - `tools_tokens` (integer): Tokens used by tool definitions
   - `system_tokens` (integer): Tokens in system messages

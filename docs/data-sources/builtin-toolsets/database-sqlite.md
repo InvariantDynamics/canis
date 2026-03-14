@@ -1,6 +1,6 @@
 # SQLite
 
-Connect HolmesGPT to SQLite databases to analyze query performance, examine table schemas, check index usage, and read data for troubleshooting local databases.
+Connect Canis to SQLite databases to analyze query performance, examine table schemas, check index usage, and read data for troubleshooting local databases.
 
 You can configure multiple SQLite instances with different names (e.g., `dev-sqlite`, `test-sqlite`, `app-cache-sqlite`).
 
@@ -12,7 +12,7 @@ Ensure the database file is accessible:
 # Make database readable
 chmod 644 /path/to/database.db
 
-# If Holmes runs as specific user, ensure ownership
+# If Canis runs as specific user, ensure ownership
 chown holmes:holmes /path/to/database.db
 
 # Or use group access
@@ -22,7 +22,7 @@ chgrp holmes-group /path/to/database.db
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -55,7 +55,7 @@ chgrp holmes-group /path/to/database.db
     connection_url: "sqlite:///:memory:"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Using mounted volume:**
 

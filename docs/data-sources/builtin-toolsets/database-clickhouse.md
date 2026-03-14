@@ -1,6 +1,6 @@
 # ClickHouse
 
-Connect HolmesGPT to ClickHouse databases to analyze OLAP query performance, investigate slow aggregations, check table compression, examine cluster health, and read data for troubleshooting.
+Connect Canis to ClickHouse databases to analyze OLAP query performance, investigate slow aggregations, check table compression, examine cluster health, and read data for troubleshooting.
 
 You can configure multiple ClickHouse instances with different names (e.g., `clickhouse-analytics`, `clickhouse-metrics`, `clickhouse-staging`).
 
@@ -27,7 +27,7 @@ GRANT SELECT ON system.* TO holmes_readonly;
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -64,7 +64,7 @@ GRANT SELECT ON system.* TO holmes_readonly;
 
     Note: Use native protocol (port 9000) or HTTP interface (port 8123).
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create secret with credentials**
 

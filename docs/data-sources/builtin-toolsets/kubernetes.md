@@ -5,7 +5,7 @@
 !!! info "Enabled by Default"
     This toolset is enabled by default and should typically remain enabled.
 
-By enabling this toolset, HolmesGPT will be able to describe and find Kubernetes resources like nodes, deployments, pods, etc.
+By enabling this toolset, Canis will be able to describe and find Kubernetes resources like nodes, deployments, pods, etc.
 
 ### Configuration
 
@@ -36,7 +36,7 @@ holmes:
 !!! info "Enabled by Default"
     This toolset is enabled by default. You do not need to configure it.
 
-By enabling this toolset, HolmesGPT will be able to read Kubernetes pod logs.
+By enabling this toolset, Canis will be able to read Kubernetes pod logs.
 
 --8<-- "snippets/toolsets_that_provide_logging.md"
 
@@ -132,15 +132,15 @@ holmes:
 ## Adding Permissions for Additional Resources (In-Cluster Deployments)
 
 !!! note "In-Cluster Only"
-    This section applies only to HolmesGPT running **inside** a Kubernetes cluster via Helm. For local CLI deployments, permissions are managed through your kubeconfig file.
+    This section applies only to Canis running **inside** a Kubernetes cluster via Helm. For local CLI deployments, permissions are managed through your kubeconfig file.
 
-HolmesGPT may require access to additional Kubernetes resources or CRDs for specific analyses. Permissions can be extended by modifying the ClusterRole rules.
+Canis may require access to additional Kubernetes resources or CRDs for specific analyses. Permissions can be extended by modifying the ClusterRole rules.
 
 ### Default CRD Permissions
 
-HolmesGPT includes read-only permissions for common Kubernetes operators and tools by default. These can be individually enabled or disabled:
+Canis includes read-only permissions for common Kubernetes operators and tools by default. These can be individually enabled or disabled:
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     crdPermissions:
@@ -183,9 +183,9 @@ For resources not covered by the default CRD permissions, you can add custom Clu
 
 **Example: Adding Cert-Manager Permissions**
 
-To enable HolmesGPT to analyze cert-manager certificates and issuers (not included in default permissions), add custom ClusterRole rules:
+To enable Canis to analyze cert-manager certificates and issuers (not included in default permissions), add custom ClusterRole rules:
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Update your `values.yaml`:**
 
@@ -199,7 +199,7 @@ To enable HolmesGPT to analyze cert-manager certificates and issuers (not includ
     **Apply the configuration:**
 
     ```bash
-    helm upgrade holmes holmes/holmes --values=values.yaml
+    helm upgrade canis robusta/canis --values=values.yaml
     ```
 
 === "Robusta Helm Chart"

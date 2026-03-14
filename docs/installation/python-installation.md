@@ -1,16 +1,16 @@
 # Install Python SDK
 
-Embed HolmesGPT in your own applications for programmatic root cause analysis, based on observability data.
+Embed Canis in your own applications for programmatic root cause analysis, based on observability data.
 
-## Install HolmesGPT Python Package
+## Install Canis Python Package
 
 ```bash
-pip install holmesgpt # Installs latest stable version
+pip install canis # Installs latest stable version
 ```
 
 **Install unreleased version from GitHub:**
 ```bash
-pip install "https://github.com/HolmesGPT/holmesgpt/archive/refs/heads/master.zip"
+pip install "https://github.com/InvariantDynamics/canis/archive/refs/heads/master.zip"
 ```
 
 ## Quick Start
@@ -20,7 +20,7 @@ import os
 from holmes.config import Config
 from holmes.core.prompt import build_initial_ask_messages
 
-print("🚀 Initializing HolmesGPT...")
+print("🚀 Initializing Canis...")
 
 # Create configuration
 print("Creating configuration...")
@@ -49,19 +49,19 @@ messages = build_initial_ask_messages(
     system_prompt_additions=None
 )
 
-print("Holmes is thinking...")
+print("Canis is thinking...")
 response = ai.call(messages)
-print(f"Holmes: {response.result}")
+print(f"Canis: {response.result}")
 ```
 
 ## Tool Details Example
 
-Here's a complete working example that shows detailed progress, available tools, toolsets, and which tools Holmes uses:
+Here's a complete working example that shows detailed progress, available tools, toolsets, and which tools Canis uses:
 
 ```python
 #!/usr/bin/env python3
 """
-Complete example of using HolmesGPT Python SDK with progress tracking
+Complete example of using Canis Python SDK with progress tracking
 """
 
 import os
@@ -69,7 +69,7 @@ from holmes.config import Config
 from holmes.core.prompt import build_initial_ask_messages
 
 def main():
-    print("🚀 Starting HolmesGPT Python SDK Example")
+    print("🚀 Starting Canis Python SDK Example")
     print("=" * 60)
 
     # Set API key (you can also set OPENAI_API_KEY environment variable)
@@ -116,7 +116,7 @@ def main():
         print("=" * 60)
 
         try:
-            print("Holmes is thinking...")
+            print("Canis is thinking...")
 
             # Build initial messages
             messages = build_initial_ask_messages(
@@ -128,7 +128,7 @@ def main():
             )
 
             response = ai.call(messages)
-            print(f"Holmes: {response.result}")
+            print(f"Canis: {response.result}")
 
             # Show tools that were used
             if response and response.tool_calls:
@@ -172,7 +172,7 @@ This will show you:
 - List of available toolsets and their status
 - System prompt loading progress
 - Progress for each question being asked
-- Which tools Holmes used for each question
+- Which tools Canis used for each question
 
 ## Follow-up Questions Example
 
@@ -189,7 +189,7 @@ from holmes.config import Config
 from holmes.core.prompt import build_initial_ask_messages
 
 def main():
-    print("🚀 Starting HolmesGPT Follow-up Questions Example")
+    print("🚀 Starting Canis Follow-up Questions Example")
     print("=" * 60)
 
     # Create configuration
@@ -217,11 +217,11 @@ def main():
     )
 
     # Call AI with initial messages
-    print("Holmes is thinking...")
+    print("Canis is thinking...")
     response = ai.call(messages)
     messages = response.messages  # Update messages with full conversation
 
-    print(f"Holmes: {response.result}")
+    print(f"Canis: {response.result}")
 
     # Follow-up question
     followup_question = "Can you show me the logs for those failing pods?"
@@ -233,11 +233,11 @@ def main():
     messages.append({"role": "user", "content": followup_question})
 
     # Call AI with updated message history
-    print("Holmes is thinking...")
+    print("Canis is thinking...")
     response = ai.call(messages)
     messages = response.messages  # Update messages with latest response
 
-    print(f"Holmes: {response.result}")
+    print(f"Canis: {response.result}")
 
     # Show tools used
     if response.tool_calls:
@@ -301,7 +301,7 @@ config = Config(
 
 ### Config
 
-Main configuration class for HolmesGPT.
+Main configuration class for Canis.
 
 **Constructor Parameters:**
 
@@ -361,5 +361,5 @@ config = Config()  # Will auto-detect API key from environment
 ## Need Help?
 
 - **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ){:target="_blank"}** - Get help from the community
-- **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues){:target="_blank"}** - Suggest improvements or report bugs
+- **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues){:target="_blank"}** - Suggest improvements or report bugs
 - **[Troubleshooting guide](../reference/troubleshooting.md)** - Common issues and solutions

@@ -1,10 +1,10 @@
 # Microsoft Teams Bot Permissions
 
-This document explains how the HolmesGPT Microsoft Teams bot handles permissions and what permissions it needs to work effectively and provide the best results.
+This document explains how the Canis Microsoft Teams bot handles permissions and what permissions it needs to work effectively and provide the best results.
 
-## How the HolmesGPT Teams Bot Works
+## How the Canis Teams Bot Works
 
-The bot is **entirely user-initiated**—it only activates when you explicitly `@mention` it with a troubleshooting question. When you ask HolmesGPT a question in Teams (e.g., "`@HolmesGPT` why is my pod crashing?"), the bot:
+The bot is **entirely user-initiated**—it only activates when you explicitly `@mention` it with a troubleshooting question. When you ask Canis a question in Teams (e.g., "`@Canis` why is my pod crashing?"), the bot:
 
 1. **Reads your message and conversation context** (using RSC permissions) to understand your request  
 2. **Uses AI to analyze and investigate your query** to identify potential root causes across your cloud environment  
@@ -29,12 +29,12 @@ RSC permissions are automatically granted when a team owner/admin adds the bot t
 
 - **`ChannelMessage.Read.Group`** - Read messages in channels where the bot is installed
     - Used **only when a user `@mentions` the bot** to read the question and relevant conversation context
-    - Enables context gathering: when an alert is posted in a channel and a user tags HolmesGPT to investigate, the bot reads the alert message and thread to understand what to investigate
+    - Enables context gathering: when an alert is posted in a channel and a user tags Canis to investigate, the bot reads the alert message and thread to understand what to investigate
     - Read-only access to messages; the bot cannot modify or delete messages
 
 - **`ChatMessage.Read.Chat`** - Read messages in chats where the bot is added
     - Used **only when a user `@mentions` the bot** in direct or group chats
-    - Enables context gathering: when a user shares an error or alert in chat and asks HolmesGPT to investigate, the bot reads the conversation to understand the context
+    - Enables context gathering: when a user shares an error or alert in chat and asks Canis to investigate, the bot reads the conversation to understand the context
     - Read-only access to other users' messages; the bot cannot modify or delete other users' messages
 
 ### Bot Framework Permissions
@@ -54,7 +54,7 @@ Delegated permissions require an admin to complete a one-time OAuth flow. These 
 
 - **`Chat.Read`** - Fallback for reading chat messages
     - Used only when RSC permissions are unavailable (rare edge case)
-    - Allows the bot to read conversation context when a user `@mentions` it to investigate an issue (e.g., when an alert is posted in a channel and a user tags HolmesGPT, the bot can read the alert message to understand what to investigate)
+    - Allows the bot to read conversation context when a user `@mentions` it to investigate an issue (e.g., when an alert is posted in a channel and a user tags Canis, the bot can read the alert message to understand what to investigate)
     - Read-only; cannot modify messages
 
 - **`Sites.ReadWrite.All`** - Save investigation outputs to SharePoint

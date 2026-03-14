@@ -1,6 +1,6 @@
 # Tool Output Transformers
 
-HolmesGPT supports **transformers** that can process tool outputs before they're sent to the primary LLM. This enables automatic summarization of large outputs, reducing context window usage while preserving essential information.
+Canis supports **transformers** that can process tool outputs before they're sent to the primary LLM. This enables automatic summarization of large outputs, reducing context window usage while preserving essential information.
 
 ## Overview
 
@@ -10,11 +10,11 @@ Transformers are functions that take a tool's raw output and transform it before
 
 ### Global Configuration
 
-Configure transformer behavior globally in your HolmesGPT configuration:
+Configure transformer behavior globally in your Canis configuration:
 
 ```bash
 # CLI flags
-holmes ask "what pods are unhealthy?" --fast-model gpt-4o-mini
+canis ask "what pods are unhealthy?" --fast-model gpt-4o-mini
 
 # Environment variables
 export FAST_MODEL="gpt-4o-mini"
@@ -98,7 +98,7 @@ To be implemented in future phases, allowing MCP tools to leverage transformers 
 
 ## LLM Summarize Transformer
 
-The `llm_summarize` transformer is the primary transformer available in HolmesGPT.
+The `llm_summarize` transformer is the primary transformer available in Canis.
 
 ### Behavior
 
@@ -275,4 +275,4 @@ MyTool(
 )
 ```
 
-For more information, see the [HolmesGPT documentation](https://holmesgpt.dev/data-sources/custom-toolsets/).
+For more information, see the [Canis documentation](https://holmesgpt.dev/data-sources/custom-toolsets/).

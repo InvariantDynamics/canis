@@ -1,12 +1,12 @@
 # Confluence
 
-By enabling this toolset, HolmesGPT will be able to fetch Confluence pages. This is particularly useful if you store runbooks in Confluence and want Holmes to run investigations using these runbooks.
+By enabling this toolset, Canis will be able to fetch Confluence pages. This is particularly useful if you store runbooks in Confluence and want Canis to run investigations using these runbooks.
 
 This toolset requires an [Atlassian API Key](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/){:target="_blank"}.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Set the following environment variables and the Confluence toolset will be automatically enabled:
 
@@ -19,7 +19,7 @@ This toolset requires an [Atlassian API Key](https://support.atlassian.com/atlas
     To test, run:
 
     ```bash
-    holmes ask "why is my application failing? Get relevant runbooks from Confluence"
+    canis ask "why is my application failing? Get relevant runbooks from Confluence"
     ```
 
     --8<-- "snippets/toolset_refresh_warning.md"

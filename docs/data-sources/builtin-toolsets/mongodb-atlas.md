@@ -1,6 +1,6 @@
 # MongoDB Atlas
 
-By enabling this toolset, HolmesGPT can access MongoDB Atlas projects and processes to analyze logs, alerts, events, slow queries, and various metrics to understand the state of MongoDB projects.
+By enabling this toolset, Canis can access MongoDB Atlas projects and processes to analyze logs, alerts, events, slow queries, and various metrics to understand the state of MongoDB projects.
 
 !!! warning
     This toolset is in **Experimental** stage.
@@ -14,7 +14,7 @@ By enabling this toolset, HolmesGPT can access MongoDB Atlas projects and proces
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     First, set the following environment variables:
 

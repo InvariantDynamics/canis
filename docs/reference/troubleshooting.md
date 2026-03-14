@@ -1,8 +1,8 @@
-# HolmesGPT Not Finding Any Issues? Here's Why.
+# Canis Not Finding Any Issues? Here's Why.
 
 ## 1. Truncation: Too Much Data
 
-Data overflow causes important information to be truncated. See [#437](https://github.com/HolmesGPT/holmesgpt/issues/437) for summarization improvements.
+Data overflow causes important information to be truncated. See [#437](https://github.com/InvariantDynamics/canis/issues/437) for summarization improvements.
 
 **Solution:**
 
@@ -11,7 +11,7 @@ Data overflow causes important information to be truncated. See [#437](https://g
 
 ## 2. Missing Data Access
 
-HolmesGPT can't access logs, metrics, or traces from your observability stack.
+Canis can't access logs, metrics, or traces from your observability stack.
 
 **Solution:**
 
@@ -24,7 +24,7 @@ Service account lacks Kubernetes API permissions.
 
 **Error Example:**
 ```
-pods is forbidden: User "system:serviceaccount:default:holmesgpt" cannot get resource "pods"
+pods is forbidden: User "system:serviceaccount:default:canis" cannot get resource "pods"
 ```
 
 **Solution:**
@@ -78,4 +78,4 @@ See [benchmark results](../development/evaluations/latest-results.md) for detail
 
 ## Still stuck?
 
-Join our [Slack community](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) or [open a GitHub issue](https://github.com/HolmesGPT/holmesgpt/issues) for help.
+Join our [Slack community](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) or [open a GitHub issue](https://github.com/InvariantDynamics/canis/issues) for help.

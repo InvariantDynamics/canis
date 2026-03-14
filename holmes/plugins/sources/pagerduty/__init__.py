@@ -118,7 +118,7 @@ class PagerDutySource(SourcePlugin):
             comment = markdown_to_plain_text(result_data.result)
             comment_data = {
                 "note": {
-                    "content": f"Automatic AI Investigation by HolmesGPT:\n\n{comment}"
+                    "content": f"Automatic AI Investigation by Canis:\n\n{comment}"
                 }
             }
             response = requests.post(url, json=comment_data, headers=headers)

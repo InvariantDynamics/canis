@@ -1,6 +1,6 @@
 # Prefect (MCP)
 
-The Prefect MCP server provides access to Prefect workflow orchestration for monitoring and troubleshooting. It enables Holmes to inspect flow runs, retrieve logs, check worker health, and investigate failed or crashed workflows.
+The Prefect MCP server provides access to Prefect workflow orchestration for monitoring and troubleshooting. It enables Canis to inspect flow runs, retrieve logs, check worker health, and investigate failed or crashed workflows.
 
 ## Prerequisites
 
@@ -31,9 +31,9 @@ Before configuring the Prefect MCP server, you need:
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the Prefect MCP server first, then configure Holmes to connect to it.
+    For CLI usage, you need to deploy the Prefect MCP server first, then configure Canis to connect to it.
 
     **Step 1: Create the Prefect Credentials Secret**
 
@@ -122,7 +122,7 @@ Before configuring the Prefect MCP server, you need:
     kubectl apply -f prefect-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -144,7 +144,7 @@ Before configuring the Prefect MCP server, you need:
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     First, create a Kubernetes secret with your Prefect API key:
 
@@ -166,7 +166,7 @@ Before configuring the Prefect MCP server, you need:
           apiUrl: "https://api.prefect.cloud/api/accounts/<ACCOUNT_ID>/workspaces/<WORKSPACE_ID>"
     ```
 
-    To customize how Holmes uses Prefect, you can provide your own LLM instructions:
+    To customize how Canis uses Prefect, you can provide your own LLM instructions:
 
     ```yaml
     mcpAddons:
@@ -185,10 +185,10 @@ Before configuring the Prefect MCP server, you need:
             4. Look at recent runs of the same flow to identify patterns
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -223,25 +223,25 @@ Before configuring the Prefect MCP server, you need:
 ## Testing the Connection
 
 ```bash
-holmes ask "List the recent flow runs and their statuses"
+canis ask "List the recent flow runs and their statuses"
 ```
 
 ## Common Use Cases
 
 ```bash
-holmes ask "Why did the data-pipeline flow run fail last night?"
+canis ask "Why did the data-pipeline flow run fail last night?"
 ```
 
 ```bash
-holmes ask "Are there any stuck or backlogged runs in the work pools?"
+canis ask "Are there any stuck or backlogged runs in the work pools?"
 ```
 
 ```bash
-holmes ask "Show me the logs from the latest failed run of the ETL deployment"
+canis ask "Show me the logs from the latest failed run of the ETL deployment"
 ```
 
 ```bash
-holmes ask "Which workers are currently active and what are they processing?"
+canis ask "Which workers are currently active and what are they processing?"
 ```
 
 ## Additional Resources

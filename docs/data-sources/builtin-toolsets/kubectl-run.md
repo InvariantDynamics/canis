@@ -3,11 +3,11 @@
 !!! warning "Disabled by Default"
     This toolset is disabled by default and must be explicitly enabled.
 
-The kubectl-run toolset allows Holmes to run commands in temporary Kubernetes pods. This is useful for network debugging, DNS checks, and running diagnostic tools not available on the cluster.
+The kubectl-run toolset allows Canis to run commands in temporary Kubernetes pods. This is useful for network debugging, DNS checks, and running diagnostic tools not available on the cluster.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**:
 

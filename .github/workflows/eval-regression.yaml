@@ -523,7 +523,7 @@ jobs:
 
             const p = buildParams(JSON.parse(${{ toJSON(steps.eval-params.outputs.base_params) }}));
             const progressSteps = [
-              [false, 'Setup HolmesGPT environment'],
+              [false, 'Setup Canis environment'],
               [false, 'Collect evals to run'],
               [false, 'Setup KIND cluster'],
               [false, 'Run evals']
@@ -594,8 +594,8 @@ jobs:
               core.setOutput('is_persistent', 'false');
             }
 
-      # Reordered: Setup HolmesGPT first (needed for pytest), then collect evals, then KIND
-      - name: Setup HolmesGPT environment
+      # Reordered: Setup Canis first (needed for pytest), then collect evals, then KIND
+      - name: Setup Canis environment
         if: steps.check-tests.outputs.should-run == 'true'
         uses: ./code/.github/actions/setup-holmes-env
         with:
@@ -603,7 +603,7 @@ jobs:
           install-kubectl: 'true'
           working-directory: code
 
-      - name: Update progress - HolmesGPT setup done
+      - name: Update progress - Canis setup done
         if: steps.check-tests.outputs.should-run == 'true' && steps.eval-params.outputs.pr_number != '' && steps.initial-comment.outputs.comment_id != ''
         uses: actions/github-script@v7
         with:
@@ -619,7 +619,7 @@ jobs:
             });
             const isPersistent = ${{ toJSON(steps.initial-comment.outputs.is_persistent) }} === 'true';
             const progressSteps = [
-              [true, 'Setup HolmesGPT environment'],
+              [true, 'Setup Canis environment'],
               [false, 'Collect evals to run'],
               [false, 'Setup KIND cluster'],
               [false, 'Run evals']
@@ -712,7 +712,7 @@ jobs:
             });
             const isPersistent = ${{ toJSON(steps.initial-comment.outputs.is_persistent) }} === 'true';
             const progressSteps = [
-              [true, 'Setup HolmesGPT environment'],
+              [true, 'Setup Canis environment'],
               [true, `Collect evals to run (${p.testCount} tests)`],
               [false, 'Setup KIND cluster'],
               [false, 'Run evals']
@@ -767,7 +767,7 @@ jobs:
             });
             const isPersistent = ${{ toJSON(steps.initial-comment.outputs.is_persistent) }} === 'true';
             const progressSteps = [
-              [true, 'Setup HolmesGPT environment'],
+              [true, 'Setup Canis environment'],
               [true, `Collect evals to run (${p.testCount} tests)`],
               [true, 'Setup KIND cluster'],
               [false, 'Run evals']
@@ -893,7 +893,7 @@ jobs:
             // Build current run content
             let currentContent = buildBody(p, null, {
               icon: p.isManual ? '🧪' : '✅',
-              title: p.isManual ? 'Manual Eval Results' : 'Results of HolmesGPT evals',
+              title: p.isManual ? 'Manual Eval Results' : 'Results of Canis evals',
               context
             });
 

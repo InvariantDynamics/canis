@@ -1,6 +1,6 @@
 # Tempo
 
-By enabling this toolset, HolmesGPT will be able to fetch trace information from Tempo to debug performance related issues, like high latency in your application.
+By enabling this toolset, Canis will be able to fetch trace information from Tempo to debug performance related issues, like high latency in your application.
 
 ## Proxying through Grafana
 
@@ -21,7 +21,7 @@ You can find the Grafana URL required for Tempo in your Grafana cloud account se
 
 **Obtaining the datasource UID**
 
-You may have multiple Tempo data sources set up in Grafana. HolmesGPT uses a single Tempo datasource to fetch the traces and it needs to know the UID of this datasource.
+You may have multiple Tempo data sources set up in Grafana. Canis uses a single Tempo datasource to fetch the traces and it needs to know the UID of this datasource.
 
 A simple way to get the datasource UID is to access the Grafana API by running the following request:
 
@@ -60,7 +60,7 @@ In this case, the Tempo datasource UID is `klja8hsa-8a9c-4b35-1230-7baab22b02ee`
 
 ### Configuration (Grafana Proxy)
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -79,7 +79,7 @@ In this case, the Tempo datasource UID is `klja8hsa-8a9c-4b35-1230-7baab22b02ee`
     To test, run:
 
     ```bash
-    holmes ask "The payments DB is very slow, check tempo for any trace data"
+    canis ask "The payments DB is very slow, check tempo for any trace data"
     ```
 
 === "Robusta Helm Chart"
@@ -97,11 +97,11 @@ In this case, the Tempo datasource UID is `klja8hsa-8a9c-4b35-1230-7baab22b02ee`
 
 ## Direct Connection
 
-The toolset can directly connect to a Tempo instance without proxying through a Grafana instance. This is done by not setting the `grafana_datasource_uid` field. Not setting this field makes HolmesGPT assume that it is directly connecting to Tempo.
+The toolset can directly connect to a Tempo instance without proxying through a Grafana instance. This is done by not setting the `grafana_datasource_uid` field. Not setting this field makes Canis assume that it is directly connecting to Tempo.
 
 ### Configuration (Direct Connection)
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -147,7 +147,7 @@ toolsets:
 
 ### External URL
 
-If HolmesGPT accesses Tempo through an internal URL but you want clickable links in results to use a different URL:
+If Canis accesses Tempo through an internal URL but you want clickable links in results to use a different URL:
 
 ```yaml
 toolsets:
@@ -186,7 +186,7 @@ toolsets:
 homles ask "Find traces where the payment service is taking longer than 1 second"
 ```
 
-Holmes will use TraceQL to search for slow operations:
+Canis will use TraceQL to search for slow operations:
 ```
 {resource.service.name="payment" && duration > 1s}
 ```
@@ -197,7 +197,7 @@ Holmes will use TraceQL to search for slow operations:
 homles ask "Show me traces with HTTP 500 errors in the frontend service"
 ```
 
-Holmes will search using:
+Canis will search using:
 ```
 {resource.service.name="frontend" && span.http.status_code = 500}
 ```

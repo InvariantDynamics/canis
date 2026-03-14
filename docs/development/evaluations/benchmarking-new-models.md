@@ -1,6 +1,6 @@
 # Benchmarking New Models
 
-This guide walks you through the process of benchmarking a new LLM model in HolmesGPT's evaluation framework.
+This guide walks you through the process of benchmarking a new LLM model in Canis's evaluation framework.
 
 ## Prerequisites
 

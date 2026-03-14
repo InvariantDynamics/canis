@@ -15,8 +15,8 @@ Please make sure to read and observe our [Governance](./GOVERNANCE.md) docs.
     ```
 - Poetry `1.8.4` or higher
 - Git
-- An LLM API key (required to use and test HolmesGPT)
-  - HolmesGPT supports multiple providers: OpenAI, Anthropic, Azure, Google Vertex AI, and more
+- An LLM API key (required to use and test Canis)
+  - Canis supports multiple providers: OpenAI, Anthropic, Azure, Google Vertex AI, and more
   - See [Supported LLM Providers](https://holmesgpt.dev/ai-providers/) to choose and set up your provider
 
 ## Getting Started
@@ -24,8 +24,8 @@ Please make sure to read and observe our [Governance](./GOVERNANCE.md) docs.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/HolmesGPT/holmesgpt.git
-cd holmesgpt
+git clone https://github.com/InvariantDynamics/canis.git
+cd canis
 ```
 
 ### 2. Install dependencies
@@ -34,7 +34,7 @@ cd holmesgpt
 poetry install --with dev
 ```
 
-This installs HolmesGPT and all development dependencies including test tools.
+This installs Canis and all development dependencies including test tools.
 
 ### 3. Set up your LLM API key
 
@@ -66,10 +66,10 @@ For full details on all supported providers and setup, see [Supported LLM Provid
 
 ### 4. Verify your setup
 
-Test that Holmes runs correctly:
+Test that Canis runs correctly:
 
 ```bash
-poetry run holmes ask "what OS are you running on?"
+poetry run canis ask "what OS are you running on?"
 ```
 
 ### 5. Run tests

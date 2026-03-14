@@ -14,11 +14,11 @@ before_test: |
   set -e
   kubectl create namespace app-212 --dry-run=client -o yaml | kubectl apply -f -
 
-  python3 generate_configs.py /tmp/holmesgpt-test-212-platform-config.yaml
+  python3 generate_configs.py /tmp/canis-test-212-platform-config.yaml
 
   kubectl delete configmap platform-config -n app-212 --ignore-not-found
   kubectl create configmap platform-config \
-    --from-file=platform-config.yaml=/tmp/holmesgpt-test-212-platform-config.yaml \
+    --from-file=platform-config.yaml=/tmp/canis-test-212-platform-config.yaml \
     -n app-212
 
   # Verify needle is present (retry loop for eventual consistency)
@@ -37,11 +37,11 @@ before_test: |
     exit 1
   fi
 
-  rm -f /tmp/holmesgpt-test-212-platform-config.yaml
+  rm -f /tmp/canis-test-212-platform-config.yaml
   echo "Setup complete"
 
 include_tool_calls: true
 
 after_test: |
   kubectl delete namespace app-212 --ignore-not-found
-  rm -f /tmp/holmesgpt-test-212-platform-config.yaml
+  rm -f /tmp/canis-test-212-platform-config.yaml

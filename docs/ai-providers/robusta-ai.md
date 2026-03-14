@@ -3,7 +3,7 @@
 Access multiple AI models from different providers through Robusta's unified API, without managing individual API keys.
 
 !!! info "Robusta SaaS Feature"
-    Robusta AI is available exclusively for [Robusta SaaS](../installation/ui-installation.md) customers running HolmesGPT in Kubernetes. It provides access to various AI models through a single managed endpoint.
+    Robusta AI is available exclusively for [Robusta SaaS](../installation/ui-installation.md) customers running Canis in Kubernetes. It provides access to various AI models through a single managed endpoint.
 
 ## Overview
 
@@ -15,7 +15,7 @@ Robusta AI simplifies AI model access by:
 ## Prerequisites
 
 1. **Robusta SaaS account**: You must have an active Robusta platform subscription
-2. **Kubernetes deployment**: Robusta AI is only available when running HolmesGPT as a server in Kubernetes (not available in CLI mode)
+2. **Kubernetes deployment**: Robusta AI is only available when running Canis as a server in Kubernetes (not available in CLI mode)
 3. **Robusta platform integration**: Your cluster must be connected to the Robusta platform with a valid `robusta_sink` token
 4. **Robusta version**: Requires Robusta version 0.22.0 or higher
 5. **Robusta UI sink enabled**: The [Robusta UI sink must be configured](https://docs.robusta.dev/master/configuration/sinks/RobustaUI.html) and operational
@@ -24,13 +24,13 @@ Robusta AI simplifies AI model access by:
 
 Robusta AI is automatically enabled when:
 
-1. HolmesGPT is deployed in [Kubernetes via the Robusta Helm chart](https://docs.robusta.dev/master/setup-robusta/installation/index.html)
+1. Canis is deployed in [Kubernetes via the Robusta Helm chart](https://docs.robusta.dev/master/setup-robusta/installation/index.html)
 2. [A valid Robusta sink is configured in the Robusta Helm Chart](https://docs.robusta.dev/master/configuration/sinks/RobustaUI.html)
 3. The `ROBUSTA_AI` environment variable is set to `true`
 
 ### Quick Setup
 
-The simplest way to enable HolmesGPT with Robusta AI is to add this to your Robusta Helm values:
+The simplest way to enable Canis with Robusta AI is to add this to your Robusta Helm values:
 
 ```yaml
 # Add to generated_values.yaml
@@ -39,7 +39,7 @@ enableHolmesGPT: true
 
 This automatically:
 
-1. Deploys HolmesGPT as a server in Kubernetes
+1. Deploys Canis as a server in Kubernetes
 2. Enables Robusta AI integration
 3. Sets up the necessary authentication
 
@@ -57,7 +57,7 @@ holmes:
 
 ### Using Existing Robusta Tokens in Secrets
 
-If your Robusta token is already stored in a Kubernetes secret (common in existing Robusta deployments), you can reference it in HolmesGPT configuration:
+If your Robusta token is already stored in a Kubernetes secret (common in existing Robusta deployments), you can reference it in Canis configuration:
 
 ```yaml
 # Add to generated_values.yaml
@@ -78,7 +78,7 @@ Common scenarios for existing secrets:
  - **Multi-environment deployments**: Use the same secret across different namespaces or clusters
  - **GitOps workflows**: Reference existing secrets managed by ArgoCD or Flux
 
-In most cases, no additional configuration is needed. If you have a valid Robusta deployment, HolmesGPT will automatically:
+In most cases, no additional configuration is needed. If you have a valid Robusta deployment, Canis will automatically:
 
 1. Authenticate with the Robusta platform
 2. Fetch available models for your account
@@ -98,7 +98,7 @@ holmes:
 
 ## How It Works
 
-1. **Authentication**: HolmesGPT reads your Robusta token from the cluster configuration
+1. **Authentication**: Canis reads your Robusta token from the cluster configuration
 2. **Session creation**: A session token is created with the Robusta platform
 3. **Model discovery**: Available models are fetched from `https://api.robusta.dev/api/llm/models/v2`
 4. **Proxy access**: Models are accessed through Robusta's proxy endpoint at `https://api.robusta.dev/llm/{model_name}`
@@ -124,7 +124,7 @@ When Robusta AI is enabled, models appear in the model selector dropdown in the 
 Check that:
 
 1. Your Robusta token is valid and not expired
-2. HolmesGPT can reach `api.robusta.dev`
+2. Canis can reach `api.robusta.dev`
 3. `ROBUSTA_AI` is set to `true`
 4. Check logs for authentication errors
 
@@ -138,5 +138,5 @@ Check that:
 ## See Also
 
 - [Using Multiple Providers](using-multiple-providers.md) - Configure multiple AI providers
-- [Kubernetes Installation](../installation/kubernetes-installation.md) - Deploy HolmesGPT in Kubernetes
+- [Kubernetes Installation](../installation/kubernetes-installation.md) - Deploy Canis in Kubernetes
 - [Robusta Platform Documentation](https://docs.robusta.dev) - Learn more about Robusta platform integration

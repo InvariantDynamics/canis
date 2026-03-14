@@ -1,12 +1,12 @@
 # Elasticsearch / OpenSearch
 
-By enabling these toolsets, HolmesGPT can query Elasticsearch and OpenSearch clusters to investigate issues, search logs, analyze cluster health, and more.
+By enabling these toolsets, Canis can query Elasticsearch and OpenSearch clusters to investigate issues, search logs, analyze cluster health, and more.
 
 These toolsets work with both **Elasticsearch** (including Elastic Cloud) and **OpenSearch** since they share the same REST API.
 
 ## Two Toolsets
 
-HolmesGPT provides two separate Elasticsearch toolsets with different permission requirements:
+Canis provides two separate Elasticsearch toolsets with different permission requirements:
 
 | Toolset | Description | Permissions Required |
 |---------|-------------|---------------------|
@@ -17,7 +17,7 @@ Enable only the toolset(s) you need. Most users who just want to search logs onl
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add to your config file (`~/.holmes/config.yaml`):
 
@@ -43,7 +43,7 @@ Enable only the toolset(s) you need. Most users who just want to search logs onl
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     First, create a Kubernetes secret with your credentials:
 
@@ -52,7 +52,7 @@ Enable only the toolset(s) you need. Most users who just want to search logs onl
       --from-literal=api-key=your-api-key
     ```
 
-    Then add to your Holmes Helm values:
+    Then add to your Canis Helm values:
 
     ```yaml
     additionalEnvVars:

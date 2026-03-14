@@ -1,6 +1,6 @@
 # Anthropic
 
-Configure HolmesGPT to use Anthropic's Claude models.
+Configure Canis to use Anthropic's Claude models.
 
 ## Setup
 
@@ -8,11 +8,11 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export ANTHROPIC_API_KEY="your-anthropic-api-key"
-    holmes ask "what pods are failing?" --model="anthropic/claude-sonnet-4-5"
+    canis ask "what pods are failing?" --model="anthropic/claude-sonnet-4-5"
     ```
 
     **Note**: You can use any Anthropic model by changing the model name. See [Claude Models Overview](https://docs.claude.com/en/docs/about-claude/models/overview#latest-models-comparison){:target="_blank"} for available model names.
@@ -20,14 +20,14 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
     You can also pass the API key directly as a command-line parameter:
 
     ```bash
-    holmes ask "what pods are failing?" --model="anthropic/claude-sonnet-4-5" --api-key="your-api-key"
+    canis ask "what pods are failing?" --model="anthropic/claude-sonnet-4-5" --api-key="your-api-key"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=anthropic-api-key="sk-ant-..." \
       -n <namespace>
     ```
@@ -39,7 +39,7 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
       - name: ANTHROPIC_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: anthropic-api-key
 
     # Configure at least one model using modelList
@@ -66,7 +66,7 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=anthropic-api-key="sk-ant-..." \
       -n <namespace>
     ```
@@ -79,7 +79,7 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
         - name: ANTHROPIC_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: anthropic-api-key
 
       # Configure at least one model using modelList
@@ -104,9 +104,9 @@ Get an [Anthropic API key](https://support.anthropic.com/en/articles/8114521-how
 
 ## Prompt Caching
 
-HolmesGPT adds Anthropic's prompt caching feature, which can significantly reduce costs and latency for repeated API calls with similar prompts.
+Canis adds Anthropic's prompt caching feature, which can significantly reduce costs and latency for repeated API calls with similar prompts.
 
-HolmesGPT automatically adds cache control to the last message in each API call. This caches everything from the beginning of the conversation up to that point, making subsequent calls with the same prefix much faster and cheaper.
+Canis automatically adds cache control to the last message in each API call. This caches everything from the beginning of the conversation up to that point, making subsequent calls with the same prefix much faster and cheaper.
 
 ### How It Works
 
@@ -115,9 +115,9 @@ HolmesGPT automatically adds cache control to the last message in each API call.
 - Cached content must be at least 1024 tokens to be effective
 - You're charged for cache writes on the first call, but subsequent cache hits are much cheaper
 
-### Benefits in HolmesGPT
+### Benefits in Canis
 
-Prompt caching is particularly effective for HolmesGPT because:
+Prompt caching is particularly effective for Canis because:
 
 - System prompts with tool definitions are large and static - perfect for caching
 - Tool investigation loops reuse the same context multiple times
@@ -125,4 +125,4 @@ Prompt caching is particularly effective for HolmesGPT because:
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support Anthropic provider. Refer to [LiteLLM Anthropic docs](https://litellm.vercel.app/docs/providers/anthropic){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support Anthropic provider. Refer to [LiteLLM Anthropic docs](https://litellm.vercel.app/docs/providers/anthropic){:target="_blank"} for more details.

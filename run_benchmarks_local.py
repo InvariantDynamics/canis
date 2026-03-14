@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Local benchmark runner for HolmesGPT evaluations.
+Local benchmark runner for Canis evaluations.
 
 This script provides a clean interface for running LLM evaluation benchmarks locally,
 mirroring the behavior of the CI/CD workflow.
@@ -22,7 +22,7 @@ BENCHMARK_TYPES = {
 
 
 class BenchmarkRunner:
-    """Manages local benchmark execution for HolmesGPT evaluations."""
+    """Manages local benchmark execution for Canis evaluations."""
 
     def __init__(
         self,
@@ -326,7 +326,7 @@ If you are not redirected automatically, [click here]({history_relative}).
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Run HolmesGPT evaluation benchmarks locally",
+        description="Run Canis evaluation benchmarks locally",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Benchmark Types:

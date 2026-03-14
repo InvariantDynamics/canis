@@ -1,6 +1,6 @@
 # How to Build Documentation
 
-This file explains how to build and serve the HolmesGPT documentation locally.
+This file explains how to build and serve the Canis documentation locally.
 
 ## Prerequisites
 

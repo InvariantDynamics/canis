@@ -1,6 +1,6 @@
-# HolmesGPT Evaluations
+# Canis Evaluations
 
-We use 150+ evaluations ('evals' for short) to benchmark HolmesGPT, map out areas for improvement, and compare performance across different models.
+We use 150+ evaluations ('evals' for short) to benchmark Canis, map out areas for improvement, and compare performance across different models.
 
 We also use the evals as regression tests on every commit.
 

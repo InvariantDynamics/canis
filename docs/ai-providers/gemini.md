@@ -1,6 +1,6 @@
 # Gemini
 
-Configure HolmesGPT to use Google's Gemini models via Google AI Studio.
+Configure Canis to use Google's Gemini models via Google AI Studio.
 
 ## Setup
 
@@ -8,19 +8,19 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export GEMINI_API_KEY="your-gemini-api-key"
     export TOOL_SCHEMA_NO_PARAM_OBJECT_IF_NO_PARAMS=true
-    holmes ask "what pods are failing?" --model="gemini/<your-gemini-model>"
+    canis ask "what pods are failing?" --model="gemini/<your-gemini-model>"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=gemini-api-key="your-gemini-api-key" \
       -n <namespace>
     ```
@@ -32,7 +32,7 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
       - name: GEMINI_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: gemini-api-key
       - name: TOOL_SCHEMA_NO_PARAM_OBJECT_IF_NO_PARAMS
         value: "true"  # Required for Gemini - see Environment Variables Reference
@@ -63,7 +63,7 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=gemini-api-key="your-gemini-api-key" \
       -n <namespace>
     ```
@@ -76,7 +76,7 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
         - name: GEMINI_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: gemini-api-key
         - name: TOOL_SCHEMA_NO_PARAM_OBJECT_IF_NO_PARAMS
           value: "true"  # Required for Gemini - see Environment Variables Reference
@@ -108,9 +108,9 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 You can also pass the API key directly as a command-line parameter:
 
 ```bash
-holmes ask "what pods are failing?" --model="gemini/<your-gemini-model>" --api-key="your-api-key"
+canis ask "what pods are failing?" --model="gemini/<your-gemini-model>" --api-key="your-api-key"
 ```
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support Gemini provider. Refer to [LiteLLM Gemini docs](https://litellm.vercel.app/docs/providers/gemini){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support Gemini provider. Refer to [LiteLLM Gemini docs](https://litellm.vercel.app/docs/providers/gemini){:target="_blank"} for more details.

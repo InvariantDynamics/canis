@@ -18,7 +18,7 @@ vela version
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**:
 
@@ -34,23 +34,23 @@ vela version
     To test, run:
 
     ```bash
-    holmes ask "What is the status of my KubeVela applications?"
+    canis ask "What is the status of my KubeVela applications?"
     ```
 
 ## Common Use Cases
 
 ```bash
-holmes ask "What KubeVela applications are unhealthy and why?"
+canis ask "What KubeVela applications are unhealthy and why?"
 ```
 
 ```bash
-holmes ask "Show me the workflow status for my payment-service application"
+canis ask "Show me the workflow status for my payment-service application"
 ```
 
 ```bash
-holmes ask "What components does my frontend application have and are they running correctly?"
+canis ask "What components does my frontend application have and are they running correctly?"
 ```
 
 ```bash
-holmes ask "Check if there are any trait configuration issues in the user-api application"
+canis ask "Check if there are any trait configuration issues in the user-api application"
 ```

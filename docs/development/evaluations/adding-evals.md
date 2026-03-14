@@ -1,10 +1,10 @@
 # Adding a New Eval
 
-Create test cases that measure HolmesGPT's diagnostic accuracy and help track improvements over time.
+Create test cases that measure Canis's diagnostic accuracy and help track improvements over time.
 
 ## Prerequisites
 
-Install HolmesGPT python dependencies:
+Install Canis python dependencies:
 
 ```bash
 poetry install --with=dev
@@ -12,7 +12,7 @@ poetry install --with=dev
 
 ## Quick Start: Running Your First Eval
 
-Try running an existing eval to understand how the system works. We'll use [eval 80_pvc_storage_class_mismatch](https://github.com/HolmesGPT/holmesgpt/tree/master/tests/llm/fixtures/test_ask_holmes/80_pvc_storage_class_mismatch) as an example:
+Try running an existing eval to understand how the system works. We'll use [eval 80_pvc_storage_class_mismatch](https://github.com/InvariantDynamics/canis/tree/master/tests/llm/fixtures/test_ask_holmes/80_pvc_storage_class_mismatch) as an example:
 
 ```bash
 # Run eval #80 with Claude Sonnet 4.5 (this specific eval passes reliably with Sonnet 4.5)
@@ -83,7 +83,7 @@ RUN_LIVE=true MODEL=anthropic/claude-sonnet-4-20250514 \
 Configure your test by defining these fields in `test_case.yaml`:
 
 ### Required Fields
-- `user_prompt`: Question for Holmes
+- `user_prompt`: Question for Canis
 - `expected_output`: List of required elements in response
 - `before_test`/`after_test`: Setup/teardown commands (run with `RUN_LIVE=true`)
 
@@ -219,7 +219,7 @@ The valid tags are defined in the test constants file in the repository.
 
 Some examples
 
-- `logs` - Tests HolmesGPT's ability to find and interpret logs correctly
+- `logs` - Tests Canis's ability to find and interpret logs correctly
 - `context_window` - Tests handling of data that exceeds the LLM's context window
 - `datetime` - Tests date/time handling and interpretation
 - etc.

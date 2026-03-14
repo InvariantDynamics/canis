@@ -1,6 +1,6 @@
 # Adopters
 
-If you're using HolmesGPT in your organization or as an individual, please add yourself to the list. It really helps the project to gain momentum and credibility. It's a small contribution back to the project with a big impact.
+If you're using Canis in your organization or as an individual, please add yourself to the list. It really helps the project to gain momentum and credibility. It's a small contribution back to the project with a big impact.
 
 <details>
 <summary><strong>How to Add Your Entry</strong> (click to expand)</summary>
@@ -22,7 +22,7 @@ If you're using HolmesGPT in your organization or as an individual, please add y
 
 | Name | Contact | Description of Use |
 | ---- | ------- | ------------------ |
-| Your Name | [@yourusername](https://github.com/yourusername) | How you use HolmesGPT |
+| Your Name | [@yourusername](https://github.com/yourusername) | How you use Canis |
 
 
-Thank you for being part of the HolmesGPT community!
+Thank you for being part of the Canis community!

@@ -44,7 +44,7 @@ _WRITE_ANYWHERE_PATTERN = re.compile(
 )
 
 # Map of common URL scheme prefixes to SQLAlchemy drivers that are pure-Python
-# and bundled with holmesgpt (no C extensions needed).
+# and bundled with canis (no C extensions needed).
 _DRIVER_MAP: Dict[str, str] = {
     "postgresql": "postgresql+pg8000",
     "postgres": "postgresql+pg8000",

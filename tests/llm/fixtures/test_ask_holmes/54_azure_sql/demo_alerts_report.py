@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from tests.conftest import create_mock_tool_invoke_context
 
 # Add the project root to sys.path so we can import modules
-sys.path.insert(0, "/home/nherment/workspace/robusta-dev/holmesgpt")
+sys.path.insert(0, "/home/nherment/workspace/robusta-dev/canis")
 
 from holmes.plugins.toolsets.azure_sql.azure_sql_toolset import (
     AzureSQLConfig,

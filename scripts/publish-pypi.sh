@@ -1,5 +1,5 @@
 #!/bin/bash
-# Publish HolmesGPT to PyPI
+# Publish Canis to PyPI
 # Usage: ./scripts/publish-pypi.sh [version]
 # If no version is provided, it will use the latest git tag
 
@@ -14,7 +14,7 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-echo "Publishing HolmesGPT version: $VERSION"
+echo "Publishing Canis version: $VERSION"
 
 # Check if PYPI_TOKEN is set
 if [ -z "$PYPI_TOKEN" ]; then
@@ -62,4 +62,4 @@ echo "Restoring original files..."
 mv holmes/__init__.py.bak holmes/__init__.py
 mv pyproject.toml.bak pyproject.toml
 
-echo "Successfully published HolmesGPT $VERSION to PyPI!"
+echo "Successfully published Canis $VERSION to PyPI!"

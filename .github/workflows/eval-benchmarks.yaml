@@ -48,7 +48,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup HolmesGPT environment
+      - name: Setup Canis environment
         uses: ./.github/actions/setup-holmes-env
         with:
           python-version: '3.12'

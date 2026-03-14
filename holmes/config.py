@@ -144,7 +144,7 @@ class Config(RobustaBaseConfig):
         if self.custom_runbooks:
             logging.warning(
                 "The 'custom_runbooks' config field is deprecated. "
-                "HolmesGPT now uses a more powerful catalog-based runbook system where the LLM can intelligently "
+                "Canis now uses a more powerful catalog-based runbook system where the LLM can intelligently "
                 "fetch relevant runbooks on-demand. Please remove 'custom_runbooks' from your config file "
                 "(~/.holmes/config.yaml) and use 'custom_runbook_catalogs' instead to specify runbook catalog files."
             )

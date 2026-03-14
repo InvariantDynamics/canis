@@ -143,9 +143,9 @@ def generate_markdown_report(
     # Check if running on a specific branch (for cross-branch comparison)
     eval_branch = os.environ.get("EVAL_BRANCH", "")
     if eval_branch:
-        markdown = f"## Results of HolmesGPT evals (branch: `{eval_branch}`)\n\n"
+        markdown = f"## Results of Canis evals (branch: `{eval_branch}`)\n\n"
     else:
-        markdown = "## Results of HolmesGPT evals\n\n"
+        markdown = "## Results of Canis evals\n\n"
 
     # Fetch historical metrics for comparison (only for passing tests)
     historical: Dict[str, HistoricalMetrics] = {}

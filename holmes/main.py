@@ -63,7 +63,7 @@ def _warn_deprecated_custom_runbooks(custom_runbooks: Optional[List[Path]]) -> N
     if custom_runbooks:
         logging.warning(
             "The --custom-runbooks (-r) flag is deprecated. "
-            "HolmesGPT now uses a more powerful catalog-based runbook system where the LLM can intelligently "
+            "Canis now uses a more powerful catalog-based runbook system where the LLM can intelligently "
             "fetch relevant runbooks on-demand. Please use the 'custom_runbook_catalogs' config field in "
             "~/.holmes/config.yaml instead to specify runbook catalog files."
         )
@@ -125,7 +125,7 @@ opt_log_costs: bool = typer.Option(
 opt_echo_request: bool = typer.Option(
     True,
     "--echo/--no-echo",
-    help="Echo back the question provided to HolmesGPT in the output",
+    help="Echo back the question provided to Canis in the output",
 )
 opt_destination: Optional[DestinationType] = typer.Option(
     DestinationType.CLI,
@@ -279,7 +279,7 @@ def ask(
     )
 
     # Create tracer if trace option is provided
-    tracer = TracingFactory.create_tracer(trace, project="HolmesGPT-CLI")
+    tracer = TracingFactory.create_tracer(trace, project="Canis-CLI")
     tracer.start_experiment()
 
     if prompt_file and prompt:
@@ -736,14 +736,14 @@ def github(
     ),
     github_owner: Optional[str] = typer.Option(
         None,
-        help="The GitHub repository Owner, eg: if the repository url is https://github.com/HolmesGPT/holmesgpt, the owner is HolmesGPT",
+        help="The GitHub repository Owner, eg: if the repository url is https://github.com/InvariantDynamics/canis, the owner is Canis",
     ),
     github_pat: str = typer.Option(
         None,
     ),
     github_repository: Optional[str] = typer.Option(
         None,
-        help="The GitHub repository name, eg: if the repository url is https://github.com/HolmesGPT/holmesgpt, the repository name is holmesgpt",
+        help="The GitHub repository name, eg: if the repository url is https://github.com/InvariantDynamics/canis, the repository name is canis",
     ),
     update: Optional[bool] = typer.Option(False, help="Update GitHub with AI results"),
     github_query: Optional[str] = typer.Option(

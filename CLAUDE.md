@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-HolmesGPT is an AI-powered troubleshooting agent that connects to observability platforms (Kubernetes, Prometheus, Grafana, etc.) to automatically diagnose and analyze infrastructure and application issues. It uses an agentic loop to investigate problems by calling tools to gather data from multiple sources.
+Canis is an AI-powered troubleshooting agent that connects to observability platforms (Kubernetes, Prometheus, Grafana, etc.) to automatically diagnose and analyze infrastructure and application issues. It uses an agentic loop to investigate problems by calling tools to gather data from multiple sources.
 
 ## Development Commands
 
@@ -251,7 +251,7 @@ For the complete eval CLI reference (flags, env vars, model comparison, debuggin
 When adding a new toolset or integration, update all of the following pages to keep them in sync:
 
 1. `README.md` — Data Sources table (add a row with logo, link, status, and description)
-2. `docs/walkthrough/why-holmesgpt.md` — Categorized integration list under "Every Major Observability Platform"
+2. `docs/walkthrough/why-canis.md` — Categorized integration list under "Every Major Observability Platform"
 3. `docs/data-sources/builtin-toolsets/index.md` — Grid cards listing on the toolsets index page
 4. `docs/data-sources/builtin-toolsets/{name}.md` — Dedicated documentation page for the new toolset
 5. Add a logo image to `images/integration_logos/` if one is available
@@ -287,14 +287,14 @@ For creating, running, and debugging LLM eval tests, use the `/create-eval` skil
 - **HTTP request passthrough**: The root `conftest.py` has a `responses` fixture with `autouse=True` that mocks ALL HTTP requests by default. When adding a new cloud integration, you MUST add the service's URL pattern to the passthrough list in `conftest.py` (search for `rsps.add_passthru`). Use `re.compile()` for pattern matching (e.g., `rsps.add_passthru(re.compile(r"https://.*\.cloud\.es\.io"))`).
 
 **User Prompts & Expected Outputs:**
-- **Be specific**: Test exact values like `"The dashboard title is 'Home'"` not generic `"Holmes retrieves dashboard"`
+- **Be specific**: Test exact values like `"The dashboard title is 'Home'"` not generic `"Canis retrieves dashboard"`
 - **Match prompt to test**: User prompt must explicitly request what you're testing
   - BAD: `"Get the dashboard"`
   - GOOD: `"Get the dashboard and tell me the title, panels, and time range"`
 - **Anti-cheat prompts**: Don't use technical terms that give away solutions
   - BAD: `"Find node_exporter metrics"`
   - GOOD: `"Find CPU pressure monitoring queries"`
-- **Test discovery, not recognition**: Holmes should search/analyze, not guess from context
+- **Test discovery, not recognition**: Canis should search/analyze, not guess from context
 - **Ruling out hallucinations is paramount**: When choosing between test approaches, prefer the one that rules out hallucinations:
   - **Best**: Check specific values that can only be discovered by querying (e.g., unique IDs, injected error codes, exact counts)
   - **Acceptable**: Use `include_tool_calls: true` to verify the tool was called when output values are too generic to rule out hallucinations
@@ -433,7 +433,7 @@ fi
 
 **Architecture:**
 - Implement full architecture even if complex (e.g., use Loki for log aggregation, not simplified alternatives)
-- Proper separation of concerns (app → file → Promtail → Loki → Holmes)
+- Proper separation of concerns (app → file → Promtail → Loki → Canis)
 - **ALWAYS use Secrets for scripts**, not inline manifests or ConfigMaps
 - Use minimal resource footprints (reduce memory/CPU for test services)
 
@@ -449,7 +449,7 @@ fi
 - **Prompt Design**: Don't give away solutions in prompts
   - BAD: "Find the node_pressure_cpu_waiting_seconds_total query"
   - GOOD: "Find the Prometheus query that monitors CPU pressure waiting time"
-  - Test Holmes's search/analysis skills, not domain knowledge shortcuts
+  - Test Canis's search/analysis skills, not domain knowledge shortcuts
 
 **Configuration:**
 - Custom runbooks: Add `runbooks` field in test_case.yaml (`runbooks: {}` for empty catalog)
@@ -470,7 +470,7 @@ toolsets:
 
 ## Documentation Lookup
 
-When asked about content from the HolmesGPT documentation website (https://holmesgpt.dev/), look in the local `docs/` directory:
+When asked about content from the Canis documentation website (https://holmesgpt.dev/), look in the local `docs/` directory:
 - Python SDK examples: `docs/installation/python-installation.md`
 - CLI installation: `docs/installation/cli-installation.md`
 - Kubernetes deployment: `docs/installation/kubernetes-installation.md`
@@ -541,9 +541,9 @@ When writing documentation in the `docs/` directory:
   ```
   ```
 
-- **Don't describe Holmes's behavior**: In "Common Use Cases" sections, show only the example prompts. Don't explain what Holmes will do or list steps like "Holmes will: 1. Query X, 2. Analyze Y, 3. Return Z". Users will see this when they run it.
+- **Don't describe Canis's behavior**: In "Common Use Cases" sections, show only the example prompts. Don't explain what Canis will do or list steps like "Canis will: 1. Query X, 2. Analyze Y, 3. Return Z". Users will see this when they run it.
 
-- **Skip Capabilities sections**: Don't list what a toolset/integration can do. Users discover capabilities by using Holmes. Feature lists become stale quickly.
+- **Skip Capabilities sections**: Don't list what a toolset/integration can do. Users discover capabilities by using Canis. Feature lists become stale quickly.
 
 - **Skip Security Best Practices sections**: Assume users understand basics like rotating credentials, using least privilege, and deleting local secrets. These sections add little value.
 

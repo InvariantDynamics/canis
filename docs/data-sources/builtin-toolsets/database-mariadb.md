@@ -1,6 +1,6 @@
 # MariaDB
 
-Connect HolmesGPT to MariaDB databases to analyze query performance, investigate slow queries, check replication status, examine database health, and read data for troubleshooting.
+Connect Canis to MariaDB databases to analyze query performance, investigate slow queries, check replication status, examine database health, and read data for troubleshooting.
 
 You can configure multiple MariaDB instances with different names (e.g., `app-mariadb`, `cache-mariadb`, `staging-mariadb`).
 
@@ -22,7 +22,7 @@ FLUSH PRIVILEGES;
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -58,7 +58,7 @@ FLUSH PRIVILEGES;
 
     Note: MariaDB uses MySQL wire protocol, so use `mysql+pymysql://` in the connection URL.
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create secret with credentials**
 

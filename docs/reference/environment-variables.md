@@ -1,6 +1,6 @@
 # Environment Variables
 
-This page documents all environment variables that can be used to configure HolmesGPT behavior.
+This page documents all environment variables that can be used to configure Canis behavior.
 
 ## AI Provider Configuration
 
@@ -35,7 +35,7 @@ This page documents all environment variables that can be used to configure Holm
 ### LLMS_WITH_STRICT_TOOL_CALLS
 **Default:** `"azure/gpt-4.1, openai/*"`
 
-Comma-separated list of model patterns that support strict tool calling. When a model matches one of these patterns, HolmesGPT will:
+Comma-separated list of model patterns that support strict tool calling. When a model matches one of these patterns, Canis will:
 - Enable the `strict` flag for function definitions
 - Set `additionalProperties: false` in tool parameter schemas
 - Enforce stricter schema validation for tool calls
@@ -59,7 +59,7 @@ export TOOL_SCHEMA_NO_PARAM_OBJECT_IF_NO_PARAMS=true
 
 **Note:** This setting is typically only needed when using Gemini models. Other providers handle empty parameter objects correctly.
 
-## HolmesGPT Configuration
+## Canis Configuration
 
 ### MODEL_LIST_FILE_LOCATION
 Path to a YAML file that defines named model configurations. When set, you can reference models by name using `--model=<name>` in the CLI or the `model` parameter in the HTTP API, instead of specifying the full model identifier and credentials each time.
@@ -72,7 +72,7 @@ export MODEL_LIST_FILE_LOCATION="/path/to/model_list.yaml"
 See [Using Multiple Providers](../ai-providers/using-multiple-providers.md) for the model list file format and usage.
 
 ### HOLMES_CONFIG_PATH
-Path to a custom HolmesGPT configuration file. If not set, defaults to `~/.holmes/config.yaml`.
+Path to a custom Canis configuration file. If not set, defaults to `~/.holmes/config.yaml`.
 
 **Example:**
 ```bash
@@ -80,7 +80,7 @@ export HOLMES_CONFIG_PATH="/path/to/custom/config.yaml"
 ```
 
 ### HOLMES_LOG_LEVEL
-Controls the logging verbosity of HolmesGPT.
+Controls the logging verbosity of Canis.
 
 **Values:** `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`
 **Default:** `INFO`
@@ -91,7 +91,7 @@ export HOLMES_LOG_LEVEL="DEBUG"
 ```
 
 ### HOLMES_CACHE_DIR
-Directory for caching HolmesGPT data and temporary files.
+Directory for caching Canis data and temporary files.
 
 ## Data Source Configuration
 

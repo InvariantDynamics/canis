@@ -186,12 +186,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !github.event.release.prerelease }}
     steps:
-      - name: Checkout homebrew-holmesgpt repository
+      - name: Checkout homebrew-canis repository
         uses: actions/checkout@v2
         with:
-          repository: robusta-dev/homebrew-holmesgpt
+          repository: robusta-dev/homebrew-canis
           token: ${{ secrets.MULTIREPO_GITHUB_TOKEN }}
-      - name: Update holmesgpt.rb formula
+      - name: Update canis.rb formula
         env:
           MAC_ARM64_BUILD_HASH: ${{ needs.mac-arm64-hash.outputs.MAC_ARM64_BUILD_HASH }}
           LINUX_BUILD_HASH: ${{ needs.linux-hash.outputs.LINUX_BUILD_HASH }}
@@ -206,13 +206,13 @@ jobs:
           linux_hash = os.environ['LINUX_BUILD_HASH']
           tag = os.environ['TAG_NAME']
 
-          with open('./Formula/holmesgpt.rb', 'r') as f:
+          with open('./Formula/canis.rb', 'r') as f:
               content = f.read()
 
           # Update macOS URL (handles both old and new naming)
           content = re.sub(
               r'(if OS\.mac\?\s+)url "[^"]+"',
-              rf'\1url "https://github.com/HolmesGPT/holmesgpt/releases/download/{tag}/holmes-darwin-arm64-{tag}.zip"',
+              rf'\1url "https://github.com/InvariantDynamics/canis/releases/download/{tag}/holmes-darwin-arm64-{tag}.zip"',
               content,
               flags=re.DOTALL
           )
@@ -228,7 +228,7 @@ jobs:
           # Update Linux URL (handles both old and new naming)
           content = re.sub(
               r'(elsif OS\.linux\?\s+)url "[^"]+"',
-              rf'\1url "https://github.com/HolmesGPT/holmesgpt/releases/download/{tag}/holmes-linux-amd64-{tag}.zip"',
+              rf'\1url "https://github.com/InvariantDynamics/canis/releases/download/{tag}/holmes-linux-amd64-{tag}.zip"',
               content,
               flags=re.DOTALL
           )
@@ -241,7 +241,7 @@ jobs:
               flags=re.DOTALL
           )
 
-          with open('./Formula/holmesgpt.rb', 'w') as f:
+          with open('./Formula/canis.rb', 'w') as f:
               f.write(content)
 
           print("Updated formula:")

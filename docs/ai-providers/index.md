@@ -1,6 +1,6 @@
 # AI Providers
 
-HolmesGPT supports multiple AI providers, giving you flexibility in choosing the best model for your needs and budget.
+Canis supports multiple AI providers, giving you flexibility in choosing the best model for your needs and budget.
 
 <div class="grid cards" markdown>
 
@@ -30,7 +30,7 @@ HolmesGPT supports multiple AI providers, giving you flexibility in choosing the
 
     1. Get an [OpenAI API key](https://platform.openai.com/api-keys){:target="_blank"}
     2. Set `export OPENAI_API_KEY="your-api-key"`
-    3. Run `holmes ask "what pods are failing?"` (OpenAI is the default provider)
+    3. Run `canis ask "what pods are failing?"` (OpenAI is the default provider)
 
 Choose your provider above to see detailed configuration instructions.
 

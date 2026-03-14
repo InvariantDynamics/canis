@@ -1,6 +1,6 @@
 # Data Sources
 
-HolmesGPT connects to your monitoring and observability tools to provide comprehensive root cause analysis.
+Canis connects to your monitoring and observability tools to provide comprehensive root cause analysis.
 
 ## Available Options
 

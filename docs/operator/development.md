@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide covers local development workflow for building, modifying, and testing the Holmes Operator.
+This guide covers local development workflow for building, modifying, and testing the Canis Operator.
 
 ## Development Prerequisites
 
@@ -18,8 +18,8 @@ Before starting development, ensure you have:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/HolmesGPT/holmesgpt.git
-cd holmesgpt
+git clone https://github.com/InvariantDynamics/canis.git
+cd canis
 ```
 
 ### Install Dependencies
@@ -51,31 +51,31 @@ The operator uses `Dockerfile.operator` for building images:
 
 ```bash
 # Build operator image with custom tag
-docker build -f Dockerfile.operator -t holmes-operator:dev .
+docker build -f Dockerfile.operator -t canis-operator:dev .
 
 # Build with specific version tag
-docker build -f Dockerfile.operator -t holmes-operator:1.0.0-dev .
+docker build -f Dockerfile.operator -t canis-operator:1.0.0-dev .
 
 # View build output and layers
-docker history holmes-operator:dev
+docker history canis-operator:dev
 ```
 
 ## Modifying Helm Manifests
 
 ### Operator Template Files
 
-The operator Helm templates are located in `helm/holmes/templates/`:
+The operator Helm templates are located in `helm/canis/templates/`:
 
 **operator-deployment.yaml**
 
 Defines the operator Deployment:
 
 ```yaml
-# Location: helm/holmes/templates/operator-deployment.yaml
+# Location: helm/canis/templates/operator-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "holmes.fullname" . }}-operator
+  name: {{ .Release.Name }}-operator
 spec:
   replicas: 1
   template:
@@ -91,16 +91,16 @@ spec:
 Defines ServiceAccount, ClusterRole, and ClusterRoleBinding:
 
 ```yaml
-# Location: helm/holmes/templates/operator-rbac.yaml
+# Location: helm/canis/templates/operator-rbac.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ include "holmes.fullname" . }}-operator
+  name: {{ .Release.Name }}-operator
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "holmes.fullname" . }}-operator
+  name: {{ .Release.Name }}-operator
 rules:
   # CRD permissions
   # ...
@@ -108,7 +108,7 @@ rules:
 
 ### CRD Definitions
 
-CRDs are in `helm/holmes/crds/`:
+CRDs are in `helm/canis/crds/`:
 
 - `healthcheck.yaml` - HealthCheck CRD
 - `scheduledhealthcheck.yaml` - ScheduledHealthCheck CRD
@@ -120,8 +120,8 @@ CRDs are in `helm/holmes/crds/`:
     Kubernetes does not automatically update CRDs via Helm upgrade. After modifying CRDs, you must manually apply them:
 
     ```bash
-    kubectl apply -f helm/holmes/crds/healthcheck.yaml
-    kubectl apply -f helm/holmes/crds/scheduledhealthcheck.yaml
+    kubectl apply -f helm/canis/crds/healthcheck.yaml
+    kubectl apply -f helm/canis/crds/scheduledhealthcheck.yaml
     ```
 
 ### Testing Manifest Changes
@@ -130,18 +130,18 @@ Test Helm template rendering without installing:
 
 ```bash
 # Render templates with default values
-helm template holmesgpt helm/holmes --set operator.enabled=true
+helm template canis helm/canis --set operator.enabled=true
 
 # Render with custom values
-helm template holmesgpt helm/holmes -f your-values.yaml --set operator.enabled=true
+helm template canis helm/canis -f your-values.yaml --set operator.enabled=true
 
 # Render only operator templates
-helm template holmesgpt helm/holmes \
+helm template canis helm/canis \
   --set operator.enabled=true \
   --show-only templates/operator-deployment.yaml
 
 # Render and pipe to kubectl diff
-helm template holmesgpt helm/holmes -f your-values.yaml | kubectl diff -f -
+helm template canis helm/canis -f your-values.yaml | kubectl diff -f -
 ```
 
 ## Installing Local Changes
@@ -153,7 +153,7 @@ Create a custom `values-dev.yaml`:
 ```yaml
 operator:
   enabled: true
-  image: holmes-operator:dev  # Your local image
+  image: canis-operator:dev  # Your local image
   registry: ""  # Empty for local images
   imagePullPolicy: Never  # Use local image only
 
@@ -171,14 +171,14 @@ Install or upgrade:
 
 ```bash
 # Install new release
-helm install holmesgpt helm/holmes -f values-dev.yaml
+helm install canis helm/canis -f values-dev.yaml
 
 # Upgrade existing release
-helm upgrade holmesgpt helm/holmes -f values-dev.yaml
+helm upgrade canis helm/canis -f values-dev.yaml
 
 # Verify deployment
-kubectl get pods -l app.kubernetes.io/name=holmes-operator
-kubectl logs -l app.kubernetes.io/name=holmes-operator --tail=50
+kubectl get pods -l app.kubernetes.io/name=canis-operator
+kubectl logs -l app.kubernetes.io/name=canis-operator --tail=50
 ```
 
 ### Installing from Local Helm Chart
@@ -187,13 +187,13 @@ Test changes to the Helm chart itself:
 
 ```bash
 # Lint Helm chart
-helm lint helm/holmes
+helm lint helm/canis
 
 # Install from local path
-helm install holmesgpt ./helm/holmes -f values-dev.yaml
+helm install canis ./helm/canis -f values-dev.yaml
 
 # Upgrade from local path
-helm upgrade holmesgpt ./helm/holmes -f values-dev.yaml
+helm upgrade canis ./helm/canis -f values-dev.yaml
 ```
 
 ### Applying CRD Changes
@@ -202,8 +202,8 @@ After modifying CRDs:
 
 ```bash
 # Apply updated CRDs
-kubectl apply -f helm/holmes/crds/healthcheck.yaml
-kubectl apply -f helm/holmes/crds/scheduledhealthcheck.yaml
+kubectl apply -f helm/canis/crds/healthcheck.yaml
+kubectl apply -f helm/canis/crds/scheduledhealthcheck.yaml
 
 # Verify CRD versions
 kubectl get crd healthchecks.holmesgpt.dev -o yaml | grep version -A 5
@@ -217,12 +217,12 @@ For rapid development, run the operator on your local machine:
 
 ```bash
 # Set environment variables
-export HOLMES_API_URL="http://localhost:8080"  # Port forward to Holmes API
+export HOLMES_API_URL="http://localhost:8080"  # Port forward to Canis API
 export LOG_LEVEL="DEBUG"
 export MAX_HISTORY_ITEMS="5"
 
-# Port forward to Holmes API
-kubectl port-forward svc/holmes-api 8080:80 &
+# Port forward to Canis API
+kubectl port-forward svc/canis-canis 8080:80 &
 
 # Verify API is accessible
 curl http://localhost:8080/health
@@ -297,7 +297,7 @@ spec:
 kubectl get hc --watch
 
 # View operator logs in real-time
-kubectl logs -l app.kubernetes.io/name=holmes-operator --follow
+kubectl logs -l app.kubernetes.io/name=canis-operator --follow
 
 # Check schedule status
 kubectl describe shc dev-test-schedule
@@ -326,19 +326,19 @@ operator:
 
 ### Common Development Issues
 
-**Issue: Operator can't reach Holmes API**
+**Issue: Operator can't reach Canis API**
 
 Solution:
 
 ```bash
 # Verify service DNS resolution
-kubectl exec -it deployment/holmes-operator -- nslookup holmes-api
+kubectl exec -it deployment/canis-operator -- nslookup canis-canis
 
 # Check service exists
-kubectl get svc holmes-api
+kubectl get svc canis-canis
 
 # Test connectivity
-kubectl exec -it deployment/holmes-operator -- curl http://holmes-api:80/health
+kubectl exec -it deployment/canis-operator -- curl http://canis-canis:80/health
 ```
 
 See the main [CLAUDE.md](../../CLAUDE.md) for full contribution guidelines.

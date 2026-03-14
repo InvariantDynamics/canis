@@ -120,7 +120,7 @@ def agui_chat(input_data: RunAgentInput, request: Request):
         additional_system_prompt=chat_request.additional_system_prompt,
     )
 
-    # Hijack the existing HolmesGPT cat stream output and format as AG-UI events.
+    # Hijack the existing Canis cat stream output and format as AG-UI events.
 
     async def event_generator(message_history):
         try:
@@ -386,7 +386,7 @@ def _is_tool_result_message(input_data: RunAgentInput) -> bool:
 
 
 def _agui_input_to_holmes_chat_request(input_data: RunAgentInput) -> ChatRequest:
-    # Convert AG-UI input to HolmesGPT ChatRequest format
+    # Convert AG-UI input to Canis ChatRequest format
     non_system_messages = []
     # IMPORTANT: Do not support front-end "tool" messages for now. Store them as assistant messages in conv history.
     # Requires full integration with tools. Claude will complain about "toolResult" missing corresponding "toolUse" msg.

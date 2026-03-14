@@ -1,6 +1,6 @@
 # Grafana Dashboards
 
-Connect HolmesGPT to Grafana for dashboard analysis, query extraction, and understanding your monitoring setup. This integration enables investigation of dashboard configurations and extraction of Prometheus queries for deeper analysis.
+Connect Canis to Grafana for dashboard analysis, query extraction, and understanding your monitoring setup. This integration enables investigation of dashboard configurations and extraction of Prometheus queries for deeper analysis.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ A [Grafana service account token](https://grafana.com/docs/grafana/latest/admini
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -31,7 +31,7 @@ A [Grafana service account token](https://grafana.com/docs/grafana/latest/admini
     To test, run:
 
     ```bash
-    holmes ask "Show me all dashboards tagged with 'kubernetes'"
+    canis ask "Show me all dashboards tagged with 'kubernetes'"
     ```
 
 === "Robusta Helm Chart"
@@ -76,7 +76,7 @@ toolsets:
 
 ### External URL
 
-If HolmesGPT accesses Grafana through an internal URL but you want clickable links in results to use a different URL:
+If Canis accesses Grafana through an internal URL but you want clickable links in results to use a different URL:
 
 ```yaml
 toolsets:
@@ -92,7 +92,7 @@ toolsets:
 
 ### Dashboard Query Extraction
 
-When HolmesGPT retrieves a dashboard, it can extract and analyze Prometheus queries from dashboard panels. This is particularly useful for:
+When Canis retrieves a dashboard, it can extract and analyze Prometheus queries from dashboard panels. This is particularly useful for:
 
 - Understanding what metrics a dashboard monitors
 - Extracting queries for further investigation with the Prometheus toolset
@@ -102,15 +102,15 @@ When HolmesGPT retrieves a dashboard, it can extract and analyze Prometheus quer
 
 **Finding dashboards by tag:**
 ```bash
-holmes ask "Find all dashboards tagged with 'production' or 'kubernetes'"
+canis ask "Find all dashboards tagged with 'production' or 'kubernetes'"
 ```
 
 **Analyzing a specific dashboard:**
 ```bash
-holmes ask "Show me what metrics the 'Node Exporter' dashboard monitors"
+canis ask "Show me what metrics the 'Node Exporter' dashboard monitors"
 ```
 
 **Extracting queries for investigation:**
 ```bash
-holmes ask "Get the CPU usage queries from the Kubernetes cluster dashboard and check if any nodes are throttling"
+canis ask "Get the CPU usage queries from the Kubernetes cluster dashboard and check if any nodes are throttling"
 ```

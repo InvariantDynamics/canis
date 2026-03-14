@@ -10,17 +10,17 @@ We meet once a month on Zoom:
 
 ### Other Resources
 
-- [📋 HolmesGPT Roadmap](https://github.com/orgs/robusta-dev/projects/2)
+- [📋 Canis Roadmap](https://github.com/orgs/robusta-dev/projects/2)
 
 ## Get Involved
 
 **💬 Join the Discussion:**
 
-- [Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) - #holmesgpt channel
-- [GitHub Issues](https://github.com/HolmesGPT/holmesgpt/issues) - Report bugs and request features
+- [Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ) - #canis channel
+- [GitHub Issues](https://github.com/InvariantDynamics/canis/issues) - Report bugs and request features
 
 **🤝 Contribute:**
 
-- Share your HolmesGPT use cases
+- Share your Canis use cases
 - Help improve documentation
 - Submit code contributions

@@ -61,7 +61,7 @@ function extractCurrentRun(body) {
     }
   }
 
-  // Find the header line (## ✅ Results... or ## ⏳ HolmesGPT evals running...)
+  // Find the header line (## ✅ Results... or ## ⏳ Canis evals running...)
   const headerMatch = cleanBody.match(/^(## [^\n]+)/);
   if (!headerMatch) return null;
 
@@ -250,7 +250,7 @@ function buildBody(p, progressSteps, extras = {}) {
   let body = p.isManual
     ? `## ${extras.icon || '🚀'} ${extras.title || 'Manual Eval Running...'}\n\n` +
       renderParamsTable(p, extras.context)
-    : `## ${extras.icon || '⏳'} ${extras.title || 'HolmesGPT evals running...'}\n\n` +
+    : `## ${extras.icon || '⏳'} ${extras.title || 'Canis evals running...'}\n\n` +
       `Automatically triggered by ${p.trigger}\n\n` +
       `[View workflow logs](${p.runUrl})\n`;
 

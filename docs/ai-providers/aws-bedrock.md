@@ -1,6 +1,6 @@
 # AWS Bedrock
 
-Configure HolmesGPT to use AWS Bedrock foundation models.
+Configure Canis to use AWS Bedrock foundation models.
 
 !!! tip "Which Model to Use"
     We highly recommend using Sonnet 4.0 or Sonnet 4.5 as they give the best results by far. See examples below for configuration.
@@ -18,14 +18,14 @@ Configure HolmesGPT to use AWS Bedrock foundation models.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export AWS_REGION_NAME="us-east-1"  # Replace with your region
     export AWS_ACCESS_KEY_ID="your-access-key"
     export AWS_SECRET_ACCESS_KEY="your-secret-key"
 
-    holmes ask "what pods are failing?" --model="bedrock/<your-bedrock-model>"
+    canis ask "what pods are failing?" --model="bedrock/<your-bedrock-model>"
     ```
 
     **For Claude Sonnet with 1M context window:**
@@ -36,14 +36,14 @@ Configure HolmesGPT to use AWS Bedrock foundation models.
     export EXTRA_HEADERS="{\"anthropic-beta\": \"context-1m-2025-08-07\"}"
     export OVERRIDE_MAX_CONTENT_SIZE="1000000"
 
-    holmes ask "what pods are failing?" --model="bedrock/eu.anthropic.claude-sonnet-4-20250514-v1:0"
+    canis ask "what pods are failing?" --model="bedrock/eu.anthropic.claude-sonnet-4-20250514-v1:0"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=aws-access-key-id="AKIA..." \
       --from-literal=aws-secret-access-key="your-secret-key" \
       -n <namespace>
@@ -56,12 +56,12 @@ Configure HolmesGPT to use AWS Bedrock foundation models.
       - name: AWS_ACCESS_KEY_ID
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: aws-access-key-id
       - name: AWS_SECRET_ACCESS_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: aws-secret-access-key
 
     # Configure at least one model using modelList
@@ -99,7 +99,7 @@ Configure HolmesGPT to use AWS Bedrock foundation models.
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=aws-access-key-id="AKIA..." \
       --from-literal=aws-secret-access-key="your-secret-key" \
       -n <namespace>
@@ -113,12 +113,12 @@ Configure HolmesGPT to use AWS Bedrock foundation models.
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: aws-access-key-id
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: aws-secret-access-key
 
       # Configure at least one model using modelList
@@ -168,10 +168,10 @@ This enables Anthropic's beta 1M context window feature.
 custom_args:
   max_context_size: 1000000
 ```
-This tells HolmesGPT the actual context window size (1M tokens) so it can properly manage conversation history.
+This tells Canis the actual context window size (1M tokens) so it can properly manage conversation history.
 
 !!! warning "Both Parameters Required"
-    You must include **both** `extra_headers` and `custom_args` to use the 1M context window. The `extra_headers` enables the feature, while `custom_args.max_context_size` ensures HolmesGPT knows the correct window size.
+    You must include **both** `extra_headers` and `custom_args` to use the 1M context window. The `extra_headers` enables the feature, while `custom_args.max_context_size` ensures Canis knows the correct window size.
 
 ### Finding Your AWS Credentials
 
@@ -228,4 +228,4 @@ Or, for Helm:
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support AWS Bedrock provider. Refer to [LiteLLM Bedrock docs](https://litellm.vercel.app/docs/providers/bedrock){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support AWS Bedrock provider. Refer to [LiteLLM Bedrock docs](https://litellm.vercel.app/docs/providers/bedrock){:target="_blank"} for more details.

@@ -1,8 +1,8 @@
 # Notion
 
-Notion Integration for HolmesGPT
+Notion Integration for Canis
 
-Enabling this toolset allows HolmesGPT to fetch pages from Notion, making it useful when providing Notion-based runbooks.
+Enabling this toolset allows Canis to fetch pages from Notion, making it useful when providing Notion-based runbooks.
 
 ## Setup Instructions
 
@@ -25,7 +25,7 @@ Enabling this toolset allows HolmesGPT to fetch pages from Notion, making it use
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     First, set the environment variable:
     ```bash
@@ -62,7 +62,7 @@ Enabling this toolset allows HolmesGPT to fetch pages from Notion, making it use
 
 By default, the Notion toolset uses a 5-second timeout for webpage requests. If you need to increase the timeout for slower Notion API responses, you can set the `INTERNET_TOOLSET_TIMEOUT_SECONDS` environment variable:
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export INTERNET_TOOLSET_TIMEOUT_SECONDS=30

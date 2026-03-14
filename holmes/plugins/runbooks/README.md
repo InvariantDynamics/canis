@@ -1,6 +1,6 @@
 # Runbooks
 
-Runbooks folder contains operational runbooks for the HolmesGPT project. Runbooks provide step-by-step instructions for common tasks, troubleshooting, and maintenance procedures related to the plugins in this directory.
+Runbooks folder contains operational runbooks for the Canis project. Runbooks provide step-by-step instructions for common tasks, troubleshooting, and maintenance procedures related to the plugins in this directory.
 
 ## Purpose
 

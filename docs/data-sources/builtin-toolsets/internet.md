@@ -3,7 +3,7 @@
 !!! info "Enabled by Default"
     This toolset is enabled by default and should typically remain enabled.
 
-By enabling this toolset, HolmesGPT will be able to fetch webpages. This tool is beneficial if you provide Holmes with publicly accessible web-based runbooks.
+By enabling this toolset, Canis will be able to fetch webpages. This tool is beneficial if you provide Canis with publicly accessible web-based runbooks.
 
 ## Configuration
 

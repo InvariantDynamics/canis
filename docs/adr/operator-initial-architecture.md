@@ -1,27 +1,27 @@
-# Holmes Operator Architecture
+# Canis Operator Architecture
 
 ## Overview
 
-The Holmes Operator extends Holmes with Kubernetes-native health check capabilities using Custom Resource Definitions (CRDs). Following the Kubernetes Job/CronJob pattern, it provides two CRD types:
+The Canis Operator extends Canis with Kubernetes-native health check capabilities using Custom Resource Definitions (CRDs). Following the Kubernetes Job/CronJob pattern, it provides two CRD types:
 
 - **HealthCheck**: One-time execution checks that run immediately when created
 - **ScheduledHealthCheck**: Recurring checks that create HealthCheck resources on a cron schedule
 
-The architecture maintains separation of concerns with a lightweight operator handling orchestration while stateless Holmes API servers perform the actual check execution.
+The architecture maintains separation of concerns with a lightweight operator handling orchestration while stateless Canis API servers perform the actual check execution.
 
 ## Architecture Components
 
-### 1. Holmes Operator
+### 1. Canis Operator
 
 A lightweight Kubernetes controller built with [kopf](https://kopf.readthedocs.io/) that:
 
 - Watches HealthCheck CRDs
 - Manages check scheduling using APScheduler
-- Makes HTTP calls to Holmes API servers for check execution
+- Makes HTTP calls to Canis API servers for check execution
 - Updates CRD status with results
 - Handles retry logic and error recovery
 
-### 2. Holmes API Servers
+### 2. Canis API Servers
 
 Stateless FastAPI servers that:
 
@@ -56,7 +56,7 @@ Recurring check resource that:
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  ┌────────────────────────────┐                             │
-│  │   Holmes Operator (kopf)    │                             │
+│  │   Canis Operator (kopf)    │                             │
 │  │  - CRD Watching             │                             │
 │  │  - Scheduling (APScheduler) │                             │
 │  │  - Status Management        │                             │
@@ -190,7 +190,7 @@ status:
 
 ### Check Execution Endpoint
 
-The operator calls the Holmes API server to execute checks:
+The operator calls the Canis API server to execute checks:
 
 ```http
 POST /api/check/execute
@@ -231,26 +231,26 @@ Response:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: holmes-operator
-  namespace: holmes
+  name: canis-operator
+  namespace: canis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: holmes-operator
+      app: canis-operator
   template:
     metadata:
       labels:
-        app: holmes-operator
+        app: canis-operator
     spec:
-      serviceAccountName: holmes-operator
+      serviceAccountName: canis-operator
       containers:
       - name: operator
-        image: robusta/holmes-operator:latest
+        image: robusta/canis-operator:latest
         command: ["kopf", "run", "-A", "--standalone", "/app/operator.py"]
         env:
         - name: HOLMES_API_URL
-          value: "http://holmes-api:8080"
+          value: "http://canis-canis:80"
         - name: LOG_LEVEL
           value: "INFO"
         resources:
@@ -268,13 +268,13 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: holmes-operator
+  name: canis-operator
   namespace: holmes
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: holmes-operator
+  name: canis-operator
 rules:
 - apiGroups: ["holmesgpt.dev"]
   resources: ["healthchecks"]
@@ -286,14 +286,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: holmes-operator
+  name: canis-operator
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: holmes-operator
+  name: canis-operator
 subjects:
 - kind: ServiceAccount
-  name: holmes-operator
+  name: canis-operator
   namespace: holmes
 ```
 
@@ -423,7 +423,7 @@ kubectl patch scheduledhealthcheck frontend-schedule --type='merge' -p '{"spec":
 
 1. **Check not executing**
 
-   - Verify operator is running: `kubectl logs -l app=holmes-operator`
+   - Verify operator is running: `kubectl logs -l app=canis-operator`
    - Check CRD status: `kubectl get healthcheck <name> -o yaml`
    - Ensure API service is accessible
 
@@ -443,4 +443,4 @@ kubectl patch scheduledhealthcheck frontend-schedule --type='merge' -p '{"spec":
 - [Kopf Documentation](https://kopf.readthedocs.io/)
 - [APScheduler Documentation](https://apscheduler.readthedocs.io/)
 - [Kubernetes CRD Best Practices](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-- [Holmes Check Documentation](./health-checks.md)
+- [Canis Check Documentation](./health-checks.md)

@@ -2,11 +2,11 @@
 
 --8<-- "snippets/enabled_by_default.md"
 
-By enabling this toolset, HolmesGPT will be able to provide read access to a cluster's Helm charts and releases.
+By enabling this toolset, Canis will be able to provide read access to a cluster's Helm charts and releases.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 

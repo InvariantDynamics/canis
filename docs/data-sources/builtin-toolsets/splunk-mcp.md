@@ -1,14 +1,14 @@
 # Splunk (MCP)
 
-The Splunk MCP server provides access to Splunk's search and analysis capabilities. It enables Holmes to query Splunk indexes, investigate logs, analyze security events, and troubleshoot application issues using Splunk's powerful search processing language (SPL).
+The Splunk MCP server provides access to Splunk's search and analysis capabilities. It enables Canis to query Splunk indexes, investigate logs, analyze security events, and troubleshoot application issues using Splunk's powerful search processing language (SPL).
 
 ## Overview
 
-The Splunk MCP server is installed directly on your Splunk instance (Cloud or Enterprise). Holmes connects to your Splunk MCP server endpoint using token-based authentication.
+The Splunk MCP server is installed directly on your Splunk instance (Cloud or Enterprise). Canis connects to your Splunk MCP server endpoint using token-based authentication.
 
 ## Prerequisites
 
-Before configuring Holmes to connect to Splunk MCP, you need to:
+Before configuring Canis to connect to Splunk MCP, you need to:
 
 1. Install the Splunk MCP Server app on your Splunk instance
 2. Create a dedicated role with MCP permissions
@@ -60,7 +60,7 @@ Before configuring Holmes to connect to Splunk MCP, you need to:
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -137,16 +137,16 @@ The Splunk MCP server provides tools for searching and analyzing data in Splunk.
 
 ## Testing the Connection
 
-After configuring Holmes to connect to Splunk MCP, verify it's working:
+After configuring Canis to connect to Splunk MCP, verify it's working:
 
 ```bash
-holmes ask "List the available Splunk indexes"
+canis ask "List the available Splunk indexes"
 ```
 
 Or test a simple search:
 
 ```bash
-holmes ask "Search Splunk for the most recent 10 error events"
+canis ask "Search Splunk for the most recent 10 error events"
 ```
 
 ## Common Use Cases

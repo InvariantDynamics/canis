@@ -3,11 +3,11 @@
 !!! info "Enabled by Default"
     This toolset is enabled by default and should typically remain enabled.
 
-The bash toolset allows Holmes to execute shell commands for troubleshooting and system analysis. Commands are validated against configurable allow/deny lists before execution.
+The bash toolset allows Canis to execute shell commands for troubleshooting and system analysis. Commands are validated against configurable allow/deny lists before execution.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -48,7 +48,7 @@ The bash toolset allows Holmes to execute shell commands for troubleshooting and
               - "kubectl get secret"
     ```
 
-    `extended` is recommended for Helm deployments where Holmes runs in a container with a minimal filesystem.
+    `extended` is recommended for Helm deployments where Canis runs in a container with a minimal filesystem.
 
 ## Builtin Allowlist Levels
 
@@ -77,7 +77,7 @@ User-provided `allow` and `deny` entries are always merged with the selected bui
 
 ## Command Approval
 
-When Holmes tries to run a command not in your allow list, you'll see a prompt:
+When Canis tries to run a command not in your allow list, you'll see a prompt:
 
 ```text
 Bash command
@@ -88,12 +88,12 @@ Bash command
 Do you want to proceed?
   1. Yes
   2. Yes, and don't ask again for `kubectl scale deployment nginx` commands
-  3. Type here to tell Holmes what to do differently
+  3. Type here to tell Canis what to do differently
 ```
 
 - **Option 1**: Run this command once
 - **Option 2**: Run and add the prefix to your allow list (saved to `~/.holmes/bash_approved_prefixes.yaml`)
-- **Option 3**: Reject and provide feedback to Holmes
+- **Option 3**: Reject and provide feedback to Canis
 
 ## Prefix Matching
 

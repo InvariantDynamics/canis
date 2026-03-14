@@ -3,7 +3,7 @@
 !!! info "Enabled by Default"
     This toolset is enabled by default and should typically remain enabled.
 
-The connectivity check toolset provides basic TCP network connectivity verification. It allows HolmesGPT to test if specific hosts and ports are reachable using TCP socket connections.
+The connectivity check toolset provides basic TCP network connectivity verification. It allows Canis to test if specific hosts and ports are reachable using TCP socket connections.
 
 This toolset is useful for troubleshooting network connectivity issues, verifying service availability, and validating that TCP services are listening on expected ports.
 

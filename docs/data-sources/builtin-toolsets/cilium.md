@@ -1,6 +1,6 @@
 # Cilium
 
-By enabling this toolset, HolmesGPT will be able to interact with Cilium CNI and Hubble network observability, providing comprehensive network troubleshooting and monitoring capabilities for Kubernetes clusters.
+By enabling this toolset, Canis will be able to interact with Cilium CNI and Hubble network observability, providing comprehensive network troubleshooting and monitoring capabilities for Kubernetes clusters.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ By enabling this toolset, HolmesGPT will be able to interact with Cilium CNI and
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     First, ensure your tools are properly configured:
 

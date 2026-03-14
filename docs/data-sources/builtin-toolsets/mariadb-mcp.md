@@ -4,17 +4,17 @@ The MariaDB MCP server provides read-only access to MariaDB databases for troubl
 
 ## Overview
 
-The MariaDB MCP server is deployed as a separate pod in your cluster when using the Holmes or Robusta Helm charts. 
+The MariaDB MCP server is deployed as a separate pod in your cluster when using the Canis or Robusta Helm charts. 
 
-For CLI users, you'll need to deploy the MCP server manually and configure Holmes to connect to it. 
+For CLI users, you'll need to deploy the MCP server manually and configure Canis to connect to it. 
 
 It operates in read-only mode by default to ensure safety while investigating production databases (recommended to use a database user with read-only permissions as well).
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the MariaDB MCP server first, then configure Holmes to connect to it. Below is an example on how to deploy it in your cluster.
+    For CLI usage, you need to deploy the MariaDB MCP server first, then configure Canis to connect to it. Below is an example on how to deploy it in your cluster.
 
     **Step 1: Deploy the MariaDB MCP Server**
 
@@ -138,7 +138,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
       -n holmes-mcp
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -186,7 +186,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
 
     **Step 4: Port Forwarding (Optional for Local Testing)**
 
-    If running Holmes CLI locally and need to access the MCP server:
+    If running Canis CLI locally and need to access the MCP server:
 
     ```bash
     kubectl port-forward -n holmes-mcp svc/mariadb-mcp-server 8000:8000
@@ -198,7 +198,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
       url: "http://localhost:8000/mcp"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     Add the following minimal configuration to your `values.yaml` file:
 
@@ -215,12 +215,12 @@ It operates in read-only mode by default to ensure safety while investigating pr
           password: "secure_password"                  # Database password
     ```
 
-    For additional configuration options (resources, network policy, node selectors, SSL, etc.), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L113).
+    For additional configuration options (resources, network policy, node selectors, SSL, etc.), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L113).
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -231,7 +231,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
     globalConfig:
       # Your existing Robusta configuration
 
-    # Add the Holmes MCP addon configuration
+    # Add the Canis MCP addon configuration
     holmes:
       mcpAddons:
         mariadb:
@@ -245,7 +245,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
             password: "secure_password"                  # Database password
     ```
 
-    For additional configuration options (resources, network policy, node selectors, SSL, etc.), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L113).
+    For additional configuration options (resources, network policy, node selectors, SSL, etc.), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L113).
 
     Then deploy or upgrade your Robusta installation:
 
@@ -255,7 +255,7 @@ It operates in read-only mode by default to ensure safety while investigating pr
 
 ## Database User Setup
 
-Create a read-only user for Holmes to use:
+Create a read-only user for Canis to use:
 
 ```sql
 -- Create the user
@@ -302,7 +302,7 @@ mcpAddons:
 
 ## Capabilities
 
-The MariaDB MCP server enables Holmes to:
+The MariaDB MCP server enables Canis to:
 
 ### Performance Analysis
 - Identify slow queries and their patterns

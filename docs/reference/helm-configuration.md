@@ -1,11 +1,11 @@
 # Helm Configuration
 
-Configuration reference for HolmesGPT Helm chart.
+Configuration reference for Canis Helm chart.
 
 **Quick Links:**
 
 - [Installation Tutorial](../installation/kubernetes-installation.md) - Step-by-step setup guide
-- [values.yaml](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml) - Complete configuration reference
+- [values.yaml](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml) - Complete configuration reference
 - [HTTP API Reference](../reference/http-api.md) - Test your deployment
 
 ## Basic Configuration
@@ -13,7 +13,7 @@ Configuration reference for HolmesGPT Helm chart.
 ```yaml
 # values.yaml
 # Image settings
-image: holmes:0.0.0
+image: canis:0.0.0
 registry: robustadev
 
 # Logging level
@@ -55,7 +55,7 @@ toolsets:
 | `toolsets` | Enable/disable specific toolsets | (see values.yaml) |
 | `modelList` | Configure multiple AI models for UI selection. See [Using Multiple Providers](../ai-providers/using-multiple-providers.md) | `{}` |
 | `openshift` | Enable OpenShift compatibility mode | `false` |
-| `image` | HolmesGPT image name | `holmes:0.0.0` |
+| `image` | Canis image name | `canis:0.0.0` |
 | `registry` | Container registry | `robustadev` |
 | `logLevel` | Log level (DEBUG, INFO, WARN, ERROR) | `INFO` |
 | `enableTelemetry` | Send exception reports to sentry | `true` |
@@ -74,13 +74,13 @@ additionalEnvVars:
 # - name: OPENAI_API_KEY
 #   valueFrom:
 #     secretKeyRef:
-#       name: holmes-secrets
+#       name: canis-secrets
 #       key: openai-api-key
 ```
 
 #### Toolset Configuration
 
-Control which capabilities HolmesGPT has access to:
+Control which capabilities Canis has access to:
 
 ```yaml
 toolsets:
@@ -201,7 +201,7 @@ modelList: {}
 
 ```yaml
 # values.yaml
-image: holmes:0.0.0
+image: canis:0.0.0
 registry: robustadev
 logLevel: INFO
 enableTelemetry: false
@@ -234,22 +234,22 @@ additionalEnvVars:
   - name: OPENAI_API_KEY
     valueFrom:
       secretKeyRef:
-        name: holmes-secrets
+        name: canis-secrets
         key: openai-api-key
   - name: ANTHROPIC_API_KEY
     valueFrom:
       secretKeyRef:
-        name: holmes-secrets
+        name: canis-secrets
         key: anthropic-api-key
   - name: AWS_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
-        name: holmes-secrets
+        name: canis-secrets
         key: aws-access-key-id
   - name: AWS_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: holmes-secrets
+        name: canis-secrets
         key: aws-secret-access-key
 
 modelList:
@@ -301,10 +301,10 @@ toolsets:
 
 ```bash
 # Validate configuration
-helm template holmesgpt robusta/holmes -f values.yaml
+helm template canis robusta/canis -f values.yaml
 
 # Dry run installation
-helm install holmesgpt robusta/holmes -f values.yaml --dry-run
+helm install canis robusta/canis -f values.yaml --dry-run
 
 # Check syntax
 yamllint values.yaml
@@ -312,4 +312,4 @@ yamllint values.yaml
 
 ## Complete Reference
 
-For the complete and up-to-date configuration reference, see the actual [`values.yaml`](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml) file in the repository.
+For the complete and up-to-date configuration reference, see the actual [`values.yaml`](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml) file in the repository.

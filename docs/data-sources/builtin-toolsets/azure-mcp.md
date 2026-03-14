@@ -1,22 +1,22 @@
 # Azure (MCP)
 
-The Azure MCP server gives Holmes **read-only access to any Azure API** you permit via RBAC. This means Holmes can query VMs, AKS, SQL databases, Activity Log, Azure Monitor, networking, storage, and hundreds of other Azure services - limited only by the roles you assign.
+The Azure MCP server gives Canis **read-only access to any Azure API** you permit via RBAC. This means Canis can query VMs, AKS, SQL databases, Activity Log, Azure Monitor, networking, storage, and hundreds of other Azure services - limited only by the roles you assign.
 
 ## Overview
 
 The Azure MCP server runs as a pod in your Kubernetes cluster.
 
 - **Helm users**: The pod is deployed automatically when you enable the addon
-- **CLI users**: You deploy the pod manually to your cluster, then point Holmes at it
+- **CLI users**: You deploy the pod manually to your cluster, then point Canis at it
 
 !!! note
-    Even when using Holmes CLI locally, the Azure MCP server must run in a Kubernetes cluster. Local-only deployment is not currently supported.
+    Even when using Canis CLI locally, the Azure MCP server must run in a Kubernetes cluster. Local-only deployment is not currently supported.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the Azure MCP server first, then configure Holmes to connect to it.
+    For CLI usage, you need to deploy the Azure MCP server first, then configure Canis to connect to it.
 
     **Step 1: Deploy the Azure MCP Server**
 
@@ -182,7 +182,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
     3. Update the deployment to reference the secret (uncomment the secret reference in the YAML above)
     4. Set `AZ_AUTH_METHOD: "service-principal"` in the ConfigMap
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -210,7 +210,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
 
     **Step 4: Port Forwarding (Optional for Local Testing)**
 
-    If running Holmes CLI locally and need to access the MCP server:
+    If running Canis CLI locally and need to access the MCP server:
 
     ```bash
     kubectl port-forward -n holmes-mcp svc/azure-mcp-server 8000:8000
@@ -221,7 +221,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
     url: "http://localhost:8000"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Workload Identity Authentication (Recommended for AKS)**
 
@@ -305,12 +305,12 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
           readOnlyMode: true
     ```
 
-    For additional configuration options (resources, network policy, node selectors, etc.), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L162).
+    For additional configuration options (resources, network policy, node selectors, etc.), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L162).
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -321,7 +321,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
     globalConfig:
       # Your existing Robusta configuration
 
-    # Add the Holmes MCP addon configuration
+    # Add the Canis MCP addon configuration
     holmes:
       mcpAddons:
         azure:
@@ -396,7 +396,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
             readOnlyMode: true
     ```
 
-    For additional configuration options (resources, network policy, node selectors, etc.), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L162).
+    For additional configuration options (resources, network policy, node selectors, etc.), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L162).
 
     Then deploy or upgrade your Robusta installation:
 
@@ -408,7 +408,7 @@ The Azure MCP server runs as a pod in your Kubernetes cluster.
 
 ### Azure RBAC Roles
 
-Assign roles based on what you want Holmes to investigate. At minimum, assign **Reader** on the subscription. For broader investigations, add more roles:
+Assign roles based on what you want Canis to investigate. At minimum, assign **Reader** on the subscription. For broader investigations, add more roles:
 
 | Role | Purpose |
 |------|---------|
@@ -459,7 +459,7 @@ az role assignment create \
 
 ### Multi-Subscription Access
 
-Holmes can automatically discover and switch between subscriptions within the same tenant. Just ensure your identity has the appropriate roles in each subscription.
+Canis can automatically discover and switch between subscriptions within the same tenant. Just ensure your identity has the appropriate roles in each subscription.
 
 ## Example Usage
 
@@ -498,8 +498,8 @@ kubectl logs -n YOUR_NAMESPACE -l app.kubernetes.io/name=azure-mcp-server
 kubectl port-forward -n YOUR_NAMESPACE svc/RELEASE_NAME-azure-mcp-server 8000:8000
 curl http://localhost:8000/health
 
-# Ask Holmes
-holmes ask "Can you list all resource groups in my Azure subscription?"
+# Ask Canis
+canis ask "Can you list all resource groups in my Azure subscription?"
 ```
 
 ## Troubleshooting
@@ -529,7 +529,7 @@ holmes ask "Can you list all resource groups in my Azure subscription?"
 
 ### Permission Errors
 
-**Problem:** Holmes reports "AuthorizationFailed" or "Forbidden" errors
+**Problem:** Canis reports "AuthorizationFailed" or "Forbidden" errors
 
 **Solution:** Verify RBAC role assignments
 
@@ -540,7 +540,7 @@ az role assignment list --assignee YOUR_CLIENT_ID --output table
 
 ### Connection Timeouts
 
-**Problem:** Holmes can't connect to the MCP server
+**Problem:** Canis can't connect to the MCP server
 
 **Solutions:**
 
@@ -554,7 +554,7 @@ az role assignment list --assignee YOUR_CLIENT_ID --output table
    kubectl get networkpolicy -n YOUR_NAMESPACE
    ```
 
-3. Test connectivity from Holmes pod
+3. Test connectivity from Canis pod
    ```bash
    kubectl exec -it HOLMES_POD -n YOUR_NAMESPACE -- \
      curl http://RELEASE_NAME-azure-mcp-server.YOUR_NAMESPACE.svc.cluster.local:8000/health

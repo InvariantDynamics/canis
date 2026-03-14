@@ -1,10 +1,10 @@
-# AG-UI - Experimental HolmesGPT Server
+# AG-UI - Experimental Canis Server
 
-AG-UI is an experimental extension to HolmesGPT that demonstrates [AG-UI](https://docs.ag-ui.com/introduction) capabilities (page context and state sharing, front-end tools execution, etc) through a specialized `/api/agui/chat` endpoint and a web-based "ExampleOps✨" observability demo interface. The AG-UI compatible `server.py` is adapted from the [existing server.py implementation](../../server.py)
+AG-UI is an experimental extension to Canis that demonstrates [AG-UI](https://docs.ag-ui.com/introduction) capabilities (page context and state sharing, front-end tools execution, etc) through a specialized `/api/agui/chat` endpoint and a web-based "ExampleOps✨" observability demo interface. The AG-UI compatible `server.py` is adapted from the [existing server.py implementation](../../server.py)
 
-_⚠️ **Disclaimer**: AG-UI is experimental within HolmesGPT. APIs and interfaces may change as the project evolves. The demonstration server and frontend is not intended for production use._
+_⚠️ **Disclaimer**: AG-UI is experimental within Canis. APIs and interfaces may change as the project evolves. The demonstration server and frontend is not intended for production use._
 
-![ExampleOps demo video](https://github.com/kylehounslow/holmesgpt/blob/docs/experimental/ag-ui/docs/holmesgpt-agui-demo-1.gif?raw=true)
+![ExampleOps demo video](https://github.com/kylehounslow/canis/blob/docs/experimental/ag-ui/docs/canis-agui-demo-1.gif?raw=true)
 
 ## Known Limitations:
 
@@ -17,7 +17,7 @@ _⚠️ **Disclaimer**: AG-UI is experimental within HolmesGPT. APIs and interfa
 
 ### **0. Prerequisites**
 
-- **HolmesGPT** with experimental AG-UI server.
+- **Canis** with experimental AG-UI server.
 - **Data Sources**: Prometheus (`:9090`) and/or OpenSearch (`:9200`)
   - Recommended to run [opentelemetry-demo](https://github.com/open-telemetry/opentelemetry-demo) via docker-compose.
 - **Node.js** 20+ (for frontend demonstration)
@@ -32,13 +32,13 @@ cd opentelemetry-demo
 docker compose up -d
 ```
 
-### **2. Start HolmesGPT AG-UI Server on port 5050**
+### **2. Start Canis AG-UI Server on port 5050**
 
-Assumes there is a local Prometheus server (containing metrics) at `localhost:9090` (e.g. [opentelemetry-demo](https://github.com/open-telemetry/opentelemetry-demo)) and using AWS Bedrock as LLM. See [HolmesGPT documentation](https://holmesgpt.dev/) for alternate configurations.
+Assumes there is a local Prometheus server (containing metrics) at `localhost:9090` (e.g. [opentelemetry-demo](https://github.com/open-telemetry/opentelemetry-demo)) and using AWS Bedrock as LLM. See [Canis documentation](https://holmesgpt.dev/) for alternate configurations.
 
 ```bash
-# Start HolmesGPT AG-UI compatible server
-cd holmesgpt
+# Start Canis AG-UI compatible server
+cd canis
 export HOLMES_PORT=5050
 export PROMETHEUS_URL=http://localhost:9090
 export AWS_PROFILE=default
@@ -70,6 +70,6 @@ cd experimental/ag-ui/front-end
 npm install && npm start
 ```
 
-## Running HolmesGPT in OpenSearch Dashboards
-OpenSearch Dashboards (>=3.3) supports AG-UI compatible agents for its AI chat. For an example HolmesGPT configuration,
+## Running Canis in OpenSearch Dashboards
+OpenSearch Dashboards (>=3.3) supports AG-UI compatible agents for its AI chat. For an example Canis configuration,
 see [gist](https://gist.github.com/kylehounslow/07290ee15768a5b15a924831f7759217).

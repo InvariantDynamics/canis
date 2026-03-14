@@ -1,6 +1,6 @@
 # Other
 
-HolmesGPT supports all AI providers available through [LiteLLM](https://litellm.vercel.app/docs/providers){:target="_blank"}, including 100+ different LLM providers. This guide shows how to configure any LiteLLM-supported provider using DeepSeek via Novita as an example.
+Canis supports all AI providers available through [LiteLLM](https://litellm.vercel.app/docs/providers){:target="_blank"}, including 100+ different LLM providers. This guide shows how to configure any LiteLLM-supported provider using DeepSeek via Novita as an example.
 
 ## Example: DeepSeek 3.1 Terminus via Novita
 
@@ -17,7 +17,7 @@ First, visit the [LiteLLM Novita documentation](https://litellm.vercel.app/docs/
 
 Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API key.
 
-### Step 3: Configure HolmesGPT
+### Step 3: Configure Canis
 
 !!! warning "Model Not in LiteLLM Registry"
     Since DeepSeek 3.1 Terminus via Novita isn't in LiteLLM's model registry, you'll see warnings about using default token limits (200K input, 4k output). To fix this, set the correct values based on the model's actual capabilities when run via Novita:
@@ -25,7 +25,7 @@ Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API k
     - **Context window**: 98,304 tokens
     - **Max output**: 32,768 tokens
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Set the API key and token limits:**
     ```bash
@@ -38,22 +38,22 @@ Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API k
 
     **Use the model:**
     ```bash
-    holmes ask "what pods are failing?" --model="novita/deepseek/deepseek-v3.1-terminus"
+    canis ask "what pods are failing?" --model="novita/deepseek/deepseek-v3.1-terminus"
     ```
 
     **Or pass the API key directly:**
     ```bash
     OVERRIDE_MAX_CONTENT_SIZE=98304 OVERRIDE_MAX_OUTPUT_TOKEN=32768 \
-    holmes ask "what pods are failing?" \
+    canis ask "what pods are failing?" \
       --model="novita/deepseek/deepseek-v3.1-terminus" \
       --api-key="your-novita-api-key"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Option 1: Using Kubernetes Secret (Recommended):**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=novita-api-key="your-novita-api-key" \
       -n <namespace>
     ```
@@ -64,7 +64,7 @@ Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API k
       - name: NOVITA_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: novita-api-key
 
     modelList:
@@ -98,7 +98,7 @@ Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API k
 
     **Option 1: Using Kubernetes Secret (Recommended):**
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=novita-api-key="your-novita-api-key" \
       -n <namespace>
     ```
@@ -110,7 +110,7 @@ Sign up at [Novita AI](https://novita.ai){:target="_blank"} to obtain your API k
         - name: NOVITA_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: novita-api-key
 
       modelList:

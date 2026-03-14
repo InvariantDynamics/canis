@@ -1,10 +1,10 @@
 # MCP Servers
 
-HolmesGPT can integrate with MCP (Model Context Protocol) servers to access external data sources and tools in real time.
+Canis can integrate with MCP (Model Context Protocol) servers to access external data sources and tools in real time.
 
 ## Transport Modes
 
-HolmesGPT supports three MCP transport modes:
+Canis supports three MCP transport modes:
 
 1. **`streamable-http`** (Recommended): Modern HTTP-based transport. Use this for new integrations.
 2. **`stdio`**: Direct process communication via standard input/output. Supported directly in CLI; supported on Kubernetes via [Supergateway](https://github.com/supercorp-ai/supergateway).
@@ -12,7 +12,7 @@ HolmesGPT supports three MCP transport modes:
 
 ## Streamable-HTTP (Recommended)
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add to `~/.holmes/config.yaml`:
 
@@ -26,15 +26,15 @@ HolmesGPT supports three MCP transport modes:
           headers:
             Authorization: "Bearer {{ env.DYNATRACE_API_KEY }}"
           icon_url: "https://cdn.simpleicons.org/dynatrace/1496FF"  # Optional: icon for UI
-        # llm_instructions tells Holmes WHEN and HOW to use this server
+        # llm_instructions tells Canis WHEN and HOW to use this server
         llm_instructions: "Use Dynatrace to investigate application performance issues, analyze distributed traces, and query infrastructure metrics. Prefer this over Prometheus for APM data."
     ```
 
     ```bash
-    holmes ask "What services have high error rates in Dynatrace?"
+    canis ask "What services have high error rates in Dynatrace?"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     Add to your Helm values:
 
@@ -55,12 +55,12 @@ HolmesGPT supports three MCP transport modes:
           headers:
             Authorization: "Bearer {{ env.DYNATRACE_API_KEY }}"
           icon_url: "https://cdn.simpleicons.org/dynatrace/1496FF"  # Optional: icon for UI
-        # llm_instructions tells Holmes WHEN and HOW to use this server
+        # llm_instructions tells Canis WHEN and HOW to use this server
         llm_instructions: "Use Dynatrace to investigate application performance issues, analyze distributed traces, and query infrastructure metrics. Prefer this over Prometheus for APM data."
     ```
 
     ```bash
-    helm upgrade holmes robusta/holmes --values=values.yaml
+    helm upgrade holmes robusta/canis --values=values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -85,7 +85,7 @@ HolmesGPT supports three MCP transport modes:
             headers:
               Authorization: "Bearer {{ env.DYNATRACE_API_KEY }}"
             icon_url: "https://cdn.simpleicons.org/dynatrace/1496FF"  # Optional: icon for UI
-          # llm_instructions tells Holmes WHEN and HOW to use this server
+          # llm_instructions tells Canis WHEN and HOW to use this server
           llm_instructions: "Use Dynatrace to investigate application performance issues, analyze distributed traces, and query infrastructure metrics. Prefer this over Prometheus for APM data."
     ```
 
@@ -99,7 +99,7 @@ The URL path depends on your MCP server (e.g., `/mcp/messages`, `/mcp`, or a cus
 
 Stdio mode runs MCP servers as subprocesses, communicating via standard input/output.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add to `~/.holmes/config.yaml`:
 
@@ -114,20 +114,20 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
             - "/path/to/my_mcp_server.py"
           env:
             CUSTOM_VAR: "value"
-        # llm_instructions tells Holmes WHEN and HOW to use this server
+        # llm_instructions tells Canis WHEN and HOW to use this server
         llm_instructions: "Use this server to query the internal ticket database. Search for related incidents by error message or service name."
     ```
 
     ```bash
-    holmes ask "Find tickets related to payment service errors"
+    canis ask "Find tickets related to payment service errors"
     ```
 
     Ensure required dependencies (e.g., `mcp`, `fastmcp` packages) are installed in your environment.
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     !!! warning "Stdio requires Supergateway for Kubernetes"
-        Stdio mode cannot run directly in the Holmes container due to missing dependencies. Run your stdio MCP server in a separate pod using [Supergateway](https://github.com/supercorp-ai/supergateway) to expose it as HTTP.
+        Stdio mode cannot run directly in the Canis container due to missing dependencies. Run your stdio MCP server in a separate pod using [Supergateway](https://github.com/supercorp-ai/supergateway) to expose it as HTTP.
 
     **Create a Docker image with your MCP server:**
 
@@ -195,7 +195,7 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
       type: ClusterIP
     ```
 
-    **Connect Holmes to the MCP server:**
+    **Connect Canis to the MCP server:**
 
     ```yaml
     mcp_servers:
@@ -204,18 +204,18 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
         config:
           url: "http://ticket-db-mcp.default.svc.cluster.local:8000/sse"
           mode: sse
-        # llm_instructions tells Holmes WHEN and HOW to use this server
+        # llm_instructions tells Canis WHEN and HOW to use this server
         llm_instructions: "Use this server to query the internal ticket database. Search for related incidents by error message or service name."
     ```
 
     ```bash
-    helm upgrade holmes robusta/holmes --values=values.yaml
+    helm upgrade holmes robusta/canis --values=values.yaml
     ```
 
 === "Robusta Helm Chart"
 
     !!! warning "Stdio requires Supergateway for Kubernetes"
-        Stdio mode cannot run directly in the Holmes container due to missing dependencies. Run your stdio MCP server in a separate pod using [Supergateway](https://github.com/supercorp-ai/supergateway) to expose it as HTTP.
+        Stdio mode cannot run directly in the Canis container due to missing dependencies. Run your stdio MCP server in a separate pod using [Supergateway](https://github.com/supercorp-ai/supergateway) to expose it as HTTP.
 
     **Create a Docker image with your MCP server:**
 
@@ -283,7 +283,7 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
       type: ClusterIP
     ```
 
-    **Connect Holmes to the MCP server:**
+    **Connect Canis to the MCP server:**
 
     ```yaml
     holmes:
@@ -293,7 +293,7 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
           config:
             url: "http://ticket-db-mcp.default.svc.cluster.local:8000/sse"
             mode: sse
-          # llm_instructions tells Holmes WHEN and HOW to use this server
+          # llm_instructions tells Canis WHEN and HOW to use this server
           llm_instructions: "Use this server to query the internal ticket database. Search for related incidents by error message or service name."
     ```
 
@@ -305,7 +305,7 @@ Stdio mode runs MCP servers as subprocesses, communicating via standard input/ou
 
 SSE transport is deprecated. Use `streamable-http` for new integrations.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add to `~/.holmes/config.yaml`:
 
@@ -319,7 +319,7 @@ SSE transport is deprecated. Use `streamable-http` for new integrations.
         llm_instructions: "Query historical analytics data. Use for trend analysis over periods longer than 30 days."
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     mcp_servers:
@@ -344,7 +344,7 @@ SSE transport is deprecated. Use `streamable-http` for new integrations.
           llm_instructions: "Query historical analytics data. Use for trend analysis over periods longer than 30 days."
     ```
 
-The URL should end with `/sse`. If it doesn't, HolmesGPT will automatically append it.
+The URL should end with `/sse`. If it doesn't, Canis will automatically append it.
 
 ## Advanced Configuration
 
@@ -352,11 +352,11 @@ The URL should end with `/sse`. If it doesn't, HolmesGPT will automatically appe
 
 MCP servers can use dynamic headers populated from the incoming HTTP request. This is useful for passing per-request authentication tokens.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    Not applicable - request context is only available when running Holmes as a server.
+    Not applicable - request context is only available when running Canis as a server.
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     mcp_servers:
@@ -385,7 +385,7 @@ MCP servers can use dynamic headers populated from the incoming HTTP request. Th
           llm_instructions: "Query customer account details and subscription status. Use when investigating user-reported issues."
     ```
 
-When making requests to HolmesGPT, include the required header:
+When making requests to Canis, include the required header:
 
 ```bash
 curl -X POST http://holmes-server/api/investigate \

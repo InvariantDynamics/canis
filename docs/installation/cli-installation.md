@@ -1,6 +1,6 @@
 # Install CLI
 
-Run HolmesGPT from your terminal as a standalone CLI tool.
+Run Canis from your terminal as a standalone CLI tool.
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
   <iframe src="https://www.youtube.com/embed/JwMqqh6LQQI" 
@@ -17,36 +17,36 @@ Run HolmesGPT from your terminal as a standalone CLI tool.
 
     1. Add our tap:
        ```bash
-       brew tap robusta-dev/homebrew-holmesgpt
+       brew tap robusta-dev/homebrew-canis
        ```
 
-    2. Install HolmesGPT:
+    2. Install Canis:
        ```bash
-       brew install holmesgpt
+       brew install canis
        ```
 
     3. To upgrade to the latest version:
        ```bash
-       brew upgrade holmesgpt
+       brew upgrade canis
        ```
 
     4. Verify installation:
        ```bash
-       holmes ask --help
+       canis ask --help
        ```
 
 === "Pipx"
 
     1. Install [pipx](https://pypa.github.io/pipx/installation/){:target="_blank"}
 
-    2. Install HolmesGPT:
+    2. Install Canis:
        ```bash
-       pipx install holmesgpt
+       pipx install canis
        ```
 
     3. Verify installation:
        ```bash
-       holmes ask --help
+       canis ask --help
        ```
 
 === "From Source (Poetry)"
@@ -55,21 +55,21 @@ Run HolmesGPT from your terminal as a standalone CLI tool.
 
     1. Install [Poetry](https://python-poetry.org/docs/#installation){:target="_blank"}
 
-    2. Install HolmesGPT:
+    2. Install Canis:
        ```bash
-       git clone https://github.com/HolmesGPT/holmesgpt.git
-       cd holmesgpt
+       git clone https://github.com/InvariantDynamics/canis.git
+       cd canis
        poetry install --no-root
        ```
 
     3. Verify installation:
        ```bash
-       poetry run holmes ask --help
+       poetry run canis ask --help
        ```
 
 === "Docker Container"
 
-    Run HolmesGPT using the prebuilt Docker container:
+    Run Canis using the prebuilt Docker container:
 
     ```bash
     docker run -it --net=host \
@@ -78,7 +78,7 @@ Run HolmesGPT from your terminal as a standalone CLI tool.
       -v ~/.aws:/root/.aws \
       -v ~/.config/gcloud:/root/.config/gcloud \
       -v $HOME/.kube/config:/root/.kube/config \
-      us-central1-docker.pkg.dev/genuine-flight-317411/devel/holmes ask "what pods are unhealthy and why?"
+      us-central1-docker.pkg.dev/genuine-flight-317411/devel/canis ask "what pods are unhealthy and why?"
     ```
 
     > **Note:** Use `-e` flags to pass API keys for your provider (e.g., `-e ANTHROPIC_API_KEY`, `-e GEMINI_API_KEY`). See [Environment Variables Reference](../reference/environment-variables.md) for the complete list.
@@ -104,7 +104,7 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
 
     3. **Ask your first question**:
         ```bash
-        holmes ask "what is wrong with the user-profile-import pod?" --model="anthropic/claude-sonnet-4-5-20250929"
+        canis ask "what is wrong with the user-profile-import pod?" --model="anthropic/claude-sonnet-4-5-20250929"
         ```
 
     **Note**: You can use any Anthropic model by changing the model name. See [Claude Models Overview](https://docs.claude.com/en/docs/about-claude/models/overview#latest-models-comparison){:target="_blank"} for available model names.
@@ -126,10 +126,10 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
     3. **Ask your first question**:
         ```bash
         # Uses gpt-4.1 by default (fairly fast, decent results)
-        holmes ask "what is wrong with the user-profile-import pod?"
+        canis ask "what is wrong with the user-profile-import pod?"
 
         # Or specify a different model
-        holmes ask "what is wrong with the user-profile-import pod?" --model="gpt-5"
+        canis ask "what is wrong with the user-profile-import pod?" --model="gpt-5"
         ```
 
     See [OpenAI Configuration](../ai-providers/openai.md) for more details.
@@ -150,7 +150,7 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
 
     3. **Ask your first question**:
         ```bash
-        holmes ask "what is wrong with the user-profile-import pod?" --model="azure/<your-model-name>"
+        canis ask "what is wrong with the user-profile-import pod?" --model="azure/<your-model-name>"
         ```
 
     See [Azure OpenAI Configuration](../ai-providers/azure-openai.md) for more details.
@@ -177,10 +177,10 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
     4. **Ask your first question**:
         ```bash
         # Recommended: Use Sonnet 4.0 or Sonnet 4.5 for best results
-        holmes ask "what is wrong with the user-profile-import pod?" --model="bedrock/anthropic.claude-sonnet-4-20250514-v1:0"
+        canis ask "what is wrong with the user-profile-import pod?" --model="bedrock/anthropic.claude-sonnet-4-20250514-v1:0"
 
         # Or use another model
-        holmes ask "what is wrong with the user-profile-import pod?" --model="bedrock/<your-model-name>"
+        canis ask "what is wrong with the user-profile-import pod?" --model="bedrock/<your-model-name>"
         ```
 
     See [AWS Bedrock Configuration](../ai-providers/aws-bedrock.md) for more details.
@@ -199,7 +199,7 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
 
     3. **Ask your first question**:
         ```bash
-        holmes ask "what is wrong with the user-profile-import pod?" --model="gemini/<your-gemini-model>"
+        canis ask "what is wrong with the user-profile-import pod?" --model="gemini/<your-gemini-model>"
         ```
 
     See [Google Gemini Configuration](../ai-providers/gemini.md) for more details.
@@ -220,7 +220,7 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
 
     3. **Ask your first question**:
         ```bash
-        holmes ask "what is wrong with the user-profile-import pod?" --model="vertex_ai/<your-vertex-model>"
+        canis ask "what is wrong with the user-profile-import pod?" --model="vertex_ai/<your-vertex-model>"
         ```
 
     See [Google Vertex AI Configuration](../ai-providers/google-vertex-ai.md) for more details.
@@ -237,17 +237,17 @@ Choose your AI provider (see [all providers](../ai-providers/index.md) for more 
 
     3. **Ask your first question**:
         ```bash
-        holmes ask "what is wrong with the user-profile-import pod?" --model="ollama_chat/<your-model-name>"
+        canis ask "what is wrong with the user-profile-import pod?" --model="ollama_chat/<your-model-name>"
         ```
 
         For troubleshooting and advanced options, see [Ollama Configuration](../ai-providers/ollama.md).
 
-    > **Warning:** Ollama can be tricky to configure correctly. We recommend trying HolmesGPT with a hosted model first (like Claude or OpenAI) to ensure everything works before switching to Ollama.
+    > **Warning:** Ollama can be tricky to configure correctly. We recommend trying Canis with a hosted model first (like Claude or OpenAI) to ensure everything works before switching to Ollama.
 
-_After running the command, HolmesGPT begins its automated investigation, as shown below._
+_After running the command, Canis begins its automated investigation, as shown below._
 ![image](../assets/cli-installation/cli-in-progress.png)
 
-_Once the analysis completes, HolmesGPT provides a clear root-cause summary and fix suggestions._
+_Once the analysis completes, Canis provides a clear root-cause summary and fix suggestions._
 ![image](../assets/cli-installation/cli-analysis-result.png)
 
 ## Using Multiple Models
@@ -263,5 +263,5 @@ If you work with multiple AI providers or model configurations, you can define t
 ## Need Help?
 
 -   **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ){:target="\_blank"}** - Get help from the community
--   **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues){:target="\_blank"}** - Suggest improvements or report bugs.
+-   **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues){:target="\_blank"}** - Suggest improvements or report bugs.
 -   **[Troubleshooting guide](../reference/troubleshooting.md)** - Common issues and solutions.

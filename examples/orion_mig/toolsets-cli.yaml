@@ -1,0 +1,77 @@
+# Canis CLI profile for Orion API (MIG-backed) via local NodePort.
+# Requires:
+#   export ORION_TOKEN=...
+#   orion-api reachable at http://localhost:30090
+
+toolsets:
+  orion_read:
+    type: http
+    enabled: true
+    config:
+      timeout_seconds: 30
+      verify_ssl: true
+      endpoints:
+        - hosts:
+            - localhost
+          paths:
+            - /v1/me
+            - /v1/mig/status
+            - /v1/orion/entities
+            - /v1/orion/edges
+            - /v1/orion/snapshots
+            - /v1/dkm/overview
+            - /v1/dkm/predictions
+            - /v1/dkm/coefficients
+            - /v1/dkm/timeline
+            - /v1/incidents
+            - /v1/incidents/*
+            - /v1/alerts/events
+            - /v1/alerts/rules
+            - /v1/slos
+            - /v1/connectors
+          methods: ["GET"]
+          auth:
+            type: bearer
+            token: "{{ env.ORION_TOKEN }}"
+          health_check_url: http://localhost:30090/v1/mig/status
+    llm_instructions: |
+      Base URL: http://localhost:30090
+
+      Rules:
+      - Start with GET /v1/mig/status.
+      - Use /v1/orion/entities and /v1/orion/edges for topology context.
+      - For DKM endpoints, always include `scope`.
+      - For timeline queries, include bounded `limit`.
+      - If unauthorized (401), report token/auth failure.
+
+  orion_control:
+    type: http
+    enabled: false
+    config:
+      timeout_seconds: 45
+      verify_ssl: true
+      endpoints:
+        - hosts:
+            - localhost
+          paths:
+            - /v1/mig/tools/*
+            - /v1/connectors
+            - /v1/connectors/aws-lambda/sync
+            - /v1/connectors/aws-lambda/instrument
+            - /v1/connectors/rootly/sync
+            - /v1/connectors/rootly/push
+            - /v1/incidents
+            - /v1/incidents/*
+            - /v1/alerts/events
+            - /v1/alerts/events/*
+          methods: ["POST", "PATCH"]
+          auth:
+            type: bearer
+            token: "{{ env.ORION_TOKEN }}"
+    llm_instructions: |
+      Base URL: http://localhost:30090
+
+      Rules:
+      - This toolset mutates state; confirm intent before writes.
+      - Use minimal payloads.
+      - Verify each write with orion_read.

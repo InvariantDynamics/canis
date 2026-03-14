@@ -1,9 +1,9 @@
 # Confluence (MCP)
 
-This integration uses the community-maintained [mcp-atlassian](https://github.com/sooperset/mcp-atlassian) MCP server. It provides access to Confluence for searching and retrieving documentation, enabling Holmes to find runbooks, search internal documentation, and retrieve page content during investigations.
+This integration uses the community-maintained [mcp-atlassian](https://github.com/sooperset/mcp-atlassian) MCP server. It provides access to Confluence for searching and retrieving documentation, enabling Canis to find runbooks, search internal documentation, and retrieve page content during investigations.
 
 !!! note "Confluence vs Confluence (MCP)"
-    HolmesGPT has a built-in [Confluence toolset](confluence.md) that provides basic page fetching. This MCP server provides richer functionality including CQL search, page comments, and optional write operations.
+    Canis has a built-in [Confluence toolset](confluence.md) that provides basic page fetching. This MCP server provides richer functionality including CQL search, page comments, and optional write operations.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Before configuring the Confluence MCP server, you need an Atlassian API token.
 
 1. Go to [id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
 2. Click **Create API token**
-3. Set a label (e.g., "Holmes MCP")
+3. Set a label (e.g., "Canis MCP")
 4. Click **Create**
 5. **Copy the token immediately** - it won't be shown again
 
@@ -22,9 +22,9 @@ You'll also need:
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you need to deploy the Confluence MCP server first, then configure Holmes to connect to it.
+    For CLI usage, you need to deploy the Confluence MCP server first, then configure Canis to connect to it.
 
     **Step 1: Create the Confluence Credentials Secret**
 
@@ -123,7 +123,7 @@ You'll also need:
     kubectl apply -f confluence-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -141,7 +141,7 @@ You'll also need:
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     First, create a Kubernetes secret with your Confluence credentials:
 
@@ -164,7 +164,7 @@ You'll also need:
           url: "https://your-company.atlassian.net/wiki"
     ```
 
-    To customize how Holmes uses Confluence, you can provide your own LLM instructions:
+    To customize how Canis uses Confluence, you can provide your own LLM instructions:
 
     ```yaml
     mcpAddons:
@@ -179,10 +179,10 @@ You'll also need:
           Before every investigation, search Confluence for matching runbooks.
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -229,21 +229,21 @@ You'll also need:
 ## Testing the Connection
 
 ```bash
-holmes ask "Search Confluence for runbook pages"
+canis ask "Search Confluence for runbook pages"
 ```
 
 ## Common Use Cases
 
 ```bash
-holmes ask "Find the runbook for database failover procedures in Confluence"
+canis ask "Find the runbook for database failover procedures in Confluence"
 ```
 
 ```bash
-holmes ask "Search Confluence for documentation about the payment service architecture"
+canis ask "Search Confluence for documentation about the payment service architecture"
 ```
 
 ```bash
-holmes ask "Look up the incident response procedures in our Confluence wiki"
+canis ask "Look up the incident response procedures in our Confluence wiki"
 ```
 
 ## Additional Resources

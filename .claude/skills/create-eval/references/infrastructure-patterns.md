@@ -185,7 +185,7 @@ Always handle cleanup gracefully:
 ```yaml
 after_test: |
   kubectl delete namespace app-NNN --ignore-not-found
-  rm -f /tmp/holmesgpt-test-NNN-*.yaml
+  rm -f /tmp/canis-test-NNN-*.yaml
 ```
 
 Use `--ignore-not-found` to prevent cleanup failures if resources don't exist.

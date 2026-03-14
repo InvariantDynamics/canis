@@ -1,19 +1,19 @@
 
-# General Technical Review - HolmesGPT / Sandbox
+# General Technical Review - Canis / Sandbox
 
-- **Project:** HolmesGPT
+- **Project:** Canis
 - **Project Version:** 0.11.5
-- **Website:** https://github.com/robusta-dev/holmesgpt
+- **Website:** https://github.com/robusta-dev/canis
 - **Date Updated:** 2025-07-16
 - **Template Version:** v1.0
-- **Description:** HolmesGPT is an AI agent that automates cloud-native troubleshooting, bridging knowledge gaps by investigating alerts, executing runbooks, and correlating observability data in cloud-native platforms.
+- **Description:** Canis is an AI agent that automates cloud-native troubleshooting, bridging knowledge gaps by investigating alerts, executing runbooks, and correlating observability data in cloud-native platforms.
 
 ## Day 0 - Planning Phase
 
 ### Scope
 **Describe the roadmap process, how scope is determined for mid to long term features, as well as how the roadmap maps back to current contributions and maintainer ladder?**
 
-HolmesGPT follows an open and community-driven roadmap process. The roadmap is maintained publicly (via GitHub Projects and issues) and is shaped by a combination of the following inputs:
+Canis follows an open and community-driven roadmap process. The roadmap is maintained publicly (via GitHub Projects and issues) and is shaped by a combination of the following inputs:
 
 * Community feedback from users and contributors, gathered through GitHub issues, Slack, and regular discussions
 * Strategic alignment with the project’s long-term mission: enabling AI-powered root cause analysis in cloud-native environments
@@ -57,7 +57,7 @@ The project exposes an HTTP API and a Helm chart for running the HTTP server in 
 ### Design
 
 **Explain the design principles and best practices the project is following.**
-* Human-in-the-loop: users are able to interact with and guide HolmesGPT investigations
+* Human-in-the-loop: users are able to interact with and guide Canis investigations
 * Safety-first - The agent is restricted by default and only allowed to run safe commands.
 * Interoperable – works seamlessly with existing observability stacks
 * Kubernetes-native: Works with Prometheus, Loki, and other CNCF stack components.
@@ -70,10 +70,10 @@ Lightweight, can run as a standalone local CLI or in-cluster as an HTTP server. 
 No relevant.
 
 **Describe how the project implements Identity and Access Management.**
-HolmesGPT runs with user-provided credentials (e.g. service account) and respects whichever permissions were given to it.
+Canis runs with user-provided credentials (e.g. service account) and respects whichever permissions were given to it.
 
 **Describe how the project has addressed sovereignty.**
-HolmesGPT runs fully within the user’s infrastructure. All data—logs, metrics, traces, and AI-generated insights—remains under user control. There’s no dependency on external SaaS or third-party APIs unless explicitly configured. This ensures data privacy, compliance, and operational sovereignty.
+Canis runs fully within the user’s infrastructure. All data—logs, metrics, traces, and AI-generated insights—remains under user control. There’s no dependency on external SaaS or third-party APIs unless explicitly configured. This ensures data privacy, compliance, and operational sovereignty.
 
 Regarding data sent to the LLM, here too users have the choice of providing their own LLM or using a trusted cloud provider of their choice.
 
@@ -81,7 +81,7 @@ Regarding data sent to the LLM, here too users have the choice of providing thei
 N/A
 
 **Describe the project’s High Availability requirements.**
-Each request to HolmesGPT is stateless, so it's possible to run multiple instances.
+Each request to Canis is stateless, so it's possible to run multiple instances.
 
 **Describe the project’s resource requirements, including CPU, Network and Memory.**
 Minimal, similar to any standard Python application running in a Kubernetes cluster. We recommend some defaults in the Helm chart, but this can be customized by the user.
@@ -107,17 +107,17 @@ Please refer to https://holmesgpt.dev/walkthrough/
 **Please provide a link to the project’s cloud native [security self assessment](https://tag-security.cncf.io/community/assessments/).**
 
 **Please review the [Cloud Native Security Tenets](https://github.com/cncf/tag-security/blob/main/community/resources/security-whitepaper/secure-defaults-cloud-native-8.md) from TAG Security. How are you satisfying the tenets of cloud native security projects?**
-This is extremely relevant for us, given the risk that AI models can hallucinate and thereby that HolmesGPT could run malicious commands. To mitigate this, default access is read-only and non-mutating and limited to a pre-approved list of safe commands and integrations.
+This is extremely relevant for us, given the risk that AI models can hallucinate and thereby that Canis could run malicious commands. To mitigate this, default access is read-only and non-mutating and limited to a pre-approved list of safe commands and integrations.
 
 **Describe how each of the cloud native principles apply to your project.**
 * Make security a design requirement - see above.
 * Applying secure configuration has the best user experience - also covered above
-* Selecting insecure configuration is a conscious decision -  Users must make a conscious and concerted effort to add insecure toolsets (data sources) to HolmesGPT - it cannot be done accidentally.
-* Transition from insecure to secure state is possible - users are free to reduce the permissions with which Holmes runs at any point in time and Holmes will identify it and adapt
-* Secure defaults are inherited - by default Holmes inherits service roles and permissions from its environment
-* Exception lists have first class support - users can add their own toolsets to give Holmes access to additional commands
-* Secure defaults protect against pervasive vulnerability exploits - in the case of Holmes, this is equivalent to providing security even when used with malicious/hallucinating LLM which is done as described above
-* Security limitations of a system are explainable - Holmes reports permission issues when encountered
+* Selecting insecure configuration is a conscious decision -  Users must make a conscious and concerted effort to add insecure toolsets (data sources) to Canis - it cannot be done accidentally.
+* Transition from insecure to secure state is possible - users are free to reduce the permissions with which Canis runs at any point in time and Canis will identify it and adapt
+* Secure defaults are inherited - by default Canis inherits service roles and permissions from its environment
+* Exception lists have first class support - users can add their own toolsets to give Canis access to additional commands
+* Secure defaults protect against pervasive vulnerability exploits - in the case of Canis, this is equivalent to providing security even when used with malicious/hallucinating LLM which is done as described above
+* Security limitations of a system are explainable - Canis reports permission issues when encountered
 
 **How do you recommend users alter security defaults in order to "loosen" the security of the project? Please link to any documentation the project has written concerning these use cases.**
 https://holmesgpt.dev/data-sources/permissions/

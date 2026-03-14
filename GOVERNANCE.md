@@ -1,7 +1,7 @@
-# Governance of HolmesGPT
+# Governance of Canis
 
 ## Overview
-HolmesGPT is an open-source project that uses AI and Large Language Models (LLMs) to automate root-cause analysis and troubleshooting in modern cloud-native environments. This governance document outlines the project's structure, decision-making processes, roles, and expectations
+Canis is an open-source project that uses AI and Large Language Models (LLMs) to automate root-cause analysis and troubleshooting in modern cloud-native environments. This governance document outlines the project's structure, decision-making processes, roles, and expectations
 for community participation.
 
 ## Code of Conduct
@@ -15,7 +15,7 @@ Welcome aboard! If you're reading this, you're already part of the community! ðŸ
 Here are some ideas to get more involved and participate in the community:
 - Add yourself to [ADOPTERS.md](./ADOPTERS.md)
 - Comment on an issue youâ€™re interested in
-- Report a bug or idea to improve HolmesGPT
+- Report a bug or idea to improve Canis
 - Submit a pull request to fix a bug or improve the project
 - Join our Slack and say hi
 

@@ -3,7 +3,7 @@ toolsets:
     enabled: true
     config:
       allow:
-        - holmesgpt-unique-test-cmd-7x9k2
+        - canis-unique-test-cmd-7x9k2
         - another-special-prefix-m3n8p
       deny: []
       builtin_allowlist: "none"

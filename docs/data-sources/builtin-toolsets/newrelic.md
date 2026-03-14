@@ -1,6 +1,6 @@
 # New Relic
 
-By enabling this toolset, HolmesGPT will be able to pull traces and logs from New Relic for investigations.
+By enabling this toolset, Canis will be able to pull traces and logs from New Relic for investigations.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ You can find these in your New Relic account under Administration > API keys and
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -48,9 +48,9 @@ You can find these in your New Relic account under Administration > API keys and
 
 ## How it Works
 
-You don't need to know NRQL to use this toolset. Holmes will automatically construct and execute NRQL queries based on your investigation needs.
+You don't need to know NRQL to use this toolset. Canis will automatically construct and execute NRQL queries based on your investigation needs.
 
-For example, when investigating application logs, Holmes might execute a query like:
+For example, when investigating application logs, Canis might execute a query like:
 ```sql
 SELECT message, timestamp FROM Log WHERE pod_name = 'your-app' SINCE 1 hour ago
 ```

@@ -11,7 +11,7 @@ from typing import Any, Dict, Optional, Union
 BRAINTRUST_API_KEY = os.environ.get("BRAINTRUST_API_KEY")
 BRAINTRUST_ORG = os.environ.get("BRAINTRUST_ORG", "robustadev")
 BRAINTRUST_PROJECT = os.environ.get(
-    "BRAINTRUST_PROJECT", "HolmesGPT"
+    "BRAINTRUST_PROJECT", "Canis"
 )  # only for evals - for CLI it's set differently
 
 try:
@@ -90,7 +90,7 @@ def get_machine_state_tags() -> Dict[str, str]:
 def get_experiment_name():
     if os.environ.get("EXPERIMENT_ID"):
         return os.environ.get("EXPERIMENT_ID")
-    return readable_timestamp()  # should never happen in evals (we set EXPERIMENT_ID in conftest.py), but can happen with holmesgpt cli
+    return readable_timestamp()  # should never happen in evals (we set EXPERIMENT_ID in conftest.py), but can happen with canis cli
 
 
 def _is_noop_span(span) -> bool:

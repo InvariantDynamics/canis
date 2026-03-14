@@ -1,10 +1,10 @@
 # Slack Bot (3&#8203;rd party)
 
-The HolmesGPT Slack bot is available via [Robusta.dev](https://home.robusta.dev/), which created HolmesGPT and donated it to the CNCF.
+The Canis Slack bot is available via [Robusta.dev](https://home.robusta.dev/), which created Canis and donated it to the CNCF.
 
-First install [Robusta SaaS](ui-installation.md), then tag HolmesGPT in any Slack message for instant analysis.
+First install [Robusta SaaS](ui-installation.md), then tag Canis in any Slack message for instant analysis.
 
-![Robusta Slack Bot powered by Holmes](../assets/RobustaSlackBot-Poweredby-Holmes.png)
+![Robusta Slack Bot powered by Canis](../assets/RobustaSlackBot-Poweredby-Canis.png)
 
 ### Setup Slack Bot
 
@@ -18,5 +18,5 @@ First install [Robusta SaaS](ui-installation.md), then tag HolmesGPT in any Slac
 ## Need Help?
 
 -   **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ){:target="\_blank"}** - Get help from the community
--   **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues){:target="\_blank"}** - Suggest improvements or report bugs
+-   **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues){:target="\_blank"}** - Suggest improvements or report bugs
 -   **[Troubleshooting guide](../reference/troubleshooting.md)** - Common issues and solutions

@@ -1,6 +1,6 @@
 # Coralogix
 
-HolmesGPT can use Coralogix for logs/traces (DataPrime) and, separately, PromQL-style metrics. This page shows both setups.
+Canis can use Coralogix for logs/traces (DataPrime) and, separately, PromQL-style metrics. This page shows both setups.
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ toolsets:
 
 ## Recommended: Customize Coralogix Instructions
 
-By specifying details about your Coralogix metrics, logs, and traces, you can significantly speed up and improve investigations. This allows Holmes to work with your environment directly, rather than spending time discovering labels, mappings, and metric names on its own.
+By specifying details about your Coralogix metrics, logs, and traces, you can significantly speed up and improve investigations. This allows Canis to work with your environment directly, rather than spending time discovering labels, mappings, and metric names on its own.
 
 To configure this:
 

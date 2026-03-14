@@ -1,6 +1,6 @@
 # Datadog
 
-Connect HolmesGPT to Datadog for comprehensive observability including logs, metrics, traces, and more.
+Connect Canis to Datadog for comprehensive observability including logs, metrics, traces, and more.
 
 
 ## Quick Start
@@ -16,9 +16,9 @@ You'll need two keys and your site URL from your Datadog account:
     - **EU**: `https://app.datadoghq.eu`
     - **Other regions**: See the [complete list of Datadog sites](https://docs.datadoghq.com/getting_started/site/)
 
-### 2. Configure HolmesGPT
+### 2. Configure Canis
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Set environment variables:
     ```bash
@@ -59,28 +59,28 @@ You'll need two keys and your site URL from your Datadog account:
           api_url: https://app.datadoghq.com
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     First, create a Kubernetes secret with your API keys:
     ```bash
-    kubectl create secret generic holmes-datadog-secrets \
+    kubectl create secret generic canis-datadog-secrets \
       --from-literal=dd-api-key=your-datadog-api-key \
       --from-literal=dd-app-key=your-datadog-app-key
     ```
 
-    Then add to your Holmes Helm values:
+    Then add to your Canis Helm values:
     ```yaml
     # Load API keys from secret
     additionalEnvVars:
       - name: DD_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-datadog-secrets
+            name: canis-datadog-secrets
             key: dd-api-key
       - name: DD_APP_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-datadog-secrets
+            name: canis-datadog-secrets
             key: dd-app-key
 
     toolsets:
@@ -118,7 +118,7 @@ You'll need two keys and your site URL from your Datadog account:
 
     First, create a Kubernetes secret with your API keys:
     ```bash
-    kubectl create secret generic holmes-datadog-secrets \
+    kubectl create secret generic canis-datadog-secrets \
       --from-literal=dd-api-key=your-datadog-api-key \
       --from-literal=dd-app-key=your-datadog-app-key
     ```
@@ -131,12 +131,12 @@ You'll need two keys and your site URL from your Datadog account:
         - name: DD_API_KEY
           valueFrom:
             secretKeyRef:
-              name: holmes-datadog-secrets
+              name: canis-datadog-secrets
               key: dd-api-key
         - name: DD_APP_KEY
           valueFrom:
             secretKeyRef:
-              name: holmes-datadog-secrets
+              name: canis-datadog-secrets
               key: dd-app-key
 
       toolsets:
@@ -174,20 +174,20 @@ You'll need two keys and your site URL from your Datadog account:
 
 ```bash
 # Test logs
-holmes ask "show me recent logs from Datadog"
+canis ask "show me recent logs from Datadog"
 
 # Test metrics
-holmes ask "list available Datadog metrics"
+canis ask "list available Datadog metrics"
 
 # Test general API
-holmes ask "list Datadog monitors"
+canis ask "list Datadog monitors"
 ```
 
 That's it! You're now connected to Datadog with all toolsets enabled.
 
 ## Available Toolsets
 
-HolmesGPT provides four specialized Datadog toolsets:
+Canis provides four specialized Datadog toolsets:
 
 | Toolset | Purpose | Common Use Cases |
 |---------|---------|------------------|
@@ -234,13 +234,13 @@ toolsets:
 
 ```bash
 # Get logs for a specific pod
-holmes ask "show me logs for pod payment-service in namespace production"
+canis ask "show me logs for pod payment-service in namespace production"
 
 # Search for errors in the last hour
-holmes ask "find all error logs in the last hour"
+canis ask "find all error logs in the last hour"
 
 # Historical logs from deleted pods
-holmes ask "show me logs from the crashed pod that was running yesterday"
+canis ask "show me logs from the crashed pod that was running yesterday"
 ```
 
 ### Datadog Metrics
@@ -276,13 +276,13 @@ toolsets:
 
 ```bash
 # List available metrics
-holmes ask "what metrics are available for my application?"
+canis ask "what metrics are available for my application?"
 
 # Query CPU usage
-holmes ask "show me CPU usage for the payment service over the last 6 hours"
+canis ask "show me CPU usage for the payment service over the last 6 hours"
 
 # Custom application metrics
-holmes ask "analyze the payment_processing_time metric for anomalies"
+canis ask "analyze the payment_processing_time metric for anomalies"
 ```
 
 ### Datadog Traces
@@ -313,13 +313,13 @@ toolsets:
 
 ```bash
 # Find slow requests
-holmes ask "find traces where the checkout service took longer than 5 seconds"
+canis ask "find traces where the checkout service took longer than 5 seconds"
 
 # Analyze specific trace
-holmes ask "analyze trace ID abc123 for performance issues"
+canis ask "analyze trace ID abc123 for performance issues"
 
 # Service dependencies
-holmes ask "show me traces involving both payment and inventory services"
+canis ask "show me traces involving both payment and inventory services"
 ```
 
 ### Datadog General
@@ -371,17 +371,17 @@ The general toolset provides access to the following read-only API categories:
 
 ```bash
 # List all monitors
-holmes ask "show me all Datadog monitors"
+canis ask "show me all Datadog monitors"
 
 # Get dashboard details
-holmes ask "retrieve my application dashboard from Datadog"
+canis ask "retrieve my application dashboard from Datadog"
 
 # Check SLO status
-holmes ask "what's the current status of our API availability SLO?"
+canis ask "what's the current status of our API availability SLO?"
 
 # Search incidents
-holmes ask "find recent incidents in Datadog"
+canis ask "find recent incidents in Datadog"
 
 # Get synthetic test results
-holmes ask "show me the latest synthetic test results for our homepage"
+canis ask "show me the latest synthetic test results for our homepage"
 ```

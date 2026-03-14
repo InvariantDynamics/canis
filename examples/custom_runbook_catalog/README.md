@@ -1,6 +1,6 @@
 # Custom Runbook Catalogs
 
-This directory demonstrates how to create custom runbook catalogs for HolmesGPT.
+This directory demonstrates how to create custom runbook catalogs for Canis.
 
 ## Structure
 
@@ -83,7 +83,7 @@ In `catalog.json`, reference them with relative paths:
 
 ## How It Works
 
-1. Holmes loads your `catalog.json` file
+1. Canis loads your `catalog.json` file
 2. The LLM compares runbook descriptions with user questions
-3. When a match is found, Holmes fetches and follows the markdown runbook
+3. When a match is found, Canis fetches and follows the markdown runbook
 4. The runbook guides the investigation process with step-by-step instructions

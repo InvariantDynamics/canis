@@ -1,12 +1,12 @@
-# Holmes Operator - Overview & Installation
+# Canis Operator - Overview & Installation
 
-Holmes Operator extends HolmesGPT with Kubernetes-native, LLM-driven health checks using Custom Resource Definitions (CRDs). It provides a declarative way to define and schedule LLM-driven investigations, proactively notifying your team when it finds issues.
+Canis Operator extends Canis with Kubernetes-native, LLM-driven health checks using Custom Resource Definitions (CRDs). It provides a declarative way to define and schedule LLM-driven investigations, proactively notifying your team when it finds issues.
 
-!!! warning "Holmes Operator - Alpha Release"
+!!! warning "Canis Operator - Alpha Release"
 
     **Important Considerations:**
 
-    - **Status**: Holmes Operator is in **alpha** and subject to breaking changes
+    - **Status**: Canis Operator is in **alpha** and subject to breaking changes
     - **AI Usage Costs**: Each health check triggers an LLM call (at least 1). Schedule checks cautiously to manage costs
     - **Recommendation**: Begin with infrequent schedules (e.g., hourly or daily) and monitor usage before scaling up
 
@@ -22,17 +22,17 @@ Holmes Operator extends HolmesGPT with Kubernetes-native, LLM-driven health chec
 
 ## Prerequisites
 
-Before installing Holmes Operator, ensure you have:
+Before installing Canis Operator, ensure you have:
 
 - **Kubernetes cluster** (version 1.19+)
 - **Helm 3** installed
-- **Existing HolmesGPT deployment** - The operator requires a running Holmes API service. If you haven't installed Holmes yet, see the [Helm Chart installation guide](../installation/kubernetes-installation.md)
+- **Existing Canis deployment** - The operator requires a running Canis API service. If you haven't installed Canis yet, see the [Helm Chart installation guide](../installation/kubernetes-installation.md)
 - **kubectl** configured to access your cluster
 - **Supported AI Provider** configured (see [AI Providers](../ai-providers/index.md))
 
 !!! info "RBAC Permissions"
 
-    The Holmes Operator automatically creates a ServiceAccount with the necessary permissions to manage HealthCheck and ScheduledHealthCheck resources and access the Holmes API service.
+    The Canis Operator automatically creates a ServiceAccount with the necessary permissions to manage HealthCheck and ScheduledHealthCheck resources and access the Canis API service.
 
 ## Installation
 
@@ -60,19 +60,19 @@ operator:
 
 For a complete list of configuration options, see the [Configuration](configuration.md) page.
 
-### 2. Install or Upgrade Holmes with Operator
+### 2. Install or Upgrade Canis with Operator
 
 If this is a new installation:
 
 ```bash
-helm install holmesgpt robusta/holmes -f values.yaml
+helm install canis robusta/canis -f values.yaml
 ```
 
 If upgrading an existing installation:
 
 ```bash
 helm repo update
-helm upgrade holmesgpt robusta/holmes -f values.yaml
+helm upgrade canis robusta/canis -f values.yaml
 ```
 
 ### 3. Verify Installation
@@ -81,19 +81,19 @@ Check that the operator pod is running:
 
 ```bash
 # Check operator deployment
-kubectl get deployment -l app.kubernetes.io/name=holmes-operator
+kubectl get deployment -l app.kubernetes.io/name=canis-operator
 
 # Check operator pod status
-kubectl get pods -l app.kubernetes.io/name=holmes-operator
+kubectl get pods -l app.kubernetes.io/name=canis-operator
 
 # View operator logs
-kubectl logs -l app.kubernetes.io/name=holmes-operator --tail=50
+kubectl logs -l app.kubernetes.io/name=canis-operator --tail=50
 ```
 
 Verify that the CRDs are installed:
 
 ```bash
-# List Holmes CRDs
+# List Canis CRDs
 kubectl get crd | grep holmesgpt.dev
 
 # Should show:
@@ -151,16 +151,16 @@ kubectl describe hc example-check
 
 ## Architecture
 
-The Holmes Operator follows the Kubernetes Job/CronJob pattern:
+The Canis Operator follows the Kubernetes Job/CronJob pattern:
 
 - **HealthCheck**: One-time execution (like a Job)
 - **ScheduledHealthCheck**: Creates HealthCheck resources on a schedule (like a CronJob)
 - **Operator**: Watches CRDs and orchestrates check execution
-- **Holmes API**: Executes the actual health check logic using LLM
+- **Canis API**: Executes the actual health check logic using LLM
 
 For detailed architecture information, see the [architecture documentation](../adr/operator-initial-architecture.md).
 
 ## Need Help?
 
 - **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ)** - Get help from the community
-- **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues)** - Suggest improvements or report bugs
+- **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues)** - Suggest improvements or report bugs

@@ -1,30 +1,30 @@
 # OpenAI-Compatible Models
 
-HolmesGPT works with **any OpenAI-compatible API endpoint**. This includes API gateways, proxy servers, and local inference servers—as long as they expose an OpenAI-compatible interface with function calling support.
+Canis works with **any OpenAI-compatible API endpoint**. This includes API gateways, proxy servers, and local inference servers—as long as they expose an OpenAI-compatible interface with function calling support.
 
 !!! warning "Function Calling Required"
     Your model and inference server must support function calling (tool calling). Models that lack this capability may produce incorrect results.
 
 ## Quick Start
 
-Point HolmesGPT at your OpenAI-compatible endpoint:
+Point Canis at your OpenAI-compatible endpoint:
 
 - Set `OPENAI_API_BASE` to your endpoint URL
 - Set `OPENAI_API_KEY` to your endpoint's API key, or any placeholder value like `"none"` if your endpoint doesn't require authentication (this parameter is always required by LiteLLM)
 - Use `openai/<model-name>` format for the model parameter, where `<model-name>` matches what your endpoint expects
 - Optional: Set `CERTIFICATE` to a base64-encoded CA certificate if your endpoint uses a custom CA
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export OPENAI_API_BASE="http://localhost:8000/v1"
     export OPENAI_API_KEY="none"  # Or any placeholder if endpoint doesn't need auth
     # Optional: Custom CA certificate (base64-encoded)
     # export CERTIFICATE="$(cat /path/to/ca.crt | base64)"
-    holmes ask "what pods are failing?" --model="openai/<your-model>"
+    canis ask "what pods are failing?" --model="openai/<your-model>"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     ```yaml
     # values.yaml
@@ -36,7 +36,7 @@ Point HolmesGPT at your OpenAI-compatible endpoint:
         # If authentication is required, use a secret instead:
         # valueFrom:
         #   secretKeyRef:
-        #     name: holmes-secrets
+        #     name: canis-secrets
         #     key: openai-api-key
 
     # Optional: Custom CA certificate (base64-encoded)
@@ -66,7 +66,7 @@ Point HolmesGPT at your OpenAI-compatible endpoint:
           # If authentication is required, use a secret instead:
           # valueFrom:
           #   secretKeyRef:
-          #     name: robusta-holmes-secret
+          #     name: robusta-canis-secret
           #     key: openai-api-key
 
       # Optional: Custom CA certificate (base64-encoded)
@@ -89,4 +89,4 @@ Point HolmesGPT at your OpenAI-compatible endpoint:
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support OpenAI-compatible providers. Refer to [LiteLLM OpenAI-compatible docs](https://litellm.vercel.app/docs/providers/openai_compatible){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support OpenAI-compatible providers. Refer to [LiteLLM OpenAI-compatible docs](https://litellm.vercel.app/docs/providers/openai_compatible){:target="_blank"} for more details.

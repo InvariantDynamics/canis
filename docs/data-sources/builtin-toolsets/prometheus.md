@@ -1,11 +1,11 @@
 # Prometheus
 
-Connect HolmesGPT to Prometheus for metrics analysis and query generation.
+Connect Canis to Prometheus for metrics analysis and query generation.
 
 ## Prerequisites
 
 - A running and accessible Prometheus server
-- Ensure HolmesGPT can connect to the Prometheus endpoint (see [Finding your Prometheus URL](#finding-your-prometheus-url))
+- Ensure Canis can connect to the Prometheus endpoint (see [Finding your Prometheus URL](#finding-your-prometheus-url))
 
 ## Configuration
 
@@ -50,7 +50,7 @@ This will print all possible Prometheus service URLs in your cluster. Pick the o
 
 ### Coralogix Prometheus
 
-To use a Coralogix PromQL endpoint with HolmesGPT:
+To use a Coralogix PromQL endpoint with Canis:
 
 1. Go to [Coralogix Documentation](https://coralogix.com/docs/integrations/coralogix-endpoints/#promql) and choose the relevant PromQL endpoint for your region.
 2. In Coralogix, create an API key with permissions to query metrics (Data Flow → API Keys).
@@ -85,7 +85,7 @@ To use a Coralogix PromQL endpoint with HolmesGPT:
 
 ### AWS Managed Prometheus (AMP)
 
-To connect HolmesGPT to AWS Managed Prometheus:
+To connect Canis to AWS Managed Prometheus:
 
 ```yaml
 holmes:
@@ -114,14 +114,14 @@ holmes:
 
 ### Google Managed Prometheus
 
-Before configuring Holmes, make sure you have:
+Before configuring Canis, make sure you have:
 
 * Google Managed Prometheus enabled
 * A Prometheus Frontend endpoint accessible from your cluster
   (If you don’t already have one, you can create it following the instructions
   [here](https://docs.cloud.google.com/stackdriver/docs/managed-prometheus/query-api-ui#ui-prometheus) )
 
-To connect HolmesGPT to Google Cloud Managed Prometheus:
+To connect Canis to Google Cloud Managed Prometheus:
 
 ```yaml
 holmes:
@@ -141,7 +141,7 @@ holmes:
 
 ### Azure Managed Prometheus
 
-Before configuring Holmes, make sure you have:
+Before configuring Canis, make sure you have:
 
 * An Azure Monitor workspace with Managed Prometheus enabled
 * A service principal (or managed identity) that has access to the workspace
@@ -171,7 +171,7 @@ holmes:
 
 ### Grafana Cloud (Mimir)
 
-To connect HolmesGPT to Grafana Cloud's Prometheus/Mimir endpoint:
+To connect Canis to Grafana Cloud's Prometheus/Mimir endpoint:
 
 1. **Create a service account token in Grafana Cloud:**
    - Navigate to "Administration → Service accounts"
@@ -185,7 +185,7 @@ To connect HolmesGPT to Grafana Cloud's Prometheus/Mimir endpoint:
         jq '.[] | select(.type=="prometheus") | {name, uid}'
    ```
 
-3. **Configure HolmesGPT:**
+3. **Configure Canis:**
    ```yaml
    holmes:
      toolsets:

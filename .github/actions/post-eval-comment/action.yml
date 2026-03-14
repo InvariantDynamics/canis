@@ -12,7 +12,7 @@ inputs:
   comment-identifier:
     description: 'String to identify bot comments for updates'
     required: false
-    default: '## Results of HolmesGPT evals'
+    default: '## Results of Canis evals'
   delete-previous:
     description: 'Whether to delete previous bot comments'
     required: false

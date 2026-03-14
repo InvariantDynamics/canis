@@ -1,8 +1,8 @@
-# HolmesGPT
+# Canis
 
 SRE Agent for Large-Scale Production Environments.
 
-![HolmesGPT Investigation](assets/HolmesInvestigation.gif)
+![Canis Investigation](assets/HolmesInvestigation.gif)
 
 ## Quick Start
 
@@ -12,7 +12,7 @@ SRE Agent for Large-Scale Production Environments.
 
     ---
 
-    Run HolmesGPT from your terminal
+    Run Canis from your terminal
 
     [:octicons-arrow-right-24: Install](installation/cli-installation.md)
 
@@ -41,7 +41,7 @@ SRE Agent for Large-Scale Production Environments.
 ## Need Help?
 
 - **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ){:target="_blank"}** - Get help from the community
-- **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues){:target="_blank"}** - Suggest improvements or report bugs
+- **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues){:target="_blank"}** - Suggest improvements or report bugs
 
 <br/>
 <br/>

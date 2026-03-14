@@ -8,7 +8,7 @@ from typing import Optional
 RECOMMENDED_OPENAI_MODEL = "gpt-4.1"
 RECOMMENDED_ANTHROPIC_MODEL = "anthropic/claude-opus-4-1-20250805"
 
-# Default model for HolmesGPT
+# Default model for Canis
 DEFAULT_MODEL = RECOMMENDED_OPENAI_MODEL
 FALLBACK_CONTEXT_WINDOW_SIZE = (
     200000  # Fallback context window size if it can't be determined from the model

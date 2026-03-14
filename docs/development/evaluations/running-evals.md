@@ -1,25 +1,25 @@
-# HolmesGPT Evaluations
+# Canis Evaluations
 
-Evaluations are automated tests that measure HolmesGPT's accuracy on real-world scenarios.
+Evaluations are automated tests that measure Canis's accuracy on real-world scenarios.
 
 They are used to both catch regressions and measure the impact of new features.
 
-[Example: pod crashloop eval](https://github.com/HolmesGPT/holmesgpt/tree/master/tests/llm/fixtures/test_ask_holmes/09_crashpod).
+[Example: pod crashloop eval](https://github.com/InvariantDynamics/canis/tree/master/tests/llm/fixtures/test_ask_holmes/09_crashpod).
 
 ## Eval Tags
 
 Evals are tagged and grouped into categories. Two common tags are `easy` and `medium`:
 
-* `easy` - regression tests - scenarios that HolmesGPT passes today and must continue to pass after any change
-* `medium` - more challenging scenarios that push boundaries of what HolmesGPT can do
+* `easy` - regression tests - scenarios that Canis passes today and must continue to pass after any change
+* `medium` - more challenging scenarios that push boundaries of what Canis can do
 
-Changes to HolmesGPT are good if they allow us to promote an eval from `easy` to `medium` without increasing latency by too much.
+Changes to Canis are good if they allow us to promote an eval from `easy` to `medium` without increasing latency by too much.
 
 ## Getting Started
 
 ### Prerequisites
 
-Install HolmesGPT python dependencies:
+Install Canis python dependencies:
 
 ```bash
 poetry install --with=dev
@@ -27,7 +27,7 @@ poetry install --with=dev
 
 ### Quick Start: Running Your First Eval
 
-Try running a single eval to understand how the system works. We'll use [eval 80_pvc_storage_class_mismatch](https://github.com/HolmesGPT/holmesgpt/tree/master/tests/llm/fixtures/test_ask_holmes/80_pvc_storage_class_mismatch) as an example:
+Try running a single eval to understand how the system works. We'll use [eval 80_pvc_storage_class_mismatch](https://github.com/InvariantDynamics/canis/tree/master/tests/llm/fixtures/test_ask_holmes/80_pvc_storage_class_mismatch) as an example:
 
 ```bash
 # Run eval #80 with Claude Sonnet 4.5 (this specific eval passes reliably with Sonnet 4.5)
@@ -119,7 +119,7 @@ RUN_LIVE=true poetry run pytest tests/llm/test_ask_holmes.py -k "01_how_many_pod
 
 ### Testing Different Models
 
-The `MODEL` environment variable is equivalent to the `--model` flag on the `holmes ask` CLI command. You can test HolmesGPT with different LLM providers:
+The `MODEL` environment variable is equivalent to the `--model` flag on the `canis ask` CLI command. You can test Canis with different LLM providers:
 
 ```bash
 # Test with GPT-4.1 (default)
@@ -145,7 +145,7 @@ RUN_LIVE=true MODEL=azure/your-deployment-name CLASSIFIER_MODEL=azure/your-deplo
 
 ### Multi-Model Benchmarking
 
-HolmesGPT supports running evaluations across multiple models simultaneously to compare their performance:
+Canis supports running evaluations across multiple models simultaneously to compare their performance:
 
 ```bash
 # Test multiple models in a single run

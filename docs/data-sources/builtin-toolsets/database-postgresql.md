@@ -1,6 +1,6 @@
 # PostgreSQL
 
-Connect HolmesGPT to PostgreSQL databases to analyze query performance, investigate slow queries, check index usage, examine database health, and read data for troubleshooting.
+Connect Canis to PostgreSQL databases to analyze query performance, investigate slow queries, check index usage, examine database health, and read data for troubleshooting.
 
 You can configure multiple PostgreSQL instances with different names (e.g., `prod-db`, `analytics-db`, `staging-db`).
 
@@ -29,7 +29,7 @@ GRANT pg_read_all_stats TO holmes_readonly;
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -63,7 +63,7 @@ GRANT pg_read_all_stats TO holmes_readonly;
     postgresql://[username]:[password]@[host]:[port]/[database]
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create secret with credentials**
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI Performance Benchmark for HolmesGPT
+CLI Performance Benchmark for Canis
 
 Measures CLI performance with focus on deterministic startup overhead.
 Independent of the eval framework - pure black-box CLI timing.
@@ -182,7 +182,7 @@ def run_e2e_benchmark(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="CLI Performance Benchmark for HolmesGPT",
+        description="CLI Performance Benchmark for Canis",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 

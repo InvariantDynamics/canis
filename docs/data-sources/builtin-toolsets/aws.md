@@ -1,16 +1,16 @@
 # AWS (MCP)
 
-The AWS MCP server gives Holmes **read-only access to any AWS API** you permit via IAM. This means Holmes can query EC2, RDS, ELB, CloudWatch, CloudTrail, S3, Lambda, Cost Explorer, and hundreds of other AWS services - limited only by the IAM policy you attach.
+The AWS MCP server gives Canis **read-only access to any AWS API** you permit via IAM. This means Canis can query EC2, RDS, ELB, CloudWatch, CloudTrail, S3, Lambda, Cost Explorer, and hundreds of other AWS services - limited only by the IAM policy you attach.
 
 ## Overview
 
 The AWS MCP server runs as a pod in your Kubernetes cluster.
 
 - **Helm users**: The pod is deployed automatically when you enable the addon
-- **CLI users**: You deploy the pod manually to your cluster, then point Holmes at it
+- **CLI users**: You deploy the pod manually to your cluster, then point Canis at it
 
 !!! note
-    Even when using Holmes CLI locally, the AWS MCP server must run in a Kubernetes cluster. Local-only deployment is not currently supported.
+    Even when using Canis CLI locally, the AWS MCP server must run in a Kubernetes cluster. Local-only deployment is not currently supported.
 
 ## Single Account Setup
 
@@ -32,8 +32,8 @@ The AWS MCP server requires read-only permissions across AWS services. We provid
     ./enable-oidc-provider.sh --cluster-name YOUR_CLUSTER_NAME --region YOUR_REGION
 
     # 2. Create IAM policy and role
-    # IMPORTANT: --namespace must match the namespace where Holmes is deployed
-    # (e.g., "robusta" for Robusta Helm chart, or the release namespace for Holmes Helm chart)
+    # IMPORTANT: --namespace must match the namespace where Canis is deployed
+    # (e.g., "robusta" for Robusta Helm chart, or the release namespace for Canis Helm chart)
     ./setup-irsa.sh --cluster-name YOUR_CLUSTER_NAME --region YOUR_REGION --namespace YOUR_NAMESPACE
     ```
 
@@ -62,7 +62,7 @@ The AWS MCP server requires read-only permissions across AWS services. We provid
 
     Service account names by installation method:
 
-    - Holmes Helm Chart: `aws-api-mcp-sa`
+    - Canis Helm Chart: `aws-api-mcp-sa`
     - Robusta Helm Chart: `aws-api-mcp-sa`
     - CLI deployment: `aws-mcp-sa` (as defined in the manifest)
 
@@ -108,7 +108,7 @@ The AWS MCP server requires read-only permissions across AWS services. We provid
 
 Choose your installation method:
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 2a: Update your values.yaml**
 
@@ -129,12 +129,12 @@ Choose your installation method:
           region: "us-east-1"  # Change to your AWS region
     ```
 
-    For additional options (resources, network policy, node selectors), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L75).
+    For additional options (resources, network policy, node selectors), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L75).
 
-    **Step 2b: Deploy Holmes**
+    **Step 2b: Deploy Canis**
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
     **Step 2c: Verify the deployment**
@@ -151,7 +151,7 @@ Choose your installation method:
 
     **Step 2a: Update your Helm values**
 
-    Add the Holmes MCP addon configuration under the `holmes` section:
+    Add the Canis MCP addon configuration under the `holmes` section:
 
     ```yaml
     holmes:
@@ -169,7 +169,7 @@ Choose your installation method:
             region: "us-east-1"  # Change to your AWS region
     ```
 
-    For additional options (resources, network policy, node selectors), see the [full chart values](https://github.com/HolmesGPT/holmesgpt/blob/master/helm/holmes/values.yaml#L75).
+    For additional options (resources, network policy, node selectors), see the [full chart values](https://github.com/InvariantDynamics/canis/blob/master/helm/canis/values.yaml#L75).
 
     **Step 2b: Deploy Robusta**
 
@@ -187,9 +187,9 @@ Choose your installation method:
     kubectl logs -l app.kubernetes.io/name=aws-mcp-server
     ```
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    For CLI usage, you deploy the AWS MCP server to your cluster, then configure Holmes to connect to it.
+    For CLI usage, you deploy the AWS MCP server to your cluster, then configure Canis to connect to it.
 
     **Step 2a: Create the deployment manifest**
 
@@ -324,7 +324,7 @@ Choose your installation method:
     kubectl logs -n holmes-mcp -l app=aws-mcp-server
     ```
 
-    **Step 2d: Configure Holmes CLI**
+    **Step 2d: Configure Canis CLI**
 
     Add the MCP server to `~/.holmes/config.yaml`:
 
@@ -366,7 +366,7 @@ Choose your installation method:
 
     **Step 2e: Port forwarding (for local testing only)**
 
-    If running Holmes CLI locally (outside the cluster):
+    If running Canis CLI locally (outside the cluster):
 
     ```bash
     kubectl port-forward -n holmes-mcp svc/aws-mcp-server 8000:8000
@@ -416,7 +416,7 @@ Edit `multi-cluster-config-example.yaml` with your cluster and account details. 
 
 - Create OIDC providers in each target account (using the cluster OIDC URLs)
 - Set up IAM roles with trust policies that allow your clusters to assume them
-- Configure which AWS accounts Holmes can access via `--profile`
+- Configure which AWS accounts Canis can access via `--profile`
 
 ??? example "Example Configuration"
     ```yaml
@@ -434,7 +434,7 @@ Edit `multi-cluster-config-example.yaml` with your cluster and account details. 
         oidc_issuer_url: https://oidc.eks.us-west-2.amazonaws.com/id/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
     kubernetes:
-      namespace: YOUR_NAMESPACE  # Must match the namespace where Holmes is deployed
+      namespace: YOUR_NAMESPACE  # Must match the namespace where Canis is deployed
       service_account: multi-account-mcp-sa
 
     iam:
@@ -485,7 +485,7 @@ aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.is
 
 Once the IAM roles are set up, configure the Helm chart to enable multi-account mode:
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     Add the following configuration to your `values.yaml` file:
 
@@ -562,9 +562,9 @@ Once the IAM roles are set up, configure the Helm chart to enable multi-account 
             # annotations are ignored when multiAccount is enabled
     ```
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
-    Multi-account mode is not currently supported for CLI deployments. Use the [Single Account Setup](#single-account-setup) instead, or deploy Holmes via Helm.
+    Multi-account mode is not currently supported for CLI deployments. Use the [Single Account Setup](#single-account-setup) instead, or deploy Canis via Helm.
 
 ## Example Usage
 

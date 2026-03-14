@@ -1,6 +1,6 @@
 # Google Vertex AI
 
-Configure HolmesGPT to use Google Vertex AI with Gemini models.
+Configure Canis to use Google Vertex AI with Gemini models.
 
 ## Setup
 
@@ -10,22 +10,22 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export VERTEXAI_PROJECT="your-project-id"
     export VERTEXAI_LOCATION="us-central1"
     export GOOGLE_APPLICATION_CREDENTIALS="path/to/service-account-key.json"
 
-    holmes ask "what pods are failing?" --model="vertex_ai/<your-vertex-model>"
+    canis ask "what pods are failing?" --model="vertex_ai/<your-vertex-model>"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
     # First, encode your service account JSON key
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-file=google-credentials=path/to/service-account-key.json \
       --from-literal=vertexai-project="your-project-id" \
       --from-literal=vertexai-location="us-central1" \
@@ -39,12 +39,12 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
       - name: VERTEXAI_PROJECT
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: vertexai-project
       - name: VERTEXAI_LOCATION
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: vertexai-location
       - name: GOOGLE_APPLICATION_CREDENTIALS
         value: "/etc/google-credentials/google-credentials"
@@ -54,7 +54,7 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
     additionalVolumes:
       - name: google-credentials
         secret:
-          secretName: holmes-secrets
+          secretName: canis-secrets
           items:
             - key: google-credentials
               path: google-credentials
@@ -88,7 +88,7 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
     **Create Kubernetes Secret:**
     ```bash
     # First, encode your service account JSON key
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-file=google-credentials=path/to/service-account-key.json \
       --from-literal=vertexai-project="your-project-id" \
       --from-literal=vertexai-location="us-central1" \
@@ -103,12 +103,12 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
         - name: VERTEXAI_PROJECT
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: vertexai-project
         - name: VERTEXAI_LOCATION
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: vertexai-location
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: "/etc/google-credentials/google-credentials"
@@ -118,7 +118,7 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
       additionalVolumes:
         - name: google-credentials
           secret:
-            secretName: robusta-holmes-secret
+            secretName: robusta-canis-secret
             items:
               - key: google-credentials
                 path: google-credentials
@@ -152,9 +152,9 @@ Configure HolmesGPT to use Google Vertex AI with Gemini models.
 You can also pass credentials directly as command-line parameters:
 
 ```bash
-holmes ask "what pods are failing?" --model="vertex_ai/<your-vertex-model>" --api-key="your-service-account-key"
+canis ask "what pods are failing?" --model="vertex_ai/<your-vertex-model>" --api-key="your-service-account-key"
 ```
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support Google Vertex AI provider. Refer to [LiteLLM Google Vertex AI docs](https://litellm.vercel.app/docs/providers/vertex){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support Google Vertex AI provider. Refer to [LiteLLM Google Vertex AI docs](https://litellm.vercel.app/docs/providers/vertex){:target="_blank"} for more details.

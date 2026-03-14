@@ -1,17 +1,17 @@
 
 # Features
 
-This page document and describes HolmesGPT's behaviour when it comes to its features.
+This page document and describes Canis's behaviour when it comes to its features.
 
 
 ## Root Cause Analysis
 
-Also called Investigation, Root Cause Analysis (RCA) is HolmesGPT's ability to investigate alerts,
+Also called Investigation, Root Cause Analysis (RCA) is Canis's ability to investigate alerts,
 typically from Prometheus' alert manager.
 
 ### Sectioned output
 
-HolmesGPT generates structured output by default. It is also capable of generating sections based on request.
+Canis generates structured output by default. It is also capable of generating sections based on request.
 
 Here is an example of a request payload to run an investigation:
 
@@ -68,7 +68,7 @@ In some cases, the LLM may decide to set a section to `null` or even add or igno
 
 ## PromQL
 
-If the `prometheus/metrics` toolset is enabled, HolmesGPT can generate embed graphs in conversations (ask holmes).
+If the `prometheus/metrics` toolset is enabled, Canis can generate embed graphs in conversations (ask holmes).
 
 For example, here is scenario in which the LLM answers with a graph:
 
@@ -95,7 +95,7 @@ Show me the http request latency over time for the service customer-orders-servi
 ],
 ```
 
-The result of this tool call contains details about the [prometheus query](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries) to build the graph returned by HolmesGPT:
+The result of this tool call contains details about the [prometheus query](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries) to build the graph returned by Canis:
 
 ```json
 
@@ -118,7 +118,7 @@ The result of this tool call contains details about the [prometheus query](https
 
 # NEW
 
-HolmesGPT text response:
+Canis text response:
 ```
 Here's the average HTTP request latency over time for the `customer-orders-service`:
 
@@ -138,7 +138,7 @@ In addition to this text response, the returned JSON will contain one or more to
 ],
 ```
 
-The result of this tool call contains details about the [prometheus query](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries) to build the graph returned by HolmesGPT:
+The result of this tool call contains details about the [prometheus query](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries) to build the graph returned by Canis:
 
 ```json
 
@@ -158,7 +158,7 @@ The result of this tool call contains details about the [prometheus query](https
 }
 ```
 
-In addition to `execute_prometheus_range_query`, HolmesGPT can generate similar results with an `execute_prometheus_instant_query` which is an [instant query](https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries):
+In addition to `execute_prometheus_range_query`, Canis can generate similar results with an `execute_prometheus_instant_query` which is an [instant query](https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries):
 
 ```
 Here's the average HTTP request latency over time for the `customer-orders-service`:

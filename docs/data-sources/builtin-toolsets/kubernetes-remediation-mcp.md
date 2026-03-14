@@ -1,6 +1,6 @@
 # Kubernetes Remediation (MCP)
 
-The Kubernetes Remediation MCP server provides safe kubectl command execution with layered security controls. It enables Holmes to not only diagnose Kubernetes issues but also **remediate** them — restarting pods, scaling deployments, draining nodes, and more.
+The Kubernetes Remediation MCP server provides safe kubectl command execution with layered security controls. It enables Canis to not only diagnose Kubernetes issues but also **remediate** them — restarting pods, scaling deployments, draining nodes, and more.
 
 !!! warning "Write operations"
     Unlike the built-in read-only Kubernetes toolset, this MCP server can execute write operations (edit, patch, delete, scale, drain, etc.). Configure the `allowedCommands` setting carefully to match your security requirements.
@@ -11,7 +11,7 @@ For CLI deployments, you'll need to create the RBAC resources manually. For Helm
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     For CLI usage, you need to deploy the Kubernetes Remediation MCP server with appropriate RBAC.
 
@@ -123,7 +123,7 @@ For CLI deployments, you'll need to create the RBAC resources manually. For Helm
     kubectl apply -f k8s-remediation-mcp-deployment.yaml
     ```
 
-    **Step 3: Configure Holmes CLI**
+    **Step 3: Configure Canis CLI**
 
     Add the MCP server configuration to **~/.holmes/config.yaml**:
 
@@ -144,7 +144,7 @@ For CLI deployments, you'll need to create the RBAC resources manually. For Helm
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     Add the following to your `values.yaml`:
 
@@ -162,10 +162,10 @@ For CLI deployments, you'll need to create the RBAC resources manually. For Helm
           - "*"
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -219,19 +219,19 @@ The MCP server implements multiple security layers:
 ## Common Use Cases
 
 ```bash
-holmes ask "Restart the payment-service deployment in the production namespace"
+canis ask "Restart the payment-service deployment in the production namespace"
 ```
 
 ```bash
-holmes ask "Scale the web-frontend deployment to 5 replicas"
+canis ask "Scale the web-frontend deployment to 5 replicas"
 ```
 
 ```bash
-holmes ask "Cordon the problematic node and drain it safely"
+canis ask "Cordon the problematic node and drain it safely"
 ```
 
 ```bash
-holmes ask "The checkout-api pods are crashlooping - investigate and fix"
+canis ask "The checkout-api pods are crashlooping - investigate and fix"
 ```
 
 ## Additional Resources

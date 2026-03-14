@@ -1,6 +1,6 @@
 # HTTP Connectors
 
-HTTP connectors enable HolmesGPT to make authenticated HTTP requests to external APIs and services. This is useful for integrating with SaaS platforms, internal APIs, and any service that provides an HTTP REST API.
+HTTP connectors enable Canis to make authenticated HTTP requests to external APIs and services. This is useful for integrating with SaaS platforms, internal APIs, and any service that provides an HTTP REST API.
 
 Unlike MCP servers which require custom server implementations, HTTP connectors work directly with existing HTTP APIs using standard authentication methods.
 
@@ -49,7 +49,7 @@ toolsets:
 
 ## Key Features
 
-- **Endpoint Whitelisting**: Control exactly which API endpoints HolmesGPT can access
+- **Endpoint Whitelisting**: Control exactly which API endpoints Canis can access
 - **Multiple Authentication Methods**: Support for Basic Auth, Bearer tokens, and custom headers
 - **Multi-Instance Support**: Configure multiple instances of the same API with different credentials
 - **Custom Instructions**: Provide API-specific guidance to improve LLM tool usage
@@ -119,7 +119,7 @@ password: "{{ env.CONFLUENCE_API_KEY }}"
 
 This example integrates with Atlassian Confluence to search pages and retrieve content.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Create toolsets.yaml:**
 
@@ -160,10 +160,10 @@ This example integrates with Atlassian Confluence to search pages and retrieve c
     export CONFLUENCE_API_KEY="your-api-token"
     ```
 
-    **Run HolmesGPT:**
+    **Run Canis:**
 
     ```bash
-    holmes ask "search Confluence for runbooks about database issues" --custom-toolsets=toolsets.yaml
+    canis ask "search Confluence for runbooks about database issues" --custom-toolsets=toolsets.yaml
     ```
 
 === "Robusta Helm Chart"
@@ -213,7 +213,7 @@ This example integrates with Atlassian Confluence to search pages and retrieve c
 
 ## Tool Naming
 
-When you create an HTTP connector with name `my_api`, HolmesGPT automatically creates a tool named `my_api_request` that the LLM can call.
+When you create an HTTP connector with name `my_api`, Canis automatically creates a tool named `my_api_request` that the LLM can call.
 
 For example:
 - Toolset name: `confluence-api` → Tool name: `confluence-api_request`
@@ -338,4 +338,4 @@ llm_instructions: |
 - Check that the host matches your whitelist (including wildcards)
 - Verify the path pattern matches the endpoint you're trying to access
 - Ensure the HTTP method is in the allowed methods list
-- Check HolmesGPT logs for the exact URL being blocked
+- Check Canis logs for the exact URL being blocked

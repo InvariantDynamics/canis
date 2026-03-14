@@ -5,7 +5,7 @@
 !!! info "Enabled by Default"
     This toolset is enabled by default and should typically remain enabled.
 
-By enabling this toolset, HolmesGPT will be able to describe and find OpenShift resources like projects, routes, deployment configs, build configs, and other OpenShift-specific resources using the `oc` command.
+By enabling this toolset, Canis will be able to describe and find OpenShift resources like projects, routes, deployment configs, build configs, and other OpenShift-specific resources using the `oc` command.
 
 ### Prerequisites
 
@@ -51,7 +51,7 @@ holmes:
 !!! info "Enabled by Default"
     This toolset is enabled by default. You do not need to configure it.
 
-By enabling this toolset, HolmesGPT will be able to read OpenShift pod logs using the `oc` command.
+By enabling this toolset, Canis will be able to read OpenShift pod logs using the `oc` command.
 
 --8<-- "snippets/toolsets_that_provide_logging.md"
 

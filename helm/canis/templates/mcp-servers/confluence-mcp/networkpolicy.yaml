@@ -1,0 +1,30 @@
+{{- if and .Values.mcpAddons.confluenceMcp.enabled .Values.mcpAddons.confluenceMcp.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-confluence-mcp-network-policy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-confluence-mcp
+    app.kubernetes.io/name: confluence-mcp-server
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: mcp-server
+    app.kubernetes.io/part-of: canis
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Release.Name }}-confluence-mcp
+      app.kubernetes.io/name: confluence-mcp-server
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow traffic only from Canis pods
+  - from:
+    - podSelector:
+        matchLabels:
+          app: canis
+    ports:
+    - protocol: TCP
+      port: 8000
+{{- end }}

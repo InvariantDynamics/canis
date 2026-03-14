@@ -1,21 +1,21 @@
 # Interactive Mode
 
-HolmesGPT's interactive mode provides a powerful chat-like interface for iterative troubleshooting and investigation of cloud-native issues using LLMs.
+Canis's interactive mode provides a powerful chat-like interface for iterative troubleshooting and investigation of cloud-native issues using LLMs.
 
 ## Getting Started
 
 ### Launching Interactive Mode
 
-Interactive mode is the default when running `holmes ask`:
+Interactive mode is the default when running `canis ask`:
 
 ```bash
-holmes ask
+canis ask
 ```
 
 You can also provide an initial question:
 
 ```bash
-holmes ask "what pods are failing?"
+canis ask "what pods are failing?"
 ```
 
 ## Example Workflows
@@ -25,7 +25,7 @@ holmes ask "what pods are failing?"
 In this example, the AI independently investigates and diagnoses an issue using its available tools:
 
 ```bash
-holmes ask
+canis ask
 
 > why is the payment-service in production namespace not responding to requests?
 
@@ -80,7 +80,7 @@ Available StorageClasses in the cluster:
 In this example, the human provides additional context and runs commands the AI couldn't access:
 
 ```bash
-holmes ask "users are reporting intermittent 502 errors on the checkout page but I don't see any pod failures"
+canis ask "users are reporting intermittent 502 errors on the checkout page but I don't see any pod failures"
 
 Running tool #1 kubectl_get_by_kind_in_namespace: kubectl get pod -n production -o wide --show-labels
   Finished #1 in 1.41s, output length: 3,234 characters - /show 1 to view contents
@@ -152,17 +152,17 @@ limit_req_zone $limit_key zone=perip:10m rate=100r/s;
 
 ### Scenarios to Consider Using /run or /shell
 
-1. **Access to Data HolmesGPT Can't Access on Its Own**
+1. **Access to Data Canis Can't Access on Its Own**
    - ssh'ing into a machine
    - run commands with escalated permissions (sudo)
-   - accessing data sources HolmesGPT can't access on its own
+   - accessing data sources Canis can't access on its own
 
 2. **Adding Business Context**
    - Pulling in marketing data with recent campaign launch times
-   - Fetching planned maintenance windows from a source HolmesGPT does not know about
+   - Fetching planned maintenance windows from a source Canis does not know about
 
 3. **Sharing Development/Testing Insights**
-   - Point HolmesGPT at recent code deployments or git commits
+   - Point Canis at recent code deployments or git commits
 
 
 ## Tips and Best Practices
@@ -175,6 +175,6 @@ limit_req_zone $limit_key zone=perip:10m rate=100r/s;
 
 ## Beyond Interactive Mode
 
-For additional HolmesGPT usage patterns, see:
+For additional Canis usage patterns, see:
 
-- **[CI/CD Troubleshooting](cicd-troubleshooting.md)** - Integrate HolmesGPT into deployment pipelines
+- **[CI/CD Troubleshooting](cicd-troubleshooting.md)** - Integrate Canis into deployment pipelines

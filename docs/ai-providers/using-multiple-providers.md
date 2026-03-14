@@ -4,7 +4,7 @@ Define multiple model configurations and switch between them by name. This is us
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **1. Create a model list file:**
 
@@ -37,15 +37,15 @@ Define multiple model configurations and switch between them by name. This is us
     **3. Use models by name:**
 
     ```bash
-    holmes ask "what pods are failing?" --model=sonnet --no-interactive
-    holmes ask "analyze deployment" --model=azure-5 --no-interactive
+    canis ask "what pods are failing?" --model=sonnet --no-interactive
+    canis ask "analyze deployment" --model=azure-5 --no-interactive
     ```
 
     When using `--model`, specify the model name (key) from your YAML file, not the underlying model identifier. All configuration (API keys, endpoints, temperature, etc.) will be automatically loaded from the model list file.
 
     **Note:** Environment variable substitution is supported using `{{ env.VARIABLE_NAME }}` syntax in the model list file.
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     Configure multiple models using the `modelList` parameter in your Helm values, along with the necessary environment variables.
 
@@ -53,7 +53,7 @@ Define multiple model configurations and switch between them by name. This is us
 
     ```bash
     # Example with all providers - only include what you're using
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=openai-api-key="sk-..." \
       --from-literal=anthropic-api-key="sk-ant-..." \
       --from-literal=azure-api-key="..." \
@@ -62,7 +62,7 @@ Define multiple model configurations and switch between them by name. This is us
       -n <namespace>
 
     # Example with just OpenAI and Anthropic
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=openai-api-key="sk-..." \
       --from-literal=anthropic-api-key="sk-ant-..." \
       -n <namespace>
@@ -77,27 +77,27 @@ Define multiple model configurations and switch between them by name. This is us
       - name: AZURE_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: azure-api-key
       - name: ANTHROPIC_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: anthropic-api-key
       - name: AWS_ACCESS_KEY_ID
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: aws-access-key-id
       - name: AWS_SECRET_ACCESS_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: aws-secret-access-key
       - name: OPENAI_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: openai-api-key
 
     # Configure the model list using the environment variables
@@ -153,13 +153,13 @@ Define multiple model configurations and switch between them by name. This is us
 
 === "Robusta Helm Chart"
 
-    Configure multiple models using the `modelList` parameter in your Helm values, along with the necessary environment variables. All Holmes configuration is nested under the `holmes:` key.
+    Configure multiple models using the `modelList` parameter in your Helm values, along with the necessary environment variables. All Canis configuration is nested under the `holmes:` key.
 
     **Create the Kubernetes Secret:**
 
     ```bash
     # Example with all providers - only include what you're using
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=openai-api-key="sk-..." \
       --from-literal=anthropic-api-key="sk-ant-..." \
       --from-literal=azure-api-key="..." \
@@ -168,7 +168,7 @@ Define multiple model configurations and switch between them by name. This is us
       -n <namespace>
 
     # Example with just OpenAI and Anthropic
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=openai-api-key="sk-..." \
       --from-literal=anthropic-api-key="sk-ant-..." \
       -n <namespace>
@@ -184,27 +184,27 @@ Define multiple model configurations and switch between them by name. This is us
         - name: AZURE_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: azure-api-key
         - name: ANTHROPIC_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: anthropic-api-key
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: aws-access-key-id
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: aws-secret-access-key
         - name: OPENAI_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: openai-api-key
 
       # Configure the model list using the environment variables

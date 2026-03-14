@@ -1,8 +1,8 @@
 # Custom Toolsets
 
-If the built-in toolsets don't meet your needs, you can extend HolmesGPT's investigation capabilities by creating custom toolsets. This is especially useful for unique use cases, proprietary tools, or specialized infrastructure setups. Examples include advanced log analysis tools, external monitoring integrations, or custom diagnostic scripts.
+If the built-in toolsets don't meet your needs, you can extend Canis's investigation capabilities by creating custom toolsets. This is especially useful for unique use cases, proprietary tools, or specialized infrastructure setups. Examples include advanced log analysis tools, external monitoring integrations, or custom diagnostic scripts.
 
-By creating custom toolsets, you can ensure HolmesGPT has access to all the data sources and tools necessary for thorough investigations in your specific environment.
+By creating custom toolsets, you can ensure Canis has access to all the data sources and tools necessary for thorough investigations in your specific environment.
 
 ## Examples
 
@@ -10,9 +10,9 @@ Below are three examples of how to create custom toolsets for different scenario
 
 ### Example 1: Grafana Toolset
 
-This example creates a toolset that helps HolmesGPT view and suggest relevant Grafana dashboards.
+This example creates a toolset that helps Canis view and suggest relevant Grafana dashboards.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Configuration File (`toolsets.yaml`):**
 
@@ -20,10 +20,10 @@ This example creates a toolset that helps HolmesGPT view and suggest relevant Gr
     toolsets:
       grafana:
         description: "View and suggest Grafana dashboards"
-        prerequisites: "Grafana instance accessible from HolmesGPT"
+        prerequisites: "Grafana instance accessible from Canis"
         tags: [monitoring, observability]
         installation: |
-          1. Ensure Grafana is accessible from HolmesGPT
+          1. Ensure Grafana is accessible from Canis
           2. Configure Grafana API credentials if authentication is required
         tools:
           - name: view_dashboard
@@ -46,15 +46,15 @@ This example creates a toolset that helps HolmesGPT view and suggest relevant Gr
     export GRAFANA_TOKEN="your-grafana-api-token"
     ```
 
-    **Run HolmesGPT:**
+    **Run Canis:**
 
     ```bash
-    holmes ask "show me dashboards related to CPU usage" --custom-toolsets=toolsets.yaml
+    canis ask "show me dashboards related to CPU usage" --custom-toolsets=toolsets.yaml
     ```
 
     After making changes to your toolsets file, run:
     ```bash
-    holmes toolset refresh
+    canis toolset refresh
     ```
 
 === "Robusta Helm Chart"
@@ -66,10 +66,10 @@ This example creates a toolset that helps HolmesGPT view and suggest relevant Gr
       customToolsets:
         grafana:
           description: "View and suggest Grafana dashboards"
-          prerequisites: "Grafana instance accessible from HolmesGPT"
+          prerequisites: "Grafana instance accessible from Canis"
           tags: [monitoring, observability]
           installation: |
-            1. Ensure Grafana is accessible from HolmesGPT
+            1. Ensure Grafana is accessible from Canis
             2. Configure Grafana API credentials if authentication is required
           tools:
             - name: view_dashboard
@@ -102,7 +102,7 @@ This example creates a toolset that helps HolmesGPT view and suggest relevant Gr
 
 This example creates a toolset with advanced diagnostic tools for Kubernetes clusters.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Configuration File (`toolsets.yaml`):**
 
@@ -137,15 +137,15 @@ This example creates a toolset with advanced diagnostic tools for Kubernetes clu
               kubectl describe resourcequota -n {{ namespace }}
     ```
 
-    **Run HolmesGPT:**
+    **Run Canis:**
 
     ```bash
-    holmes ask "check for any resource pressure in the cluster" --custom-toolsets=toolsets.yaml
+    canis ask "check for any resource pressure in the cluster" --custom-toolsets=toolsets.yaml
     ```
 
     After making changes to your toolsets file, run:
     ```bash
-    holmes toolset refresh
+    canis toolset refresh
     ```
 
 === "Robusta Helm Chart"
@@ -194,7 +194,7 @@ This example creates a toolset with advanced diagnostic tools for Kubernetes clu
 
 This example shows how to create a toolset for fetching information from GitHub repositories.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Configuration File (`toolsets.yaml`):**
 
@@ -234,15 +234,15 @@ This example shows how to create a toolset for fetching information from GitHub 
     export GITHUB_TOKEN="your-github-personal-access-token"
     ```
 
-    **Run HolmesGPT:**
+    **Run Canis:**
 
     ```bash
-    holmes ask "check recent commits in robusta-dev/robusta repository" --custom-toolsets=toolsets.yaml
+    canis ask "check recent commits in robusta-dev/robusta repository" --custom-toolsets=toolsets.yaml
     ```
 
     After making changes to your toolsets file, run:
     ```bash
-    holmes toolset refresh
+    canis toolset refresh
     ```
 
 === "Robusta Helm Chart"
@@ -327,7 +327,7 @@ Each tool within a toolset can be configured with:
 
 ### Variable Syntax
 
-HolmesGPT supports two types of variables in commands:
+Canis supports two types of variables in commands:
 
 - **`{{ variable }}`**: Dynamic variables inferred by the LLM based on context
 - **`${VARIABLE}`**: Environment variables (not visible to the LLM)
@@ -344,7 +344,7 @@ Optional tags help categorize toolsets:
 
 ## Advanced: Adding Custom Binaries
 
-If your custom toolset requires additional binaries not available in the base HolmesGPT image, you can extend the Docker image:
+If your custom toolset requires additional binaries not available in the base Canis image, you can extend the Docker image:
 
 ### Create a Custom Dockerfile
 

@@ -1,6 +1,6 @@
 # Built-in Toolsets
 
-HolmesGPT includes pre-built integrations for popular monitoring and observability tools. Some work automatically with Kubernetes, while others require API keys or configuration.
+Canis includes pre-built integrations for popular monitoring and observability tools. Some work automatically with Kubernetes, while others require API keys or configuration.
 
 ### Cloud Providers
 

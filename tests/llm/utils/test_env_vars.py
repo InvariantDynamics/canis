@@ -31,7 +31,7 @@ ASK_HOLMES_TEST_TYPE = os.environ.get("ASK_HOLMES_TEST_TYPE", "cli")
 
 # Braintrust configuration
 BRAINTRUST_ORG = os.environ.get("BRAINTRUST_ORG", "robustadev")
-BRAINTRUST_PROJECT = os.environ.get("BRAINTRUST_PROJECT", "HolmesGPT")
+BRAINTRUST_PROJECT = os.environ.get("BRAINTRUST_PROJECT", "Canis")
 EXPERIMENT_ID = os.environ.get("EXPERIMENT_ID")
 GITHUB_REF_NAME = os.environ.get("GITHUB_REF_NAME")
 BUILDKITE_BRANCH = os.environ.get("BUILDKITE_BRANCH")

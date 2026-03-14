@@ -1,6 +1,6 @@
 # MySQL
 
-Connect HolmesGPT to MySQL databases to analyze query performance, investigate slow queries, optimize indexes, examine database health, and read data for troubleshooting.
+Connect Canis to MySQL databases to analyze query performance, investigate slow queries, optimize indexes, examine database health, and read data for troubleshooting.
 
 You can configure multiple MySQL instances with different names (e.g., `orders-rds`, `analytics-mysql`, `staging-mysql`).
 
@@ -32,7 +32,7 @@ FLUSH PRIVILEGES;
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **~/.holmes/config.yaml:**
 
@@ -66,7 +66,7 @@ FLUSH PRIVILEGES;
     mysql+pymysql://[username]:[password]@[host]:[port]/[database]
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Step 1: Create secret with credentials**
 

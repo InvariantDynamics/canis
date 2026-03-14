@@ -1,6 +1,6 @@
 # OpenAI
 
-Configure HolmesGPT to use OpenAI's GPT models.
+Configure Canis to use OpenAI's GPT models.
 
 ## Setup
 
@@ -11,26 +11,26 @@ Get a paid [OpenAI API key](https://help.openai.com/en/articles/4936850-where-do
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Using Environment Variables:**
     ```bash
     export OPENAI_API_KEY="your-openai-api-key"
-    holmes ask "what pods are failing?"
+    canis ask "what pods are failing?"
     ```
 
     **Using Command Line Parameters:**
 
     You can also pass the API key directly as a command-line parameter:
     ```bash
-    holmes ask "what pods are failing?" --api-key="your-api-key"
+    canis ask "what pods are failing?" --api-key="your-api-key"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=openai-api-key="sk-..." \
       -n <namespace>
     ```
@@ -42,7 +42,7 @@ Get a paid [OpenAI API key](https://help.openai.com/en/articles/4936850-where-do
       - name: OPENAI_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: openai-api-key
 
     # Configure at least one model using modelList
@@ -68,7 +68,7 @@ Get a paid [OpenAI API key](https://help.openai.com/en/articles/4936850-where-do
     **Create Kubernetes Secret:**
 
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=openai-api-key="sk-..." \
       -n <namespace>
     ```
@@ -82,7 +82,7 @@ Get a paid [OpenAI API key](https://help.openai.com/en/articles/4936850-where-do
         - name: OPENAI_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: openai-api-key
 
       # Configure at least one model using modelList
@@ -109,10 +109,10 @@ Most OpenAI models are supported. For example:
 
 ```bash
 # GPT-4.1 (default) - fast and decent responses
-holmes ask "what pods are failing?"
+canis ask "what pods are failing?"
 
 # GPT-5 (more accurate but much slower)
-holmes ask "what pods are failing?" --model="gpt-5"
+canis ask "what pods are failing?" --model="gpt-5"
 ```
 
 !!! tip "Best Results"
@@ -124,24 +124,24 @@ holmes ask "what pods are failing?" --model="gpt-5"
 
 When using GPT-5 models, you can control the reasoning effort level. This allows you to balance between response quality and processing time/cost.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     **Using Environment Variables:**
     ```bash
     # Use minimal reasoning effort for faster responses
     export REASONING_EFFORT="minimal"
-    holmes ask "what pods are failing?" --model="gpt-5"
+    canis ask "what pods are failing?" --model="gpt-5"
 
     # Use default reasoning effort
     export REASONING_EFFORT="medium"
-    holmes ask "what pods are failing?" --model="gpt-5"
+    canis ask "what pods are failing?" --model="gpt-5"
 
     # Use high reasoning effort for complex investigations
     export REASONING_EFFORT="high"
-    holmes ask "what pods are failing?" --model="gpt-5"
+    canis ask "what pods are failing?" --model="gpt-5"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Configure in modelList:**
     ```yaml
@@ -211,4 +211,4 @@ For more details on reasoning effort levels, refer to the [OpenAI documentation]
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support OpenAI provider. Refer to [LiteLLM OpenAI docs](https://litellm.vercel.app/docs/providers/openai){:target="_blank"} for more details.
+Canis uses the LiteLLM API to support OpenAI provider. Refer to [LiteLLM OpenAI docs](https://litellm.vercel.app/docs/providers/openai){:target="_blank"} for more details.

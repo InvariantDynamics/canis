@@ -1,8 +1,8 @@
-site_name: HolmesGPT Documentation
+site_name: Canis Documentation
 site_description: AI-powered root cause analysis for DevOps and SRE teams
 site_url: https://holmesgpt.dev/
-repo_url: https://github.com/HolmesGPT/holmesgpt
-repo_name: HolmesGPT/holmesgpt
+repo_url: https://github.com/InvariantDynamics/canis
+repo_name: InvariantDynamics/canis
 edit_uri: edit/master/docs/
 exclude_docs: |
     _*
@@ -12,7 +12,7 @@ exclude_docs: |
 
 nav:
     - Home: index.md
-    - "Why HolmesGPT": why-holmesgpt.md
+    - "Why Canis": why-canis.md
     - Installation:
           - "CLI": installation/cli-installation.md
           - "Web UI (3rd party)": installation/ui-installation.md
@@ -170,7 +170,7 @@ theme:
     logo: assets/logo.png
 
 copyright: |
-    Copyright HolmesGPT a Series of LF Projects, LLC
+    Copyright Canis a Series of LF Projects, LLC
     For website terms of use, trademark policy and other project policies please see lfprojects.org/policies/.
 
 plugins:
@@ -182,7 +182,7 @@ plugins:
     #     enable_creation_date: true
     #     type: timeago
     # - git-committers:
-    #     repository: HolmesGPT/holmesgpt
+    #     repository: InvariantDynamics/canis
     #     branch: master
     #     docs_path: docs/
     # - minify:
@@ -216,7 +216,7 @@ markdown_extensions:
           normalize_issue_symbols: true
           repo_url_shorthand: true
           user: robusta-dev
-          repo: holmesgpt
+          repo: canis
     - pymdownx.mark
     - pymdownx.smartsymbols
     - pymdownx.snippets:
@@ -254,7 +254,7 @@ extra:
         default: latest
     social:
         - icon: fontawesome/brands/github
-          link: https://github.com/HolmesGPT/holmesgpt
+          link: https://github.com/InvariantDynamics/canis
         - icon: fontawesome/brands/slack
           link: https://cloud-native.slack.com/archives/C0A1SPQM5PZ
         - icon: fontawesome/brands/twitter

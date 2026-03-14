@@ -1,6 +1,6 @@
 # Install Helm Chart
 
-Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
+Deploy Canis as a service in your Kubernetes cluster with an HTTP API.
 
 !!! warning "When to use the Helm chart?"
 
@@ -14,7 +14,7 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
 - Supported [AI Provider](../ai-providers/index.md) API key.
 
 !!! info "RBAC Permissions"
-    The Helm chart automatically creates a ServiceAccount with ClusterRole permissions required for HolmesGPT to analyze your cluster. For details on required permissions, see [Kubernetes Permissions](../reference/kubernetes-permissions.md).
+    The Helm chart automatically creates a ServiceAccount with ClusterRole permissions required for Canis to analyze your cluster. For details on required permissions, see [Kubernetes Permissions](../reference/kubernetes-permissions.md).
 
 ## Installation
 
@@ -26,7 +26,7 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
 
 2. **Create `values.yaml` file:**
 
-    Create a `values.yaml` file to configure HolmesGPT with your models using the `modelList` approach:
+    Create a `values.yaml` file to configure Canis with your models using the `modelList` approach:
 
     === "OpenAI"
         ```yaml
@@ -38,7 +38,7 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
         # - name: OPENAI_API_KEY
         #   valueFrom:
         #     secretKeyRef:
-        #       name: holmes-secrets
+        #       name: canis-secrets
         #       key: openai-api-key
 
         modelList:
@@ -61,7 +61,7 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
         # - name: ANTHROPIC_API_KEY
         #   valueFrom:
         #     secretKeyRef:
-        #       name: holmes-secrets
+        #       name: canis-secrets
         #       key: anthropic-api-key
 
         modelList:
@@ -85,12 +85,12 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
         # - name: AZURE_API_KEY
         #   valueFrom:
         #     secretKeyRef:
-        #       name: holmes-secrets
+        #       name: canis-secrets
         #       key: azure-api-key
         # - name: AZURE_API_BASE
         #   valueFrom:
         #     secretKeyRef:
-        #       name: holmes-secrets
+        #       name: canis-secrets
         #       key: azure-api-base
 
         modelList:
@@ -128,9 +128,9 @@ Deploy HolmesGPT as a service in your Kubernetes cluster with an HTTP API.
 
         > **Configuration Guide:** Each AI provider requires different environment variables. See the [AI Providers documentation](../ai-providers/index.md) for the specific environment variables needed for your chosen provider, then add them to the `additionalEnvVars` section as shown above. For a complete list of all environment variables, see the [Environment Variables Reference](../reference/environment-variables.md). For advanced multiple provider setup, see [Using Multiple Providers](../ai-providers/using-multiple-providers.md).
 
-3. **Install HolmesGPT:**
+3. **Install Canis:**
    ```bash
-   helm install holmesgpt robusta/holmes -f values.yaml
+   helm install canis robusta/canis -f values.yaml
    ```
 
 ## Usage
@@ -139,11 +139,11 @@ After installation, test the service with a simple API call:
 
 ```bash
 # Port forward to access the service locally
-# Note: Service name is {release-name}-holmes
-kubectl port-forward svc/holmesgpt-holmes 8080:80
+# Note: Service name is {release-name}-canis
+kubectl port-forward svc/canis-canis 8080:80
 
 # If you used a different release name or namespace:
-# kubectl port-forward svc/{your-release-name}-holmes 8080:80 -n {your-namespace}
+# kubectl port-forward svc/{your-release-name}-canis 8080:80 -n {your-namespace}
 
 # Test with a basic question using a model name from your modelList
 curl -X POST http://localhost:8080/api/chat \
@@ -156,7 +156,7 @@ curl -X POST http://localhost:8080/api/chat \
   -d '{"ask": "list pods in namespace default?", "model": "claude-sonnet"}'
 ```
 
-> **Note**: Responses may take some time when HolmesGPT needs to gather large amounts of data to answer your question. Streaming APIs are coming soon to stream results.
+> **Note**: Responses may take some time when Canis needs to gather large amounts of data to answer your question. Streaming APIs are coming soon to stream results.
 
 For complete API documentation, see the [HTTP API Reference](../reference/http-api.md).
 
@@ -165,13 +165,13 @@ For complete API documentation, see the [HTTP API Reference](../reference/http-a
 
 ```bash
 helm repo update
-helm upgrade holmesgpt robusta/holmes -f values.yaml
+helm upgrade canis robusta/canis -f values.yaml
 ```
 
 ## Uninstalling
 
 ```bash
-helm uninstall holmesgpt
+helm uninstall canis
 ```
 
 ## Next Steps
@@ -182,5 +182,5 @@ helm uninstall holmesgpt
 ## Need Help?
 
 - **[Join our Slack](https://cloud-native.slack.com/archives/C0A1SPQM5PZ){:target="_blank"}** - Get help from the community
-- **[Request features on GitHub](https://github.com/HolmesGPT/holmesgpt/issues){:target="_blank"}** - Suggest improvements or report bugs
+- **[Request features on GitHub](https://github.com/InvariantDynamics/canis/issues){:target="_blank"}** - Suggest improvements or report bugs
 - **[Troubleshooting guide](../reference/troubleshooting.md)** - Common issues and solutions

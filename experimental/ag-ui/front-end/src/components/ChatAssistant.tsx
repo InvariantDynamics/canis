@@ -887,8 +887,8 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ pageContext = [], onExecu
       <div className="chat-header">
         <div className="chat-header-main">
           <div className="chat-header-title">
-            <img src="/holmesgpt-logo.png" alt="HolmesGPT" className="chat-header-logo" />
-            <h3>HolmesGPT Chat</h3>
+            <img src="/canis-logo.png" alt="Canis" className="chat-header-logo" />
+            <h3>Canis Chat</h3>
           </div>
           <div className="connection-status">
             <div className={`connection-indicator ${connectionStatus}`}></div>

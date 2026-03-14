@@ -1,6 +1,6 @@
 # Azure OpenAI
 
-Configure HolmesGPT to use Azure OpenAI Service.
+Configure Canis to use Azure OpenAI Service.
 
 ## Setup
 
@@ -8,21 +8,21 @@ Create an [Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/ai-ser
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     ```bash
     export AZURE_API_VERSION="2024-02-15-preview"
     export AZURE_API_BASE="https://your-resource.openai.azure.com"
     export AZURE_API_KEY="your-azure-api-key"
 
-    holmes ask "what pods are failing?" --model="azure/<your-deployment-name>"
+    canis ask "what pods are failing?" --model="azure/<your-deployment-name>"
     ```
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=azure-api-key="your-azure-api-key" \
       -n <namespace>
     ```
@@ -34,7 +34,7 @@ Create an [Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/ai-ser
       - name: AZURE_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: azure-api-key
 
     # Configure at least one model using modelList
@@ -62,7 +62,7 @@ Create an [Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/ai-ser
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic robusta-holmes-secret \
+    kubectl create secret generic robusta-canis-secret \
       --from-literal=azure-api-key="your-azure-api-key" \
       -n <namespace>
     ```
@@ -75,7 +75,7 @@ Create an [Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/ai-ser
         - name: AZURE_API_KEY
           valueFrom:
             secretKeyRef:
-              name: robusta-holmes-secret
+              name: robusta-canis-secret
               key: azure-api-key
 
       # Configure at least one model using modelList
@@ -104,12 +104,12 @@ Create an [Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/ai-ser
 You can also pass the API key directly as a command-line parameter:
 
 ```bash
-holmes ask "what pods are failing?" --model="azure/<your-deployment-name>" --api-key="your-api-key"
+canis ask "what pods are failing?" --model="azure/<your-deployment-name>" --api-key="your-api-key"
 ```
 
 ## Additional Resources
 
-HolmesGPT uses the LiteLLM API to support Azure OpenAI provider. For advanced authentication methods (Azure AD, Managed Identity, Workload Identity, Service Principal), refer to:
+Canis uses the LiteLLM API to support Azure OpenAI provider. For advanced authentication methods (Azure AD, Managed Identity, Workload Identity, Service Principal), refer to:
 
 - [LiteLLM Azure OpenAI docs](https://litellm.vercel.app/docs/providers/azure){:target="_blank"}
 - [LiteLLM OIDC docs](https://docs.litellm.ai/docs/oidc){:target="_blank"} - For Workload Identity and Managed Identity authentication

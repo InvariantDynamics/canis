@@ -601,7 +601,7 @@ class ListKafkaClusters(BaseKafkaTool):
     def __init__(self, toolset: "KafkaToolset"):
         super().__init__(
             name="list_kafka_clusters",
-            description="Lists all available Kafka clusters configured in HolmesGPT",
+            description="Lists all available Kafka clusters configured in Canis",
             parameters={},
             toolset=toolset,
         )

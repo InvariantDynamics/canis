@@ -1,8 +1,8 @@
 # ArgoCD
 
-By enabling this toolset, HolmesGPT will be able to fetch the status, deployment history, and configuration of ArgoCD applications.
+By enabling this toolset, Canis will be able to fetch the status, deployment history, and configuration of ArgoCD applications.
 
-![Holmes ArgoCD Demo](../../assets/Holmes_ArgoCD_demo.gif)
+![Canis ArgoCD Demo](../../assets/Holmes_ArgoCD_demo.gif)
 
 ## Prerequisites
 
@@ -10,31 +10,31 @@ By enabling this toolset, HolmesGPT will be able to fetch the status, deployment
 This toolset requires an `ARGOCD_AUTH_TOKEN` environment variable. Generate an auth token by following [these steps](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_account_generate-token/).
 
 ### Adding a Read-only Policy to ArgoCD
-HolmesGPT requires specific permissions to access ArgoCD data. Add the permissions below to your ArgoCD RBAC configuration.
+Canis requires specific permissions to access ArgoCD data. Add the permissions below to your ArgoCD RBAC configuration.
 
 Edit the RBAC ConfigMap: `kubectl edit configmap argocd-rbac-cm -n argocd`
 
 ```yaml
 # Add this to the data section of your argocd-rbac-cm configmap.
-# Creates a 'holmesgpt' user with read-only permissions for troubleshooting.
+# Creates a 'canis' user with read-only permissions for troubleshooting.
 data:
   policy.default: role:readonly
   policy.csv: |
     p, role:admin, *, *, *, allow
     p, role:admin, accounts, apiKey, *, allow
-    p, holmesgpt, accounts, apiKey, holmesgpt, allow
-    p, holmesgpt, projects, get, *, allow
-    p, holmesgpt, applications, get, *, allow
-    p, holmesgpt, repositories, get, *, allow
-    p, holmesgpt, clusters, get, *, allow
-    p, holmesgpt, applications, manifests, */*, allow
-    p, holmesgpt, applications, resources, */*, allow
+    p, canis, accounts, apiKey, canis, allow
+    p, canis, projects, get, *, allow
+    p, canis, applications, get, *, allow
+    p, canis, repositories, get, *, allow
+    p, canis, clusters, get, *, allow
+    p, canis, applications, manifests, */*, allow
+    p, canis, applications, resources, */*, allow
     g, admin, role:admin
 ```
 
 ## Configuration
 
-In addition to setting permissions and generating an auth token, you will need to tell HolmesGPT how to connect to the server. This can be done two ways:
+In addition to setting permissions and generating an auth token, you will need to tell Canis how to connect to the server. This can be done two ways:
 
 1. **Using port forwarding**. This is the recommended approach if your ArgoCD is inside your Kubernetes cluster.
 2. **Setting the env var** `ARGOCD_SERVER`. This is the recommended approach if your ArgoCD is reachable through a public DNS.
@@ -43,9 +43,9 @@ In addition to setting permissions and generating an auth token, you will need t
 
 This is the recommended approach if your ArgoCD is inside your Kubernetes cluster.
 
-HolmesGPT needs permission to establish a port-forward to ArgoCD. The configuration below includes that authorization.
+Canis needs permission to establish a port-forward to ArgoCD. The configuration below includes that authorization.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Set the following environment variables:
 
@@ -90,13 +90,13 @@ HolmesGPT needs permission to establish a port-forward to ArgoCD. The configurat
 
     - Add `--insecure` to work with self-signed certificates
     - Change the namespace `--port-forward-namespace <your_argocd_namespace>` to the namespace in which your ArgoCD service is deployed
-    - The option `--grpc-web` in `ARGOCD_OPTS` prevents some connection errors from leaking into the tool responses and provides a cleaner output for HolmesGPT
+    - The option `--grpc-web` in `ARGOCD_OPTS` prevents some connection errors from leaking into the tool responses and provides a cleaner output for Canis
 
 ### 2. Server URL
 
 This is the recommended approach if your ArgoCD is reachable through a public DNS.
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Set the following environment variables:
 
@@ -118,7 +118,7 @@ This is the recommended approach if your ArgoCD is reachable through a public DN
     To test, run:
 
     ```bash
-    holmes ask "Which ArgoCD applications are failing and why?"
+    canis ask "Which ArgoCD applications are failing and why?"
     ```
 
 === "Robusta Helm Chart"

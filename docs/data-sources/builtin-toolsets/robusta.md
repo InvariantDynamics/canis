@@ -3,7 +3,7 @@
 !!! warning "Optional - Requires Robusta SaaS"
     This toolset is **NOT** enabled by default. It requires integration with the Robusta SaaS platform and proper authentication credentials.
 
-The Robusta toolset provides advanced observability capabilities by connecting HolmesGPT to the Robusta SaaS platform. When enabled, it gives HolmesGPT access to historical data, change tracking, and resource recommendations that are not available from standard Kubernetes APIs.
+The Robusta toolset provides advanced observability capabilities by connecting Canis to the Robusta SaaS platform. When enabled, it gives Canis access to historical data, change tracking, and resource recommendations that are not available from standard Kubernetes APIs.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ To use this toolset, you need:
 
 ## What It Adds
 
-When connected to Robusta SaaS, HolmesGPT gains access to:
+When connected to Robusta SaaS, Canis gains access to:
 
 - **Historical Alert Data**: Fetch detailed metadata about past alerts and incidents, including context that may no longer be available in Prometheus or AlertManager
 - **Change Tracking**: Query configuration changes across your entire cluster within specific time ranges, helping identify what changed before an incident
@@ -27,7 +27,7 @@ The toolset requires authentication to Robusta SaaS. You can provide credentials
 
 ### Option 1: Automatic (via Robusta Helm Chart)
 
-If you deploy HolmesGPT as part of the Robusta Helm chart, credentials are automatically configured. The Helm chart handles mounting the necessary secrets and configuration files.
+If you deploy Canis as part of the Robusta Helm chart, credentials are automatically configured. The Helm chart handles mounting the necessary secrets and configuration files.
 
 ### Option 2: Environment Variables
 

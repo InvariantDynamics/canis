@@ -1,6 +1,6 @@
 You are asked to build a new toolset.
 
-Toolsets provide a set of tools for HolmesGPT (LLM based system) to interact with other systems.
+Toolsets provide a set of tools for Canis (LLM based system) to interact with other systems.
 
 The steps to write a toolset are defined below. Use subagents.
 
@@ -37,7 +37,7 @@ Implement each tool, one at a time. Use subagents.
 
 Some tools may require parameters.
 
-- When possible these parameters should have sane default values. Making params optional frees the LLM/HolmesGPT from making decisions about what values should be used. Any default value should be configurable by the user through the toolset config.
+- When possible these parameters should have sane default values. Making params optional frees the LLM/Canis from making decisions about what values should be used. Any default value should be configurable by the user through the toolset config.
 - Always prefer using RFC3339 for date inputs, with the possibility to use integers for relative time from "NOW". A good example for this is the date params for the `PodLoggingTool` in `holmes/plugins/toolsets/logging_utils/logging_api.py`.
 - Possible param types are string, booleans and numbers.
 
@@ -45,7 +45,7 @@ Some tools may require parameters.
 
 If the toolset implements `BasePodLoggingToolset` then update the template `_fetch_logs.jinja2` with the new toolset and use `_default_log_prompt.jinja2` otherwise follow these instructions:
 
-    Generate a short set of instructions for HolmesGPT to use the tools provided by the toolset. HolmesGPT will only see the tool names and is not aware of the toolset's name. Keep the instructions short and to the point. Do not exceed 50 lines.
+    Generate a short set of instructions for Canis to use the tools provided by the toolset. Canis will only see the tool names and is not aware of the toolset's name. Keep the instructions short and to the point. Do not exceed 50 lines.
 
     Adding instructions is done by calling `self._load_llm_instructions` on the toolset. This is typically done by implementing a `_reload_instructions()` method that is called at the end of `toolset.__init__()`.
 

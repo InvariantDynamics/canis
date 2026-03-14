@@ -1,6 +1,6 @@
 # Slash Commands
 
-Slash commands provide special actions in HolmesGPT's interactive mode. Type any command with a leading `/` to execute it.
+Slash commands provide special actions in Canis's interactive mode. Type any command with a leading `/` to execute it.
 
 ## Built-in Commands
 

@@ -1,6 +1,6 @@
 # Configuration
 
-This page covers advanced configuration options for the Holmes Operator, including Helm values, resource management, and per-check customization.
+This page covers advanced configuration options for the Canis Operator, including Helm values, resource management, and per-check customization.
 
 ## Operator Helm Configuration
 
@@ -12,8 +12,8 @@ The operator is configured through the `operator` section in your Helm `values.y
 operator:
   enabled: true  # Deploy the operator
 
-  # Holmes API connection
-  holmesApiUrl: ""  # Defaults to "http://<release-name>-holmes:80"
+  # Canis API connection
+  holmesApiUrl: ""  # Defaults to "http://<release-name>-canis:80"
   holmesApiTimeout: 300  # API timeout in seconds
 
   # Logging
@@ -32,12 +32,12 @@ operator:
   enabled: true
 
   # Container image
-  image: holmes-operator:0.0.0
+  image: canis-operator:0.0.0
   registry: robustadev
   imagePullPolicy: IfNotPresent
 
-  # Holmes API connection
-  holmesApiUrl: "http://holmes-api:80"
+  # Canis API connection
+  holmesApiUrl: "http://canis-canis:80"
   holmesApiTimeout: 300
 
   # Logging
@@ -84,21 +84,21 @@ operator:
 
 **holmesApiUrl** (string)
 
-Base URL for the Holmes API service that executes health checks.
+Base URL for the Canis API service that executes health checks.
 
-- Default: `http://<release-name>-holmes:80` (internal service)
-- Use custom URL for external Holmes API or non-standard deployments
+- Default: `http://<release-name>-canis:80` (internal service)
+- Use custom URL for external Canis API or non-standard deployments
 - Must be accessible from the operator pod
 
 Example:
 
 ```yaml
-holmesApiUrl: "http://holmes-api.monitoring:80"
+holmesApiUrl: "http://canis-canis.monitoring:80"
 ```
 
 **holmesApiTimeout** (integer)
 
-Maximum time in seconds to wait for Holmes API responses.
+Maximum time in seconds to wait for Canis API responses.
 
 - Default: 300 seconds (5 minutes)
 - Minimum: 1 second
@@ -246,7 +246,7 @@ The operator uses a ServiceAccount with permissions to:
 
 - Create, read, update, and delete HealthCheck resources
 - Create, read, update, and delete ScheduledHealthCheck resources
-- Access the Holmes API service
+- Access the Canis API service
 - Watch and list pods (for health checks)
 
 ### ClusterRole

@@ -1,6 +1,6 @@
 # Inspektor Gadget
 
-By enabling this toolset, HolmesGPT will be able to use [Inspektor Gadget](https://inspektor-gadget.io/) eBPF-based observability tools for deep Kubernetes node-level troubleshooting.
+By enabling this toolset, Canis will be able to use [Inspektor Gadget](https://inspektor-gadget.io/) eBPF-based observability tools for deep Kubernetes node-level troubleshooting.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ By enabling this toolset, HolmesGPT will be able to use [Inspektor Gadget](https
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     First, verify your environment is configured:
 

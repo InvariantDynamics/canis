@@ -1,4 +1,4 @@
-"""Datadog Traces toolset for HolmesGPT."""
+"""Datadog Traces toolset for Canis."""
 
 import copy
 import json

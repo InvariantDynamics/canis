@@ -10,8 +10,8 @@
  *
  * Tab slugs are lowercase, hyphenated versions of tab labels:
  *   - "Robusta Helm Chart" -> robusta-helm-chart
- *   - "Holmes Helm Chart"  -> holmes-helm-chart
- *   - "Holmes CLI"         -> holmes-cli
+ *   - "Canis Helm Chart"  -> holmes-helm-chart
+ *   - "Canis CLI"         -> holmes-cli
  *
  * Usage from external links:
  *   https://holmesgpt.dev/ai-providers/anthropic/?tab=robusta-helm-chart
@@ -20,7 +20,7 @@
  * Uses MkDocs Material's document$ observable so it works with
  * navigation.instant (XHR-based page loads), not just initial load.
  */
-var STORAGE_KEY = "holmesgpt-tab-pref";
+var STORAGE_KEY = "canis-tab-pref";
 
 function slugify(text) {
   return text

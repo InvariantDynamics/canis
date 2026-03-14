@@ -1,11 +1,11 @@
 # Grafana (MCP)
 
-The Grafana MCP server provides comprehensive access to your Grafana instance and its ecosystem. It enables Holmes to search dashboards, run PromQL and LogQL queries, investigate incidents, manage alerts, and explore metrics — all through a single MCP connection.
+The Grafana MCP server provides comprehensive access to your Grafana instance and its ecosystem. It enables Canis to search dashboards, run PromQL and LogQL queries, investigate incidents, manage alerts, and explore metrics — all through a single MCP connection.
 
 ## Prerequisites
 
 - A running Grafana instance (Grafana Cloud or self-hosted)
-- A [Grafana MCP server](https://github.com/robusta-dev/holmes-mcp-integrations/tree/master/servers/grafana/README.md) deployed and accessible from Holmes
+- A [Grafana MCP server](https://github.com/robusta-dev/holmes-mcp-integrations/tree/master/servers/grafana/README.md) deployed and accessible from Canis
 - A Grafana service account token (see below)
 
 **Creating a service account token:**
@@ -18,7 +18,7 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
 
 ## Configuration
 
-=== "Holmes CLI"
+=== "Canis CLI"
 
     Add the following to **~/.holmes/config.yaml**. Create the file if it doesn't exist:
 
@@ -46,11 +46,11 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
 
     --8<-- "snippets/toolset_refresh_warning.md"
 
-=== "Holmes Helm Chart"
+=== "Canis Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=grafana-api-key="glsa_..." \
       -n <namespace>
     ```
@@ -62,7 +62,7 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
       - name: GRAFANA_API_KEY
         valueFrom:
           secretKeyRef:
-            name: holmes-secrets
+            name: canis-secrets
             key: grafana-api-key
 
     mcp_servers:
@@ -84,17 +84,17 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
           Embed at most 2 charts with line spacing between them.
     ```
 
-    Then deploy or upgrade your Holmes installation:
+    Then deploy or upgrade your Canis installation:
 
     ```bash
-    helm upgrade --install holmes robusta/holmes -f values.yaml
+    helm upgrade --install canis robusta/canis -f values.yaml
     ```
 
 === "Robusta Helm Chart"
 
     **Create Kubernetes Secret:**
     ```bash
-    kubectl create secret generic holmes-secrets \
+    kubectl create secret generic canis-secrets \
       --from-literal=grafana-api-key="glsa_..." \
       -n <namespace>
     ```
@@ -107,7 +107,7 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
         - name: GRAFANA_API_KEY
           valueFrom:
             secretKeyRef:
-              name: holmes-secrets
+              name: canis-secrets
               key: grafana-api-key
 
       mcp_servers:
@@ -136,7 +136,7 @@ The Grafana MCP server provides comprehensive access to your Grafana instance an
     ```
 
 !!! warning "MCP endpoint path"
-    The Grafana MCP server serves on `/mcp`, not `/sse` or `/mcp/messages`. Make sure your Holmes config URL ends with `/mcp`.
+    The Grafana MCP server serves on `/mcp`, not `/sse` or `/mcp/messages`. Make sure your Canis config URL ends with `/mcp`.
 
 ## Available Tools
 
@@ -160,29 +160,29 @@ For the full list of tools, see the [Grafana MCP Server documentation](https://g
 ## Testing the Connection
 
 ```bash
-holmes ask "List all Grafana dashboards"
+canis ask "List all Grafana dashboards"
 ```
 
 ## Common Use Cases
 
 ```bash
-holmes ask "show me memory and cpu usage by namespace for the past day?"
+canis ask "show me memory and cpu usage by namespace for the past day?"
 ```
 
 ```bash
-holmes ask "Run a PromQL query to show CPU usage for the checkout-api pods over the last hour"
+canis ask "Run a PromQL query to show CPU usage for the checkout-api pods over the last hour"
 ```
 
 ```bash
-holmes ask "Search Loki logs for errors in the user-service namespace in the last 30 minutes"
+canis ask "Search Loki logs for errors in the user-service namespace in the last 30 minutes"
 ```
 
 ```bash
-holmes ask "What alert rules are currently configured and which ones are firing?"
+canis ask "What alert rules are currently configured and which ones are firing?"
 ```
 
 ```bash
-holmes ask "Who is currently on-call for the platform team?"
+canis ask "Who is currently on-call for the platform team?"
 ```
 
 ## Additional Resources

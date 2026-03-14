@@ -1,31 +1,31 @@
 # Kubernetes Permissions
 
-This document explains how HolmesGPT handles Kubernetes permissions and what permissions it needs to work effectively and provide the best results.
+This document explains how Canis handles Kubernetes permissions and what permissions it needs to work effectively and provide the best results.
 
 !!! important "Read-Only Permissions"
-    **All permissions granted to HolmesGPT are read-only** (`get`, `list`, `watch`). HolmesGPT **does not modify, create, delete, or update** any Kubernetes resources. It only reads cluster information for troubleshooting and analysis purposes.
+    **All permissions granted to Canis are read-only** (`get`, `list`, `watch`). Canis **does not modify, create, delete, or update** any Kubernetes resources. It only reads cluster information for troubleshooting and analysis purposes.
 
-## How HolmesGPT Inherits Permissions
+## How Canis Inherits Permissions
 
-HolmesGPT inherits permissions for accessing Kubernetes from its environment:
+Canis inherits permissions for accessing Kubernetes from its environment:
 
-- **When running locally**: HolmesGPT uses your current `kubectl` context and the permissions configured in your kubeconfig file.
-- **When running in-cluster**: HolmesGPT uses the ServiceAccount defined in the Helm chart. The Helm chart automatically creates a ServiceAccount, ClusterRole, and ClusterRoleBinding when `createServiceAccount: true` (default). See the [Service Account Configuration](helm-configuration.md#service-account-configuration) section for details.
+- **When running locally**: Canis uses your current `kubectl` context and the permissions configured in your kubeconfig file.
+- **When running in-cluster**: Canis uses the ServiceAccount defined in the Helm chart. The Helm chart automatically creates a ServiceAccount, ClusterRole, and ClusterRoleBinding when `createServiceAccount: true` (default). See the [Service Account Configuration](helm-configuration.md#service-account-configuration) section for details.
 
 The complete ServiceAccount, ClusterRole, and ClusterRoleBinding definitions can be found in the Helm chart template:
 
-[**View Service Account Template**](https://raw.githubusercontent.com/HolmesGPT/holmesgpt/refs/heads/master/helm/holmes/templates/holmesgpt-service-account.yaml)
+[**View Service Account Template**](https://raw.githubusercontent.com/InvariantDynamics/canis/refs/heads/master/helm/canis/templates/canis-service-account.yaml)
 
 ## Adaptive Behavior
 
-HolmesGPT automatically adjusts its behavior based on available permissions:
+Canis automatically adjusts its behavior based on available permissions:
 
-- **You can modify these permissions** and HolmesGPT will automatically adapt to work with whatever permissions are available.
-- **If HolmesGPT tries to run `kubectl` commands** that it doesn't have permissions for, **it will discover the lack of permissions** and adjust its behavior accordingly. It will work with the resources it can access and inform you about any limitations.
+- **You can modify these permissions** and Canis will automatically adapt to work with whatever permissions are available.
+- **If Canis tries to run `kubectl` commands** that it doesn't have permissions for, **it will discover the lack of permissions** and adjust its behavior accordingly. It will work with the resources it can access and inform you about any limitations.
 
 ## Recommended Permissions
 
-For most users, we recommend giving **read-access to all non-sensitive resources** in the cluster. This allows HolmesGPT to:
+For most users, we recommend giving **read-access to all non-sensitive resources** in the cluster. This allows Canis to:
 
 - Investigate issues across all namespaces
 - Access logs and events

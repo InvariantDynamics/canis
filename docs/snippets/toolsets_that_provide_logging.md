@@ -1,6 +1,6 @@
 ??? info "Available Log Sources"
 
-    Multiple logging toolsets can be enabled simultaneously. HolmesGPT will use the most appropriate source for each investigation.
+    Multiple logging toolsets can be enabled simultaneously. Canis will use the most appropriate source for each investigation.
 
     - **[Kubernetes logs](kubernetes.md)** - Direct pod log access (enabled by default)
     - **[Loki](grafanaloki.md)** - Centralized logs via Loki
